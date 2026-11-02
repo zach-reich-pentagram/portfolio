@@ -256,10 +256,11 @@
    "media": [
     {
      "id": "18649401190015430",
-     "type": "image",
-     "src": "media/18649401190015430-cover.jpg",
+     "type": "video",
+     "src": "originals/18649401190015430.mp4",
      "w": 720,
-     "h": 1280
+     "h": 1280,
+     "poster": "media/18649401190015430-cover.jpg"
     }
    ]
   },
@@ -271,10 +272,11 @@
    "media": [
     {
      "id": "18114618202820538",
-     "type": "image",
-     "src": "media/18114618202820538-cover.jpg",
+     "type": "video",
+     "src": "originals/18114618202820538.mp4",
      "w": 1204,
-     "h": 2144
+     "h": 2144,
+     "poster": "media/18114618202820538-cover.jpg"
     }
    ]
   },
@@ -286,10 +288,11 @@
    "media": [
     {
      "id": "18167053015481391",
-     "type": "image",
-     "src": "media/18167053015481391-cover.jpg",
+     "type": "video",
+     "src": "originals/18167053015481391.mp4",
      "w": 1204,
-     "h": 2144
+     "h": 2144,
+     "poster": "media/18167053015481391-cover.jpg"
     }
    ]
   },
@@ -301,10 +304,11 @@
    "media": [
     {
      "id": "18414303943158876",
-     "type": "image",
-     "src": "media/18414303943158876-cover.jpg",
+     "type": "video",
+     "src": "originals/18414303943158876.mp4",
      "w": 720,
-     "h": 1280
+     "h": 1280,
+     "poster": "media/18414303943158876-cover.jpg"
     }
    ]
   },
@@ -316,10 +320,11 @@
    "media": [
     {
      "id": "18073626452720043",
-     "type": "image",
-     "src": "media/18073626452720043-cover.jpg",
+     "type": "video",
+     "src": "originals/18073626452720043.mp4",
      "w": 720,
-     "h": 1280
+     "h": 1280,
+     "poster": "media/18073626452720043-cover.jpg"
     }
    ]
   },
@@ -331,10 +336,11 @@
    "media": [
     {
      "id": "18178007461426692",
-     "type": "image",
-     "src": "media/18178007461426692-cover.jpg",
+     "type": "video",
+     "src": "originals/18178007461426692.mp4",
      "w": 1206,
-     "h": 2144
+     "h": 2144,
+     "poster": "media/18178007461426692-cover.jpg"
     }
    ]
   },
@@ -346,10 +352,11 @@
    "media": [
     {
      "id": "17948820999257922",
-     "type": "image",
-     "src": "media/17948820999257922-cover.jpg",
+     "type": "video",
+     "src": "originals/17948820999257922.mp4",
      "w": 1206,
-     "h": 2144
+     "h": 2144,
+     "poster": "media/17948820999257922-cover.jpg"
     }
    ]
   },
@@ -377,10 +384,11 @@
    "media": [
     {
      "id": "18114610069905258",
-     "type": "image",
-     "src": "media/18114610069905258-cover.jpg",
+     "type": "video",
+     "src": "originals/18114610069905258.mp4",
      "w": 720,
-     "h": 1280
+     "h": 1280,
+     "poster": "media/18114610069905258-cover.jpg"
     }
    ]
   },
@@ -454,10 +462,11 @@
    "media": [
     {
      "id": "18215113159338154",
-     "type": "image",
-     "src": "media/18215113159338154-cover.jpg",
+     "type": "video",
+     "src": "originals/18215113159338154.mp4",
      "w": 720,
-     "h": 1280
+     "h": 1280,
+     "poster": "media/18215113159338154-cover.jpg"
     }
    ]
   }

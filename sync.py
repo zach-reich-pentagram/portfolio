@@ -134,11 +134,16 @@ def frame(item, root):
     url, thumb = item.get('media_url'), item.get('thumbnail_url')
     rel = lambda p: p.relative_to(root).as_posix()
     if item.get('media_type') == 'VIDEO':
-        # Instagram leaves media_url off videos with licensed audio: show their cover as a still
+        # Instagram leaves media_url off videos with licensed audio: play your own copy from
+        # originals/<id>.mp4 if there is one, otherwise show the cover as a still
         cover = save(media, f'{fid}-cover.jpg', thumb) if thumb else None
         size = jpeg_size(cover.read_bytes()) if cover else (1, 1)
         if url:
             out = {'id': fid, 'type': 'video', 'src': rel(save(media, f'{fid}.mp4', url))}
+            if cover:
+                out['poster'] = rel(cover)
+        elif (root / 'originals' / f'{fid}.mp4').exists():
+            out = {'id': fid, 'type': 'video', 'src': f'originals/{fid}.mp4'}
             if cover:
                 out['poster'] = rel(cover)
         elif cover:
@@ -209,6 +214,12 @@ def check():
         assert posts[2]['media'][0] == {'id': '3', 'type': 'image', 'src': 'media/3-cover.jpg', 'w': 1080, 'h': 1350}
         assert not (root / 'media' / 'deleted-post.jpg').exists() and (root / 'media' / '1.jpg').exists()
         assert json.loads((root / 'posts.json').read_text())['posts'] == posts
+        # your own copy of a licensed-audio video plays instead of the still, and survives the sync
+        (root / 'originals').mkdir()
+        (root / 'originals' / '3.mp4').write_bytes(b'x')
+        posts = sync('', root, items)
+        assert posts[2]['media'][0] == {'id': '3', 'type': 'video', 'src': 'originals/3.mp4', 'poster': 'media/3-cover.jpg', 'w': 1080, 'h': 1350}
+        assert (root / 'originals' / '3.mp4').exists() and (root / 'media' / '3-cover.jpg').exists()
 
     # which API a token uses, and finding the account behind a Facebook Login token
     os.environ.pop('IG_API', None)

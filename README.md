@@ -47,6 +47,10 @@ It prints a Page token with no set expiry. That's the one to give GitHub. Treat 
 
 If it says **No Page token available**, what it printed is a 60-day user token, which can't find your account by itself. Give it to GitHub anyway, and add a repository variable (not a secret) `IG_API` set to `https://graph.facebook.com/v26.0/<your Instagram account ID>`. Run the same command with a new token before the 60 days are up, or syncs will start failing.
 
+## Reels with licensed music
+
+Instagram won't hand over the video of a reel that uses music from its library, so the site would only get its cover as a still. To make one play, put your own copy in `originals/`, named with the post's video ID: the `media/<id>-cover.jpg` shown for it in `posts.json` gives the ID. Use H.264 MP4, without audio, at about 720 wide. Every sync after that plays it. Commit the file: `originals/` isn't touched by the sync.
+
 ## Publish it
 
 `.github/workflows/sync.yml` checks for new posts every 6 hours and publishes to GitHub Pages.
