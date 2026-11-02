@@ -1,1 +1,87 @@
-{}
+{
+  "scale": 150,
+  "irregularity": 60,
+  "grouping": 0,
+  "gap": 5,
+  "rounding": 14,
+  "roundingTablet": 12,
+  "roundingMobile": 10,
+  "side": 0,
+  "site": 20,
+  "order": "random",
+  "theme": "light",
+  "public": {
+    "scale": true,
+    "irregularity": true,
+    "grouping": true,
+    "gap": false,
+    "rounding": false,
+    "roundingTablet": false,
+    "roundingMobile": false,
+    "side": false,
+    "site": false,
+    "order": true,
+    "theme": true,
+    "refresh": true
+  },
+  "type": {
+    "name": {
+      "font": "-apple-system, \"SF Pro Display\", \"Helvetica Neue\", sans-serif",
+      "size": 15,
+      "leading": 1.33,
+      "tracking": -0.005,
+      "weight": 600,
+      "align": "left",
+      "italic": false,
+      "features": ""
+    },
+    "bio": {
+      "font": "-apple-system, \"SF Pro Display\", \"Helvetica Neue\", sans-serif",
+      "size": 13,
+      "leading": 1.23,
+      "tracking": -0.006,
+      "weight": 400,
+      "align": "left",
+      "italic": false,
+      "features": ""
+    },
+    "tipTitle": {
+      "font": "-apple-system, \"SF Pro Display\", \"Helvetica Neue\", sans-serif",
+      "size": 13,
+      "leading": 1.23,
+      "tracking": -0.006,
+      "weight": 600,
+      "align": "left",
+      "italic": false,
+      "features": ""
+    },
+    "tipBody": {
+      "font": "-apple-system, \"SF Pro Display\", \"Helvetica Neue\", sans-serif",
+      "size": 13,
+      "leading": 1.23,
+      "tracking": -0.006,
+      "weight": 400,
+      "align": "left",
+      "italic": false,
+      "features": ""
+    },
+    "controls": {
+      "font": "-apple-system, \"SF Pro Display\", \"Helvetica Neue\", sans-serif",
+      "size": 13,
+      "leading": 1.23,
+      "tracking": -0.006,
+      "weight": 400,
+      "align": "left",
+      "italic": false,
+      "features": ""
+    }
+  },
+  "colors": {
+    "light": {
+      "canvas": "#ffffff"
+    },
+    "dark": {}
+  },
+  "fonts": [],
+  "overrides": {}
+}

@@ -128,6 +128,36 @@ def save(folder, name, url):
     return path
 
 
+def mp4_size(data):
+    """(width, height) as a video plays, from its first video track's header; None if it can't tell."""
+    def boxes(start, end):
+        while start + 8 <= end:
+            size, kind = struct.unpack('>I4s', data[start:start + 8])
+            head = 8
+            if size == 1:
+                size, head = struct.unpack('>Q', data[start + 8:start + 16])[0], 16
+            elif size == 0:
+                size = end - start
+            if size < head:
+                return
+            yield kind, start + head, start + size
+            start += size
+    for kind, a, z in boxes(0, len(data)):
+        if kind != b'moov':
+            continue
+        for kind, a2, z2 in boxes(a, z):
+            if kind != b'trak':
+                continue
+            for kind, a3, z3 in boxes(a2, z2):
+                if kind != b'tkhd':
+                    continue
+                w, h = (v >> 16 for v in struct.unpack('>II', data[z3 - 8:z3]))
+                turned = struct.unpack('>i', data[z3 - 44:z3 - 40])[0] == 0    # a quarter turn in its matrix
+                if w and h:
+                    return (h, w) if turned else (w, h)
+    return None
+
+
 def frame(item, root):
     """One box on the grid, from a single post or a carousel's child."""
     media, fid = root / 'media', item['id']
@@ -139,10 +169,13 @@ def frame(item, root):
         cover = save(media, f'{fid}-cover.jpg', thumb) if thumb else None
         size = jpeg_size(cover.read_bytes()) if cover else (1, 1)
         if url:
-            out = {'id': fid, 'type': 'video', 'src': rel(save(media, f'{fid}.mp4', url))}
+            clip = save(media, f'{fid}.mp4', url)
+            size = mp4_size(clip.read_bytes()) or size     # the video's own shape, not its cover's
+            out = {'id': fid, 'type': 'video', 'src': rel(clip)}
             if cover:
                 out['poster'] = rel(cover)
         elif (root / 'originals' / f'{fid}.mp4').exists():
+            size = mp4_size((root / 'originals' / f'{fid}.mp4').read_bytes()) or size
             out = {'id': fid, 'type': 'video', 'src': f'originals/{fid}.mp4'}
             if cover:
                 out['poster'] = rel(cover)
@@ -220,6 +253,16 @@ def check():
         posts = sync('', root, items)
         assert posts[2]['media'][0] == {'id': '3', 'type': 'video', 'src': 'originals/3.mp4', 'poster': 'media/3-cover.jpg', 'w': 1080, 'h': 1350}
         assert (root / 'originals' / '3.mp4').exists() and (root / 'media' / '3-cover.jpg').exists()
+
+    # a video's size comes from its own track header, a quarter turn swapping it
+    def tkhd(w, h, a):
+        body = b'\0' * 40 + struct.pack('>i', a) + b'\0' * 32 + struct.pack('>II', w << 16, h << 16)
+        trak = struct.pack('>I4s', len(body) + 8, b'tkhd') + body
+        trak = struct.pack('>I4s', len(trak) + 8, b'trak') + trak
+        return struct.pack('>I4s', len(trak) + 8, b'moov') + trak
+    assert mp4_size(tkhd(720, 1280, 65536)) == (720, 1280)
+    assert mp4_size(tkhd(1280, 720, 0)) == (720, 1280)
+    assert mp4_size(b'not a video at all') is None
 
     # which API a token uses, and finding the account behind a Facebook Login token
     os.environ.pop('IG_API', None)

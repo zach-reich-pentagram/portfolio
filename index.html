@@ -397,9 +397,14 @@
     --side: 200px;    /* room either side of the bento, where the two columns sit */
     --round-desktop: 14px; --round-tablet: 14px; --round-mobile: 14px;   /* corners of the frames, set from the settings */
     --round: var(--round-desktop);
+    --bg: #FFFFFF;    /* a pure white page by default */
+    /* white on white: glass and pale frames need something to hold their edge */
+    --rim: 0 0 0 0.5px rgba(0, 0, 0, 0.1);
+    --glass-shadow: var(--rim), 0 8px 32px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.06);
     --margin: var(--site);
     --colw: max(calc(var(--side) - var(--gutter)), 170px);
   }
+  html[data-theme="dark"] { --rim: 0 0 0 0.5px rgba(255, 255, 255, 0.14); }
   html, body { height: auto; }
   body { overflow: visible; }
   .app { height: auto; min-height: 100vh; }
@@ -413,15 +418,19 @@
   .intro { display: flex; flex-direction: column; gap: 6px; }
   .bio { color: var(--label-2); }
   /* side padding set so small the bento runs under the words: give them glass to sit on */
-  html[data-tight] .intro { padding: 14px; border-radius: var(--radius-card); background: var(--glass); box-shadow: var(--glass-edge);
+  html[data-tight] .intro { padding: 14px; border-radius: var(--radius-card); background: var(--glass); box-shadow: var(--glass-edge), var(--glass-shadow);
     -webkit-backdrop-filter: blur(24px) saturate(180%); backdrop-filter: blur(24px) saturate(180%); }
 
   /* the controls: one glass panel, sized to what it holds */
   .col.right { position: fixed; z-index: 2; top: var(--margin); right: var(--margin); left: auto; width: var(--colw); padding: 14px; }
 
+  /* the question mark only matters on a phone, and with no controls to show, the panel goes */
+  #about { display: none; }
+  @media (min-width: 760px) { html[data-nocontrols] #public { display: none; } }
+
   /* the bento: frames placed by layout.js */
   #board { position: relative; width: auto; aspect-ratio: auto; background: none; box-shadow: none; overflow: visible; }
-  .tile { position: absolute; overflow: hidden; border-radius: var(--round); background: var(--fill-3); }
+  .tile { position: absolute; overflow: hidden; border-radius: var(--round); background: var(--fill-3); box-shadow: var(--rim); }
   .tile:focus-visible { border-radius: var(--round); outline-offset: 2px; }
   .tile img, .tile video { display: block; width: 100%; height: 100%; object-fit: cover; }
   .empty { padding: 40px 0; text-align: center; }
@@ -438,9 +447,10 @@
 
   /* dev mode: its own glass column at the right, the public controls moved in beside it */
   .col.dev { position: fixed; z-index: 5; top: var(--margin); right: var(--margin); width: 300px; }
+  .stagebar { box-shadow: var(--glass-edge), var(--rim); }   /* a hairline, still no shadow beneath */
   .stagebar { position: fixed; z-index: 5; top: var(--margin); left: calc((100% - 300px - var(--margin)) / 2); max-width: calc(100% - 340px); }
   .hint { position: fixed; z-index: 5; left: calc((100% - 300px - var(--margin)) / 2); right: auto; bottom: 14px; transform: translateX(-50%); width: max-content; max-width: calc(100% - 340px);
-          padding: 4px 12px; border-radius: 999px; background: var(--glass); box-shadow: var(--glass-edge);
+          padding: 4px 12px; border-radius: 999px; background: var(--glass); box-shadow: var(--glass-edge), var(--rim);
           -webkit-backdrop-filter: blur(20px) saturate(180%); backdrop-filter: blur(20px) saturate(180%); }
   .publicrows { display: flex; flex-direction: column; }
 
@@ -462,12 +472,19 @@
     .rail { overflow-y: auto; }
     .col.right { position: static; width: auto; max-height: none; overflow: visible; }
   }
-  /* compact: words top left, controls top right, then the bento across the full width */
+  /* compact: the controls in two columns, your words behind the question mark, then the bento */
   @media (max-width: 759px) {
     :root { --margin: calc(var(--site) * 0.8); --round: var(--round-mobile); }
     .body { display: block; padding: max(var(--margin), env(safe-area-inset-top)) var(--margin) var(--margin); }
-    .rail { position: static; width: auto; max-height: none; overflow: visible; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; margin-bottom: var(--gutter); }
-    html[data-tight] .intro { padding: 0; background: none; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
+    .rail { position: static; width: auto; max-height: none; overflow: visible; margin-bottom: var(--gutter); }
+    .intro, html[data-tight] .intro { order: 2; display: none; padding: 0; background: none; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
+    html[data-about] .intro { display: flex; }
+    #public { order: 1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 12px; align-items: center; }
+    #publicSliders { display: contents; }
+    #about { display: inline-flex; align-items: center; justify-content: center; }
+    #actions { flex-wrap: nowrap; }
+    #actions .btn { flex: 1; min-width: 0; }
+    #about[aria-expanded="false"] { flex: 0 0 auto; width: 32px; padding: 0; justify-content: center; border-radius: 999px; }
     .col.right { padding: 0; background: none; -webkit-backdrop-filter: none; backdrop-filter: none; box-shadow: none; transform: none; }
     .col.dev { left: var(--margin); right: var(--margin); top: auto; bottom: var(--margin); width: auto; max-height: 60%; }
     .stagebar, .hint { left: 50%; max-width: calc(100% - 24px); }
@@ -486,7 +503,7 @@
            Add another <p class="bio">…</p> for another paragraph, and
            <a href="https://…">words</a> for a link.
            ============================================================ -->
-      <header class="intro">
+      <header class="intro" id="intro">
         <h1 class="name">Zach Reich</h1>
         <p class="bio">Graphic designer. A sentence or two on who you are and the design you do goes here.</p>
         <p class="bio"><a href="https://www.instagram.com/zachalligraphy/">@zachalligraphy</a></p>
@@ -503,7 +520,10 @@
         <div class="seg" data-public="theme" data-theme-seg role="group" aria-label="Appearance">
           <button data-value="light">Light</button><button data-value="dark">Dark</button>
         </div>
-        <div class="btnrow" data-public="refresh"><button class="btn" id="refresh" title="Rearrange the frames">Refresh</button></div>
+        <div class="btnrow" id="actions">
+          <button class="btn" id="refresh" data-public="refresh" title="Rearrange the frames">Refresh</button>
+          <button class="btn" id="about" aria-controls="intro" aria-expanded="false" aria-label="About">?</button>
+        </div>
       </aside>
     </div>
 
@@ -623,7 +643,7 @@ const embedded = new URLSearchParams(location.search).has('embed');   // inside 
 // settings.json is what dev mode's Save writes; what's left out comes from here.
 const SF = '-apple-system, "SF Pro Display", "Helvetica Neue", sans-serif';
 const DEFAULTS = {
-  scale: 100, irregularity: 60, grouping: 70, gap: 8, rounding: 14, roundingTablet: 14, roundingMobile: 14, side: 200, site: 20,
+  scale: 150, irregularity: 60, grouping: 0, gap: 5, rounding: 14, roundingTablet: 12, roundingMobile: 10, side: 0, site: 20,
   order: 'random', theme: 'light',
   public: { scale: true, irregularity: true, grouping: true, gap: false, rounding: false, roundingTablet: false, roundingMobile: false, side: false, site: false, order: true, theme: true, refresh: true },
   type: {
@@ -637,7 +657,7 @@ const DEFAULTS = {
   fonts: [],       // { name, family, src }: fonts opened in dev mode, saved in the project
   overrides: {},   // post id → { title, desc }
 };
-const HOUSE_COLORS = { light: { ink: '#000000', canvas: '#f2f2f7' }, dark: { ink: '#ffffff', canvas: '#000000' } };
+const HOUSE_COLORS = { light: { ink: '#000000', canvas: '#ffffff' }, dark: { ink: '#ffffff', canvas: '#000000' } };
 const merge = (a, b) => {
   const out = structuredClone(a);
   for (const k in b) out[k] = b[k] && typeof b[k] === 'object' && !Array.isArray(b[k]) && out[k] ? merge(out[k], b[k]) : b[k];
@@ -733,18 +753,14 @@ function layout() {
   const gap = cfg.gap;
   // An average frame's width at 100%: most of the screen on a phone, about a quarter on a desktop
   const base = cfg.scale / 100 * (120 + 0.14 * W);
-  const cols = Math.max(6, Math.round((W + gap) / (base / 6))), u = (W + gap) / cols;
-  const group = cfg.grouping / 100;
-  const { tiles, rows } = pack(sequence(posts, { order: cfg.order, group, seed }), {
-    cols, group, seed, irr: cfg.irregularity / 100, maxRows: Math.floor(innerHeight * 0.92 / u),
-    min: Math.max(2, Math.ceil(MIN_FRAME / u)),
+  const { tiles, height } = pack(sequence(posts, { order: cfg.order, group: cfg.grouping / 100, seed }), {
+    width: W, gap, base, seed, irr: cfg.irregularity / 100, maxH: innerHeight * 0.92, min: MIN_FRAME,
   });
   for (const t of tiles) {
     const s = t.f.el.style;
-    s.left = `${t.x * u}px`; s.top = `${t.y * u}px`;
-    s.width = `${t.w * u - gap}px`; s.height = `${t.h * u - gap}px`;
+    s.left = `${t.x}px`; s.top = `${t.y}px`; s.width = `${t.w}px`; s.height = `${t.h}px`;
   }
-  board.style.height = `${rows * u - gap}px`;
+  board.style.height = `${height}px`;
 }
 const layoutSoon = () => queued ||= requestAnimationFrame(layout);
 new ResizeObserver(layoutSoon).observe(board);
@@ -767,7 +783,7 @@ function apply() {
   c.canvas ? root.style.setProperty('--bg', c.canvas) : root.style.removeProperty('--bg');
   $('#typeStyle').textContent = Object.entries(cfg.type).map(([k, t]) => `${SELECTOR[k]} { font-family: ${t.font}; font-size: ${t.size}px; line-height: ${t.leading}; letter-spacing: ${t.tracking}em; font-weight: ${t.weight}; text-align: ${t.align}; font-style: ${t.italic ? 'italic' : 'normal'}; font-feature-settings: ${features(t.features)}; }`).join('\n');
   $$('#public [data-public]').forEach(el => el.hidden = !cfg.public[el.dataset.public]);
-  $('#public').hidden = !Object.values(cfg.public).some(Boolean);
+  root.toggleAttribute('data-nocontrols', !Object.values(cfg.public).some(Boolean));
   layoutSoon();
   sendToFrame();
 }
@@ -815,6 +831,12 @@ $$('[data-theme-seg]').forEach(s => s.addEventListener('click', e => {
   cfg.theme = b.dataset.value; showControls(); touch();
 }));
 $('#refresh').addEventListener('click', () => { seed = crypto.getRandomValues(new Uint32Array(1))[0]; hideTip(); apply(); });
+$('#about').addEventListener('click', e => {
+  const open = root.toggleAttribute('data-about'), b = e.currentTarget;
+  b.textContent = open ? 'Hide' : '?';
+  b.setAttribute('aria-expanded', open);
+  b.setAttribute('aria-label', open ? 'Hide about' : 'About');
+});
 $$('[data-pub]').forEach(i => i.addEventListener('change', () => { cfg.public[i.dataset.pub] = i.checked; touch(); }));
 
 // type: applies to the chosen piece of text

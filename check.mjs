@@ -20,35 +20,38 @@ const makePosts = n => Array.from({ length: n }, (_, i) => {
 });
 const posts = makePosts(40), all = posts.flatMap(p => p.frames);
 
-// every layout: each frame once, nothing overlapping, nothing too small, nothing off the grid
-let uneven = 0, runs = 0, worstCrop = 0;
-for (const cols of [6, 9, 14, 22, 31, 48]) for (const min of [2, 3]) for (const irr of [0, 0.3, 0.6, 1]) for (const group of [0, 0.5, 1]) for (let seed = 1; seed <= 25; seed++) {
-  const { tiles, rows, holes: h } = pack(sequence(posts, { group, seed }), { cols, irr, group, seed, maxRows: 40, min });
+// every layout: each frame once at its picture's exact shape, nothing overlapping, nothing off the page
+let runs = 0, narrowest = Infinity, tallest = 0, varied = 0;
+for (const width of [340, 700, 1000, 1400, 2200]) for (const gap of [0, 5, 24]) for (const scale of [0.4, 1, 1.5, 3]) for (const irr of [0, 0.3, 0.6, 1]) for (const group of [0, 0.5, 1]) for (let seed = 1; seed <= 10; seed++) {
+  const base = scale * (120 + 0.14 * width);
+  const { tiles, height } = pack(sequence(posts, { group, seed }), { width, gap, base, irr, seed, maxH: 800, min: 76 });
   assert.equal(tiles.length, all.length);
   assert.equal(new Set(tiles.map(t => t.f.id)).size, all.length);
-  const seen = new Uint8Array(cols * rows);
+  const close = (a, b) => Math.abs(a - b) < 1e-6;
   for (const t of tiles) {
-    assert.ok(t.x >= 0 && t.x + t.w <= cols && t.y + t.h <= rows, 'off the grid');
-    assert.ok(t.w >= min && t.h >= min, 'too small');
-    const crop = t.w / t.h / t.f.aspect;
-    worstCrop = Math.max(worstCrop, crop, 1 / crop);
-    for (let y = t.y; y < t.y + t.h; y++) for (let x = t.x; x < t.x + t.w; x++) {
-      assert.equal(seen[x + y * cols], 0, 'overlap');
-      seen[x + y * cols] = 1;
+    assert.ok(t.w > 0 && t.h > 0, 'empty frame');
+    assert.ok(close(t.w / t.h, t.f.aspect), `cropped: ${t.w / t.h} for ${t.f.aspect}`);
+    assert.ok(t.x > -1e-6 && t.x + t.w < width + 1e-6 && t.y + t.h < height + 1e-6, 'off the page');
+    narrowest = Math.min(narrowest, t.w); tallest = Math.max(tallest, t.h);
+    for (const o of tiles) if (o !== t) {
+      const apart = o.x + 1e-6 >= t.x + t.w + gap || t.x + 1e-6 >= o.x + o.w + gap || o.y + 1e-6 >= t.y + t.h + gap || t.y + 1e-6 >= o.y + o.h + gap;
+      assert.ok(apart, 'overlap, or closer than the gap');
     }
   }
-  assert.equal(seen.reduce((n, s) => n + !s, 0), h, 'hole count is wrong');
-  // a free cell can only be at the foot of the grid, never with a frame below it
-  for (let x = 0; x < cols; x++) for (let y = 1; y < rows; y++) assert.ok(seen[x + y * cols] <= seen[x + (y - 1) * cols], 'hole inside the grid');
-  uneven += h > 0; runs++;
+  // no holes: the frames and their gaps add up to the whole rectangle
+  const area = tiles.reduce((sum, t) => sum + t.w * t.h, 0);
+  if (gap === 0) assert.ok(Math.abs(area - width * height) < 1e-3 * width * height, 'hole in the grid');
+  if (irr > 0 && new Set(tiles.map(t => Math.round(t.w))).size > 3) varied++;
+  runs++;
 }
-assert.ok(worstCrop < 2.5, `a frame is cropped ${worstCrop.toFixed(1)}× from its picture`);
+assert.ok(varied > runs / 4, 'the bento has gone uniform');
+assert.ok(narrowest >= 76, `a frame came out ${narrowest}px wide`);
 
 // grouping: more of it keeps a post's frames closer together
 const spreadAt = group => {
   let sum = 0, n = 0;
   for (let seed = 1; seed <= 30; seed++) {
-    const { tiles } = pack(sequence(posts, { group, seed }), { cols: 24, irr: 0.6, group, seed });
+    const { tiles } = pack(sequence(posts, { group, seed }), { width: 1400, gap: 5, base: 300, irr: 0.6, seed, maxH: 800, min: 76 });
     for (const a of tiles) {
       const near = tiles.filter(b => b !== a && b.f.post === a.f.post).map(b => Math.hypot(a.x - b.x, a.y - b.y));
       if (near.length) { sum += Math.min(...near); n++; }
@@ -61,7 +64,7 @@ assert.ok(g0 > g5 && g5 > g1, `grouping should tighten: ${g0.toFixed(1)}, ${g5.t
 
 // order: newest and A–Z come first, reading from the top
 for (const group of [0, 0.7, 1]) for (let seed = 1; seed <= 20; seed++) {
-  const firstOf = order => pack(sequence(posts, { order, group, seed }), { cols: 24, irr: 0.6, group, seed }).tiles.toSorted((a, b) => a.y - b.y || a.x - b.x)[0].f.post;
+  const firstOf = order => pack(sequence(posts, { order, group, seed }), { width: 1400, gap: 5, base: 300, irr: 0.6, seed, maxH: 800, min: 76 }).tiles.toSorted((a, b) => a.y - b.y || a.x - b.x)[0].f.post;
   assert.equal(firstOf('chronological').id, posts.toSorted((a, b) => b.timestamp.localeCompare(a.timestamp))[0].id);
   assert.equal(firstOf('alphabetical').id, posts.toSorted((a, b) => a.title.localeCompare(b.title))[0].id);
 }
@@ -71,4 +74,4 @@ const ids = seed => sequence(posts, { seed }).map(f => f.id).join();
 assert.equal(ids(5), ids(5));
 assert.notEqual(ids(5), ids(6));
 
-console.log(`ok: ${runs} layouts (${uneven} with an uneven foot), worst crop ${worstCrop.toFixed(2)}×; post spread ${g0.toFixed(1)} → ${g5.toFixed(1)} → ${g1.toFixed(1)} cells as grouping rises`);
+console.log(`ok: ${runs} layouts, none cropped, narrowest frame ${narrowest.toFixed(0)}px, tallest ${tallest.toFixed(0)}px; post spread ${g0.toFixed(1)} → ${g5.toFixed(1)} → ${g1.toFixed(1)} px as grouping rises`);
