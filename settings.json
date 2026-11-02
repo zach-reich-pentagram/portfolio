@@ -1,13 +1,13 @@
 {
-  "scale": 100,
+  "scale": 125,
   "irregularity": 100,
   "grouping": 0,
-  "gap": 5,
-  "rounding": 14,
-  "roundingTablet": 12,
-  "roundingMobile": 10,
+  "gap": 1,
+  "rounding": 10,
+  "roundingTablet": 8,
+  "roundingMobile": 6,
   "side": 0,
-  "site": 20,
+  "site": 1,
   "order": "random",
   "theme": "light",
   "type": {
@@ -16,7 +16,7 @@
       "size": 13,
       "leading": 1.33,
       "tracking": -0.005,
-      "weight": 600,
+      "weight": 400,
       "align": "left",
       "italic": false,
       "features": ""
@@ -53,9 +53,7 @@
     }
   },
   "colors": {
-    "light": {
-      "canvas": "#ffffff"
-    },
+    "light": {},
     "dark": {}
   },
   "fonts": [],

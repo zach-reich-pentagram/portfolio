@@ -1,20 +1,12 @@
 // node check.mjs — fails loudly if the grid or the caption parsing breaks.
 import assert from 'node:assert/strict';
-import { parseCaption, parseRich, sequence, pack, edgeColours, blendsIn, hexRgb } from './layout.js';
+import { parseCaption, parseRich, sequence, pack } from './layout.js';
 
 // captions: first line is the title, the rest is the description
 assert.deepEqual(parseCaption('Title\nLine one\n\nLine two\n'), { title: 'Title', desc: 'Line one\n\nLine two' });
 assert.deepEqual(parseCaption('Title\n\nBody'), { title: 'Title', desc: 'Body' });
 assert.deepEqual(parseCaption('Only a title'), { title: 'Only a title', desc: '' });
 assert.deepEqual(parseCaption(undefined), { title: '', desc: '' });
-
-// strokes: a frame's rim against the page
-const rim = (...rgb) => edgeColours(new Uint8Array(4 * 16).map((_, i) => i % 4 === 3 ? 255 : rgb[i % 4]), 4);
-assert.equal(rim(1, 2, 3).length, 12);
-assert.equal(blendsIn(rim(255, 255, 255), hexRgb('#ffffff')), true);
-assert.equal(blendsIn(rim(0, 0, 0), hexRgb('#000000')), true);
-assert.equal(blendsIn(rim(0, 0, 0), hexRgb('#ffffff')), false);
-assert.equal(blendsIn(rim(204, 255, 0), hexRgb('#ffffff')), false);   // bright yellow-green on white is a clear colour, however light
 
 // links: labelled, bare, and never a script
 assert.deepEqual(parseRich('see [site](https://a.co/x) now'), [{ text: 'see ' }, { text: 'site', href: 'https://a.co/x' }, { text: ' now' }]);

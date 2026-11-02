@@ -397,17 +397,19 @@
     --side: 200px;    /* room either side of the bento, where the two columns sit */
     --round-desktop: 14px; --round-tablet: 14px; --round-mobile: 14px;   /* corners of the frames, set from the settings */
     --round: var(--round-desktop);
-    --bg: #FFFFFF;    /* a pure white page by default */
+    --float: 20px;    /* how far advanced mode's panels sit from the window, whatever the site padding */
     --margin: var(--site);
   }
-  /* no glass and no shadows here: every floating surface is the page colour with a stroke.
-     Both selectors, so these beat the same tokens set for dark mode above. --stroke comes from apply(). */
+  /* no glass and no shadows here: floating surfaces are the page colour with a hairline.
+     Both selectors, so these beat the same tokens set for dark mode above. The heading gets a raised colour. */
   :root, html[data-theme="dark"] {
-    --stroke: #000;
     --glass: var(--bg); --sidebar: var(--bg); --glass-sheen: transparent;
-    --glass-edge: 0 0 0 1px var(--stroke);
+    --glass-edge: 0 0 0 1px var(--separator);
     --glass-shadow: 0 0 transparent;
+    --pill: #FFFFFF;
   }
+  /* just above black, as the light page is just below white */
+  html[data-theme="dark"] { --bg: #1C1C1E; --pill: #2C2C2E; }
   .col, .menu, .stagebar, .float, .hint { -webkit-backdrop-filter: none; backdrop-filter: none; }
   html, body { height: auto; }
   body { overflow: visible; }
@@ -416,23 +418,22 @@
   a { color: inherit; }
 
   /* above the grid: your name at the left, two icons at the right, your description when asked for */
-  .rail { margin-bottom: var(--gutter); }
-  .top { display: flex; align-items: center; justify-content: space-between; gap: var(--gutter); }
+  .rail { display: flex; flex-direction: column; gap: var(--gap); margin-bottom: var(--gap); }
+  .top { display: flex; align-items: center; justify-content: space-between; gap: var(--gutter); padding: 4px 6px 4px 16px; border-radius: 999px; background: var(--pill); }
   .icons { display: flex; gap: 6px; flex-shrink: 0; }
   .icon { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; min-height: 0; padding: 0;
           background: none !important; color: var(--label); transition: color .15s ease; }
   .icon:hover { color: var(--label-2); }   /* grey is the only sign it can be clicked */
   .icon svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
   #about[aria-expanded="false"] .less, #about[aria-expanded="true"] .more { display: none; }
-  .intro { display: flex; flex-direction: column; gap: 6px; max-width: 60ch; padding-top: var(--gutter); }
+  .intro { display: flex; flex-direction: column; gap: 6px; padding: 14px 16px; border-radius: var(--round); background: var(--pill); }
+  .intro > * { max-width: 60ch; }
   .intro[hidden] { display: none; }
   .bio { color: var(--label-2); }
 
   /* the bento: frames placed by layout.js */
   #board { position: relative; width: auto; aspect-ratio: auto; background: none; box-shadow: none; overflow: visible; }
   .tile { position: absolute; overflow: hidden; border-radius: var(--round); background: var(--fill-3); }
-  /* a frame too close to the page colour gets a stroke; on a layer above, or its picture would hide it */
-  .tile[data-stroke]::after { content: ""; position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 0 0 1px var(--stroke); pointer-events: none; }
   .tile:focus-visible { border-radius: var(--round); outline-offset: 2px; }
   .tile img, .tile video { display: block; width: 100%; height: 100%; object-fit: cover; }
   .empty { padding: 40px 0; text-align: center; }
@@ -448,18 +449,18 @@
   #toast { position: fixed; }
 
   /* dev mode: its own column at the right */
-  .col.dev { position: fixed; z-index: 5; top: var(--margin); right: var(--margin); width: 300px; }
-  .stagebar { position: fixed; z-index: 5; top: var(--margin); left: calc((100% - 300px - var(--margin)) / 2); max-width: calc(100% - 340px); }
-  .hint { position: fixed; z-index: 5; left: calc((100% - 300px - var(--margin)) / 2); right: auto; bottom: 14px; transform: translateX(-50%); width: max-content; max-width: calc(100% - 340px);
+  .col.dev { position: fixed; z-index: 5; top: var(--float); right: var(--float); width: 300px; }
+  .stagebar { position: fixed; z-index: 5; top: var(--float); left: calc((100% - 300px - var(--float)) / 2); max-width: calc(100% - 340px); }
+  .hint { position: fixed; z-index: 5; left: calc((100% - 300px - var(--float)) / 2); right: auto; bottom: 14px; transform: translateX(-50%); width: max-content; max-width: calc(100% - 340px);
           padding: 4px 12px; border-radius: 999px; background: var(--glass); box-shadow: var(--glass-edge); }
 
   /* preview: the real site in a frame of that width, so its own size classes apply */
   #preview { position: fixed; z-index: 3; inset: 0; display: flex; align-items: center; justify-content: center; background: var(--bg);
-             padding: 68px calc(var(--margin) * 2 + 300px) 24px 24px; }
+             padding: 68px calc(var(--float) * 2 + 300px) 24px 24px; }
   #preview iframe { height: 100%; max-width: 100%; border: 0; background: var(--bg); border-radius: var(--radius-glass); box-shadow: var(--glass-edge); }
 
   /* the dev column sits over the top right, so the icons move clear of it */
-  @media (min-width: 760px) { html[data-dev="on"] .top { padding-right: 312px; } }
+  @media (min-width: 760px) { html[data-dev="on"] .top { padding-right: 328px; } }
 
   html[data-ui="off"] .rail, html[data-ui="off"] #preview { display: none; }
   html[data-ui="off"] .body { padding: 0; }
@@ -467,10 +468,10 @@
   @media (max-width: 1179px) { :root { --round: var(--round-tablet); } }
   /* compact: the same, with room for fingers */
   @media (max-width: 759px) {
-    :root { --margin: calc(var(--site) * 0.8); --round: var(--round-mobile); }
+    :root { --round: var(--round-mobile); }
     .body { display: block; padding: max(var(--margin), env(safe-area-inset-top)) var(--margin) var(--margin); }
     .icon { width: 44px; height: 44px; }   /* a finger's reach */
-    .col.dev { left: var(--margin); right: var(--margin); top: auto; bottom: var(--margin); width: auto; max-height: 60%; }
+    .col.dev { left: var(--float); right: var(--float); top: auto; bottom: var(--float); width: auto; max-height: 60%; }
     .stagebar, .hint { left: 50%; max-width: calc(100% - 24px); }
     .hint { display: none; }
     #preview { display: none; }
@@ -609,7 +610,7 @@
     </select></span></div>
 </div>
 <script type="module">
-import { parseCaption, parseRich, sequence, pack, edgeColours, blendsIn, hexRgb } from './layout.js';
+import { parseCaption, parseRich, sequence, pack } from './layout.js';
 const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
 const clamp = (v, a, b) => v < a ? a : v > b ? b : v;
 const root = document.documentElement;
@@ -619,10 +620,10 @@ const embedded = new URLSearchParams(location.search).has('embed');   // inside 
 // settings.json is what dev mode's Save writes; what's left out comes from here.
 const SF = '-apple-system, "SF Pro Display", "Helvetica Neue", sans-serif';
 const DEFAULTS = {
-  scale: 100, irregularity: 100, grouping: 0, gap: 5, rounding: 14, roundingTablet: 12, roundingMobile: 10, side: 0, site: 20,
+  scale: 125, irregularity: 100, grouping: 0, gap: 1, rounding: 10, roundingTablet: 8, roundingMobile: 6, side: 0, site: 1,
   order: 'random', theme: 'light',
   type: {
-    name: { font: SF, size: 13, leading: 1.33, tracking: -0.005, weight: 600, align: 'left', italic: false, features: '' },
+    name: { font: SF, size: 13, leading: 1.33, tracking: -0.005, weight: 400, align: 'left', italic: false, features: '' },
     bio: { font: SF, size: 13, leading: 1.23, tracking: -0.006, weight: 400, align: 'left', italic: false, features: '' },
     tipTitle: { font: SF, size: 13, leading: 1.23, tracking: -0.006, weight: 600, align: 'left', italic: false, features: '' },
     tipBody: { font: SF, size: 13, leading: 1.23, tracking: -0.006, weight: 400, align: 'left', italic: false, features: '' },
@@ -631,7 +632,7 @@ const DEFAULTS = {
   fonts: [],       // { name, family, src }: fonts opened in dev mode, saved in the project
   overrides: {},   // post id → { title, desc }
 };
-const HOUSE_COLORS = { light: { ink: '#000000', canvas: '#ffffff' }, dark: { ink: '#ffffff', canvas: '#000000' } };
+const HOUSE_COLORS = { light: { ink: '#000000', canvas: '#f2f2f7' }, dark: { ink: '#ffffff', canvas: '#1c1c1e' } };
 const merge = (a, b) => {
   const out = structuredClone(a);
   for (const k in b) out[k] = b[k] && typeof b[k] === 'object' && !Array.isArray(b[k]) && out[k] ? merge(out[k], b[k]) : b[k];
@@ -681,27 +682,14 @@ const posts = (data?.posts ?? []).filter(p => p.media?.length);
 const reduced = matchMedia('(prefers-reduced-motion: reduce)');
 // videos play only while they're on screen, and load nothing until then
 const inView = new IntersectionObserver(es => es.forEach(e => e.isIntersecting && !reduced.matches ? e.target.play().catch(() => {}) : e.target.pause()));
-// A frame whose edge is close to the page colour gets a stroke, or it would vanish into the page.
-const pageColour = () => hexRgb(cfg.colors[cfg.theme].canvas ?? HOUSE_COLORS[cfg.theme].canvas);
-const strokeTile = el => el.edge && el.toggleAttribute('data-stroke', blendsIn(el.edge, pageColour()));
-function readEdge(el, img) {
-  img.addEventListener('load', () => {
-    const c = Object.assign(document.createElement('canvas'), { width: 32, height: 32 }), g = c.getContext('2d', { willReadFrequently: true });
-    g.drawImage(img, 0, 0, 32, 32);
-    el.edge = edgeColours(g.getImageData(0, 0, 32, 32).data, 32);
-    strokeTile(el);
-  }, { once: true });
-}
 function makeTile(m) {
   const el = document.createElement('div');
   el.className = 'tile'; el.tabIndex = 0; el.setAttribute('role', 'img');
   if (m.type === 'video') {
     const v = Object.assign(document.createElement('video'), { muted: true, loop: true, playsInline: true, preload: 'none', src: m.src, poster: m.poster ?? '' });
     el.append(v); inView.observe(v);
-    if (m.poster) readEdge(el, Object.assign(new Image(), { src: m.poster }));   // the browser has fetched the poster already
   } else {
-    const img = Object.assign(document.createElement('img'), { src: m.src, alt: '', loading: 'lazy', decoding: 'async' });
-    el.append(img); readEdge(el, img);
+    el.append(Object.assign(document.createElement('img'), { src: m.src, alt: '', loading: 'lazy', decoding: 'async' }));
   }
   return el;
 }
@@ -757,9 +745,7 @@ function apply() {
   c.ink ? root.style.setProperty('--label', c.ink) : root.style.removeProperty('--label');
   c.canvas ? root.style.setProperty('--bg', c.canvas) : root.style.removeProperty('--bg');
   $('#typeStyle').textContent = Object.entries(cfg.type).map(([k, t]) => `${SELECTOR[k]} { font-family: ${t.font}; font-size: ${t.size}px; line-height: ${t.leading}; letter-spacing: ${t.tracking}em; font-weight: ${t.weight}; text-align: ${t.align}; font-style: ${t.italic ? 'italic' : 'normal'}; font-feature-settings: ${features(t.features)}; }`).join('\n');
-  const [r, g, b] = pageColour();
-  root.style.setProperty('--stroke', 0.299 * r + 0.587 * g + 0.114 * b > 127 ? '#000' : '#fff');
-  $$('.tile').forEach(strokeTile);
+  root.style.setProperty('--gap', `${cfg.gap}px`);
   layoutSoon();
   sendToFrame();
 }
