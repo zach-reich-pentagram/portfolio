@@ -49,7 +49,7 @@ export function sequence(posts, { order = 'random', group = 0, seed = 1 }) {
     .map(x => x.f);
 }
 
-const BASE = 6;   // an average frame is this many columns wide
+const CELL = 24;  // px: the rough grid, fine enough that frame sizes don't fall into steps
 
 // How far a slot is from a rectangle, in cells
 const away = (t, c, r) => Math.hypot(Math.max(t.x - c, 0, c - (t.x + t.w - 1)), Math.max(t.y - r, 0, r - (t.y + t.h - 1)));
@@ -57,12 +57,12 @@ const away = (t, c, r) => Math.hypot(Math.max(t.x - c, 0, c - (t.x + t.w - 1)), 
 // The arrangement: a rough bento on a grid. Each frame goes in the highest, leftmost free cell, so
 // frames interlock with no rows or columns running through. This only decides who touches whom;
 // measure() below works out the true sizes.
-function arrange(frames, { cols, irr, group, seed, maxRows, min }) {
+function arrange(frames, { cols, size, irr, group, seed, maxRows, min }) {
   const sky = new Array(cols).fill(0), left = [...frames], tiles = [], placed = new Map();
-  const near = group * 2, hold = group > 0 ? (1 - group) ** 2 * cols * 2 + 3 : Infinity;   // in cells
+  const unit = size / 6;   // a sixth of an average frame: how far apart is near depends on how big frames are
+  const near = group * 2 * unit, hold = group > 0 ? (1 - group) ** 2 * cols * 2 + 3 * unit : Infinity;   // in cells
   while (left.length) {
-    const r = Math.min(...sky), c = sky.indexOf(r);
-    let run = 1;
+    let r = Math.min(...sky), c = sky.indexOf(r), run = 1;
     while (c + run < cols && sky[c + run] === r) run++;
 
     // A frame whose post is already on the grid and touches this slot goes here. One whose post is
@@ -76,9 +76,29 @@ function arrange(frames, { cols, irr, group, seed, maxRows, min }) {
     const pick = nearest <= near ? closest : first >= 0 ? first : closest;
     const f = left.splice(pick, 1)[0];
 
-    // up to 4× either way, weighted towards small so a few large frames stand among many little ones
-    let want = BASE * 2 ** (irr * 2 * (noise(seed, 'size' + f.id) ** 1.8 * 2 - 1));
-    want = Math.min(want, maxRows * f.aspect);
+    // Up to 4× either way, weighted towards small so a few large frames stand among many little ones.
+    // The range is worked out under this frame's height limit, or the limit would flatten every
+    // tall frame to one size and leave Irregularity nothing to do.
+    const cap = maxRows * f.aspect, centre = Math.min(size, cap * 0.7);
+    const lo = Math.max(min, centre / 4 ** irr), hi = Math.max(lo, Math.min(centre * 4 ** irr, cap * (1 + 0.25 * irr)));
+    const want = lo * (hi / lo) ** (noise(seed, 'size' + f.id) ** 1.8);
+
+    // A big frame needs a wide slot, and exact heights rarely line up to leave one. So the frames
+    // along this slot's top are drawn down to a neighbour close by: only on the grid, as the true
+    // sizes are solved afterwards. Without this the columns only ever split, and everything shrinks.
+    for (const reach = irr * want * 0.6; run < want;) {
+      const lh = c > 0 ? sky[c - 1] : Infinity, rh = c + run < cols ? sky[c + run] : Infinity, to = Math.min(lh, rh);
+      if (to - r > reach) break;
+      // only frames that end along exactly this slot can be drawn down
+      const above = tiles.filter(t => t.y + t.h === r && t.x < c + run && t.x + t.w > c);
+      if (above.reduce((n, t) => n + t.w, 0) !== run || above.some(t => t.x < c || t.x + t.w > c + run)) break;
+      if (sky.every((h, i) => h === to || (i >= c && i < c + run))) break;    // never level the whole page into a row
+      for (const t of above) t.h = to - t.y;
+      for (let i = c; i < c + run; i++) sky[i] = to;
+      r = to;
+      while (c > 0 && sky[c - 1] === r) { c--; run++; }
+      while (c + run < cols && sky[c + run] === r) run++;
+    }
     let w = Math.max(min, Math.min(run, Math.round(want)));
     if (run - w < min) w = run;    // never leave a gap too narrow for anything to fit
     const h = Math.min(Math.max(min, Math.round(w / f.aspect)), Math.max(min, maxRows));
@@ -175,15 +195,18 @@ function measure({ tiles, rows }, cols, width, gap) {
 // narrower than `min`, or have a seam right across; the next seed's sizes usually don't, so the
 // best of a few is kept.
 export function pack(frames, { width, gap = 0, base, irr = 0, group = 0, seed = 1, maxH = Infinity, min = 1 }) {
-  const cols = Math.max(6, Math.round((width + gap) / (base / BASE))), u = (width + gap) / cols;
+  const cols = Math.max(6, Math.round((width + gap) / CELL)), u = (width + gap) / cols;
   const cells = Math.max(2, Math.ceil(min / u));
   let best = null, score = -Infinity;
-  for (let i = 0; i < 16; i++) {
-    const done = measure(arrange(frames, { cols, irr, group, seed: seed + i, min: cells, maxRows: Math.floor(maxH / u) }), cols, width, gap);
+  for (let i = 0; i < 24; i++) {
+    const done = measure(arrange(frames, { cols, size: base / u, irr: i ? Math.max(irr, 0.1) : irr, group, seed: seed + i, min: cells, maxRows: Math.floor(maxH / u) }), cols, width, gap);
     const narrow = Math.min(...done.tiles.map(t => t.w));
-    const s = (Math.min(narrow, min) - min) * 100 - done.rowed;    // a frame's width comes first
+    const tall = Math.max(...done.tiles.map(t => t.h)) / maxH - 1.25;  // the solve can grow a frame past its limit
+    // Four corners meeting at a point can, very rarely, solve to frames that overlap or vanish: never use those
+    const clash = narrow <= 0 || done.tiles.some((a, j) => done.tiles.some((b, k) => k > j && Math.min(a.x + a.w, b.x + b.w) - Math.max(a.x, b.x) + gap > 1e-6 && Math.min(a.y + a.h, b.y + b.h) - Math.max(a.y, b.y) + gap > 1e-6));
+    const s = (clash ? -1e9 : 0) + (Math.min(narrow, min) - min) * 100 - done.rowed - Math.max(0, tall) * 10;    // a frame's width comes first
     if (s > score) { best = done; score = s; }
-    if (narrow >= min && !done.rowed) break;
+    if (s === 0) break;
   }
   return best;
 }

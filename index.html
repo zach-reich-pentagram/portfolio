@@ -404,7 +404,13 @@
     --margin: var(--site);
     --colw: max(calc(var(--side) - var(--gutter)), 170px);
   }
-  html[data-theme="dark"] { --rim: 0 0 0 0.5px rgba(255, 255, 255, 0.14); }
+  /* black on black shows no shadow, so the dark page sits just above black: a shadow can
+     darken it, as it does the white page, and dark posts hold an edge against it */
+  html[data-theme="dark"] {
+    --bg: #1C1C1E;
+    --rim: 0 0 0 0.5px rgba(255, 255, 255, 0.14);
+    --glass-shadow: var(--rim), 0 8px 32px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(0, 0, 0, 0.4);
+  }
   html, body { height: auto; }
   body { overflow: visible; }
   .app { height: auto; min-height: 100vh; }
@@ -643,7 +649,7 @@ const embedded = new URLSearchParams(location.search).has('embed');   // inside 
 // settings.json is what dev mode's Save writes; what's left out comes from here.
 const SF = '-apple-system, "SF Pro Display", "Helvetica Neue", sans-serif';
 const DEFAULTS = {
-  scale: 150, irregularity: 60, grouping: 0, gap: 5, rounding: 14, roundingTablet: 12, roundingMobile: 10, side: 0, site: 20,
+  scale: 100, irregularity: 100, grouping: 0, gap: 5, rounding: 14, roundingTablet: 12, roundingMobile: 10, side: 0, site: 20,
   order: 'random', theme: 'light',
   public: { scale: true, irregularity: true, grouping: true, gap: false, rounding: false, roundingTablet: false, roundingMobile: false, side: false, site: false, order: true, theme: true, refresh: true },
   type: {
@@ -657,7 +663,7 @@ const DEFAULTS = {
   fonts: [],       // { name, family, src }: fonts opened in dev mode, saved in the project
   overrides: {},   // post id → { title, desc }
 };
-const HOUSE_COLORS = { light: { ink: '#000000', canvas: '#ffffff' }, dark: { ink: '#ffffff', canvas: '#000000' } };
+const HOUSE_COLORS = { light: { ink: '#000000', canvas: '#ffffff' }, dark: { ink: '#ffffff', canvas: '#1c1c1e' } };
 const merge = (a, b) => {
   const out = structuredClone(a);
   for (const k in b) out[k] = b[k] && typeof b[k] === 'object' && !Array.isArray(b[k]) && out[k] ? merge(out[k], b[k]) : b[k];

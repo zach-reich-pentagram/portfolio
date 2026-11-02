@@ -41,16 +41,23 @@ for (const width of [340, 700, 1000, 1400, 2200]) for (const gap of [0, 5, 24]) 
   // no holes: the frames and their gaps add up to the whole rectangle
   const area = tiles.reduce((sum, t) => sum + t.w * t.h, 0);
   if (gap === 0) assert.ok(Math.abs(area - width * height) < 1e-3 * width * height, 'hole in the grid');
-  // no clear rows: a seam running the whole way across would show as one
-  if (irr >= 0.6 && width >= 700 && scale <= 1.5) {
-    rowed += tiles.some(t => t.y > 1 && !tiles.some(o => o.y < t.y - 1 && o.y + o.h + gap > t.y + 1)) ;
-    checked++;
-  }
   if (irr > 0 && new Set(tiles.map(t => Math.round(t.w))).size > 3) varied++;
   runs++;
 }
 assert.ok(varied > runs / 4, 'the bento has gone uniform');
 assert.ok(narrowest >= 20, `a frame came out ${narrowest}px wide`);   // the extremes here: smallest scale, biggest gap
+
+// no clear rows, on a mix like the real one (mostly tall video): a seam all the way across would show as one
+const tall = Array.from({ length: 17 }, (_, i) => {
+  const post = { id: 't' + i, title: 'T' + i, timestamp: 't' };
+  post.frames = Array.from({ length: i % 7 ? 1 : 6 }, (_, j) => ({ id: `t${i}f${j}`, post, aspect: [0.5625, 0.5625, 0.5625, 0.8][(i + j) % 4] }));
+  return post;
+});
+for (const width of [1000, 1400]) for (const irr of [0.6, 1]) for (let seed = 1; seed <= 50; seed++) {
+  const { tiles } = pack(sequence(tall, { seed }), { width, gap: 5, base: 1.5 * (120 + 0.14 * width), irr, seed, maxH: 828, min: 76 });
+  rowed += tiles.some(t => t.y > 1 && !tiles.some(o => o.y < t.y - 1 && o.y + o.h + 5 > t.y + 1));
+  checked++;
+}
 assert.ok(rowed < checked / 10, `${rowed} of ${checked} layouts have a seam all the way across`);
 
 // grouping: more of it keeps a post's frames closer together
@@ -59,7 +66,7 @@ const spreadAt = group => {
   for (let seed = 1; seed <= 30; seed++) {
     const { tiles } = pack(sequence(posts, { group, seed }), { width: 1400, gap: 5, base: 300, irr: 0.6, group, seed, maxH: 800, min: 76 });
     for (const a of tiles) {
-      const near = tiles.filter(b => b !== a && b.f.post === a.f.post).map(b => Math.hypot(a.x - b.x, a.y - b.y));
+      const near = tiles.filter(b => b !== a && b.f.post === a.f.post).map(b => Math.hypot(Math.max(0, b.x - a.x - a.w, a.x - b.x - b.w), Math.max(0, b.y - a.y - a.h, a.y - b.y - b.h)));   // edge to edge
       if (near.length) { sum += Math.min(...near); n++; }
     }
   }
