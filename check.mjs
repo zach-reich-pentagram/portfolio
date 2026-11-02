@@ -1,12 +1,20 @@
 // node check.mjs — fails loudly if the grid or the caption parsing breaks.
 import assert from 'node:assert/strict';
-import { parseCaption, parseRich, sequence, pack } from './layout.js';
+import { parseCaption, parseRich, sequence, pack, randomColour, inkOn } from './layout.js';
 
 // captions: first line is the title, the rest is the description
 assert.deepEqual(parseCaption('Title\nLine one\n\nLine two\n'), { title: 'Title', desc: 'Line one\n\nLine two' });
 assert.deepEqual(parseCaption('Title\n\nBody'), { title: 'Title', desc: 'Body' });
 assert.deepEqual(parseCaption('Only a title'), { title: 'Only a title', desc: '' });
 assert.deepEqual(parseCaption(undefined), { title: '', desc: '' });
+
+// hover card: legible ink, and a colour that isn't grey
+assert.equal(inkOn([255, 255, 255]), '#000'); assert.equal(inkOn([0, 0, 0]), '#fff'); assert.equal(inkOn([255, 255, 0]), '#000'); assert.equal(inkOn([0, 0, 255]), '#fff');
+assert.deepEqual(randomColour(() => 0), { bg: `rgb(${[143, 36, 36]})`, ink: '#fff' });
+for (let i = 0; i < 500; i++) {
+  const rgb = randomColour().bg.match(/\d+/g).map(Number);
+  assert.ok(rgb.every(v => v >= 0 && v <= 255) && Math.max(...rgb) - Math.min(...rgb) > 40, `grey or out of range: ${rgb}`);
+}
 
 // links: labelled, bare, and never a script
 assert.deepEqual(parseRich('see [site](https://a.co/x) now'), [{ text: 'see ' }, { text: 'site', href: 'https://a.co/x' }, { text: ' now' }]);

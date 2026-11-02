@@ -400,16 +400,16 @@
     --float: 20px;    /* how far advanced mode's panels sit from the window, whatever the site padding */
     --margin: var(--site);
   }
-  /* no glass and no shadows here: floating surfaces are the page colour with a hairline.
-     Both selectors, so these beat the same tokens set for dark mode above. The heading gets a raised colour. */
+  /* no glass and no shadows here: floating surfaces are solid, with a hairline.
+     Both selectors, so these beat the same tokens set for dark mode above. */
   :root, html[data-theme="dark"] {
-    --glass: var(--bg); --sidebar: var(--bg); --glass-sheen: transparent;
+    --bg: rgb(128, 128, 128);
+    --glass: var(--pill); --sidebar: var(--pill); --glass-sheen: transparent;
     --glass-edge: 0 0 0 1px var(--separator);
     --glass-shadow: 0 0 transparent;
     --pill: #FFFFFF;
   }
-  /* just above black, as the light page is just below white */
-  html[data-theme="dark"] { --bg: #1C1C1E; --pill: #2C2C2E; }
+  html[data-theme="dark"] { --pill: #2C2C2E; }
   .col, .menu, .stagebar, .float, .hint { -webkit-backdrop-filter: none; backdrop-filter: none; }
   html, body { height: auto; }
   body { overflow: visible; }
@@ -444,7 +444,8 @@
   #tip .info { padding: 4px 8px 6px; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
   #tip .desc { white-space: pre-line; overflow-wrap: anywhere; }
   #tip .desc:empty { display: none; }
-  #tip a { color: var(--blue); }
+  #tip { box-shadow: none; }   /* its colour and text are set per hover, by showTip() */
+  #tip a { color: inherit; text-decoration: underline; }
 
   #toast { position: fixed; }
 
@@ -610,7 +611,7 @@
     </select></span></div>
 </div>
 <script type="module">
-import { parseCaption, parseRich, sequence, pack } from './layout.js';
+import { parseCaption, parseRich, sequence, pack, randomColour } from './layout.js';
 const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
 const clamp = (v, a, b) => v < a ? a : v > b ? b : v;
 const root = document.documentElement;
@@ -632,7 +633,7 @@ const DEFAULTS = {
   fonts: [],       // { name, family, src }: fonts opened in dev mode, saved in the project
   overrides: {},   // post id → { title, desc }
 };
-const HOUSE_COLORS = { light: { ink: '#000000', canvas: '#f2f2f7' }, dark: { ink: '#ffffff', canvas: '#1c1c1e' } };
+const HOUSE_COLORS = { light: { ink: '#000000', canvas: '#808080' }, dark: { ink: '#ffffff', canvas: '#808080' } };
 const merge = (a, b) => {
   const out = structuredClone(a);
   for (const k in b) out[k] = b[k] && typeof b[k] === 'object' && !Array.isArray(b[k]) && out[k] ? merge(out[k], b[k]) : b[k];
@@ -893,6 +894,8 @@ function showTip(el) {
   tip.classList.remove('live');
   tip.querySelector('b').textContent = title;
   tip.querySelector('.desc').replaceChildren(...richNodes(desc));
+  const { bg, ink } = randomColour();
+  tip.style.setProperty('--glass', bg); tip.style.color = ink;
   tip.hidden = false; tip.scrollTop = 0;
   return true;
 }

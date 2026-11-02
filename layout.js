@@ -210,3 +210,20 @@ export function pack(frames, { width, gap = 0, base, irr = 0, group = 0, seed = 
   }
   return best;
 }
+
+// ---------- the hover card's colour
+// Black or white, whichever has the higher contrast on this colour (WCAG; channels 0-255).
+export function inkOn(rgb) {
+  const [r, g, b] = rgb.map(v => (v /= 255) <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4);
+  const lum = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  return (lum + 0.05) / 0.05 > 1.05 / (lum + 0.05) ? '#000' : '#fff';
+}
+// Any hue, saturated enough to stand apart from a grey page.
+export function randomColour(rand = Math.random) {
+  const h = rand() * 360, s = 0.6 + rand() * 0.4, l = 0.35 + rand() * 0.4;
+  const rgb = [0, 8, 4].map(n => {
+    const k = (n + h / 30) % 12;
+    return Math.round(255 * (l - s * Math.min(l, 1 - l) * Math.max(-1, Math.min(k - 3, 9 - k, 1))));
+  });
+  return { bg: `rgb(${rgb})`, ink: inkOn(rgb) };
+}
