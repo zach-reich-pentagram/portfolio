@@ -12,7 +12,7 @@ Until Instagram is connected, the grid shows sample posts in flat colours, one c
 
 - **Your name and description:** in `index.html`, between the `YOUR DESCRIPTION` comments near the top of the body.
 - **Everything else:** type `69420`, then press Enter, anywhere on the page.
-  - Change the layout, type and colour, choose which controls are public, and rewrite any post's text. Click a frame to pick its post.
+  - Change the layout, type and colour, and rewrite any post's text. Click a frame to pick its post.
   - **Preview** shows the real site at tablet or phone width.
   - **Save** writes `settings.json`. Commit and push that file to publish the changes.
 

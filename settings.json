@@ -8,24 +8,8 @@
   "roundingMobile": 10,
   "side": 0,
   "site": 20,
-  "shadow": 100,
   "order": "random",
   "theme": "light",
-  "public": {
-    "scale": true,
-    "irregularity": true,
-    "grouping": true,
-    "gap": false,
-    "rounding": false,
-    "roundingTablet": false,
-    "roundingMobile": false,
-    "side": false,
-    "site": false,
-    "shadow": false,
-    "order": true,
-    "theme": true,
-    "refresh": true
-  },
   "type": {
     "name": {
       "font": "-apple-system, \"SF Pro Display\", \"Helvetica Neue\", sans-serif",
@@ -58,16 +42,6 @@
       "features": ""
     },
     "tipBody": {
-      "font": "-apple-system, \"SF Pro Display\", \"Helvetica Neue\", sans-serif",
-      "size": 13,
-      "leading": 1.23,
-      "tracking": -0.006,
-      "weight": 400,
-      "align": "left",
-      "italic": false,
-      "features": ""
-    },
-    "controls": {
       "font": "-apple-system, \"SF Pro Display\", \"Helvetica Neue\", sans-serif",
       "size": 13,
       "leading": 1.23,

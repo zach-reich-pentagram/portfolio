@@ -398,54 +398,34 @@
     --round-desktop: 14px; --round-tablet: 14px; --round-mobile: 14px;   /* corners of the frames, set from the settings */
     --round: var(--round-desktop);
     --bg: #FFFFFF;    /* a pure white page by default */
-    /* white on white: glass and pale frames need something to hold their edge */
-    --rim: 0 0 0 0.5px rgba(0, 0, 0, 0.1);
-    --glass-shadow: var(--rim), 0 8px 32px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.06);
-    /* the frames' own shadows, scaled by the Tile shadow slider: dark inside and out on a light page */
-    --edge: 1;
-    --tile-outer: 0 0 0 0.5px rgba(0, 0, 0, calc(0.1 * var(--edge))), 0 8px 32px rgba(0, 0, 0, calc(0.1 * var(--edge))), 0 1px 3px rgba(0, 0, 0, calc(0.06 * var(--edge)));
-    --tile-inner: inset 0 0 0 0.5px rgba(0, 0, 0, calc(0.1 * var(--edge))), inset 0 0 14px rgba(0, 0, 0, calc(0.06 * var(--edge)));
     --margin: var(--site);
     --colw: max(calc(var(--side) - var(--gutter)), 170px);
   }
-  /* black on black shows no shadow, so the dark page sits just above black: a shadow can
-     darken it, as it does the white page, and dark posts hold an edge against it */
-  html[data-theme="dark"] {
-    --bg: #1C1C1E;
-    --rim: 0 0 0 0.5px rgba(255, 255, 255, 0.14);
-    --glass-shadow: var(--rim), 0 8px 32px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(0, 0, 0, 0.4);
-    /* a shadow can't darken a black post, so the inner one is a faint glow, the mirror of light mode */
-    --tile-outer: 0 0 0 0.5px rgba(255, 255, 255, calc(0.14 * var(--edge))), 0 8px 32px rgba(0, 0, 0, calc(0.5 * var(--edge))), 0 1px 3px rgba(0, 0, 0, calc(0.4 * var(--edge)));
-    --tile-inner: inset 0 0 0 0.5px rgba(255, 255, 255, calc(0.14 * var(--edge))), inset 0 0 14px rgba(255, 255, 255, calc(0.07 * var(--edge)));
+  /* no glass and no shadows here: every floating surface is the page colour with a stroke.
+     Both selectors, so these beat the same tokens set for dark mode above. --stroke comes from apply(). */
+  :root, html[data-theme="dark"] {
+    --stroke: #000;
+    --glass: var(--bg); --sidebar: var(--bg); --glass-sheen: transparent;
+    --glass-edge: 0 0 0 1px var(--stroke);
+    --glass-shadow: 0 0 transparent;
   }
+  .col, .menu, .stagebar, .float, .hint { -webkit-backdrop-filter: none; backdrop-filter: none; }
   html, body { height: auto; }
   body { overflow: visible; }
   .app { height: auto; min-height: 100vh; }
   .body { height: auto; padding: var(--margin) calc(var(--margin) + var(--side)); }
   a { color: inherit; }
 
-  /* the words, plain on the page; the rail holds them, and the controls too on narrower screens */
-  .rail { position: fixed; z-index: 2; top: var(--margin); left: var(--margin); width: var(--colw); max-height: calc(100vh - var(--margin) * 2);
-          display: flex; flex-direction: column; gap: var(--gutter); pointer-events: none; }
-  .rail > * { pointer-events: auto; flex-shrink: 0; }
-  .intro { display: flex; flex-direction: column; gap: 6px; }
+  /* the words, in a box of the page colour; the bento runs beneath it */
+  .rail { position: fixed; z-index: 2; top: var(--margin); left: var(--margin); width: var(--colw); }
+  .intro { display: flex; flex-direction: column; gap: 6px; padding: 14px; border: 1px solid var(--stroke); border-radius: var(--radius-card); background: var(--bg); }
   .bio { color: var(--label-2); }
-  /* side padding set so small the bento runs under the words: give them glass to sit on */
-  html[data-tight] .intro { padding: 14px; border-radius: var(--radius-card); background: var(--glass); box-shadow: var(--glass-edge), var(--glass-shadow);
-    -webkit-backdrop-filter: blur(24px) saturate(180%); backdrop-filter: blur(24px) saturate(180%); }
-
-  /* the controls: one glass panel, sized to what it holds */
-  .col.right { position: fixed; z-index: 2; top: var(--margin); right: var(--margin); left: auto; width: var(--colw); padding: 14px; }
-
-  /* the question mark only matters on a phone, and with no controls to show, the panel goes */
-  #about { display: none; }
-  @media (min-width: 760px) { html[data-nocontrols] #public { display: none; } }
 
   /* the bento: frames placed by layout.js */
   #board { position: relative; width: auto; aspect-ratio: auto; background: none; box-shadow: none; overflow: visible; }
-  .tile { position: absolute; overflow: hidden; border-radius: var(--round); background: var(--fill-3); box-shadow: var(--tile-outer); }
-  /* an inset shadow on the tile itself would sit behind its picture, so this layer lies over it */
-  .tile::after { content: ""; position: absolute; inset: 0; border-radius: inherit; box-shadow: var(--tile-inner); pointer-events: none; }
+  .tile { position: absolute; overflow: hidden; border-radius: var(--round); background: var(--fill-3); }
+  /* a frame too close to the page colour gets a stroke; on a layer above, or its picture would hide it */
+  .tile[data-stroke]::after { content: ""; position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 0 0 1px var(--stroke); pointer-events: none; }
   .tile:focus-visible { border-radius: var(--round); outline-offset: 2px; }
   .tile img, .tile video { display: block; width: 100%; height: 100%; object-fit: cover; }
   .empty { padding: 40px 0; text-align: center; }
@@ -460,47 +440,26 @@
 
   #toast { position: fixed; }
 
-  /* dev mode: its own glass column at the right, the public controls moved in beside it */
+  /* dev mode: its own column at the right */
   .col.dev { position: fixed; z-index: 5; top: var(--margin); right: var(--margin); width: 300px; }
-  .stagebar { box-shadow: var(--glass-edge), var(--rim); }   /* a hairline, still no shadow beneath */
   .stagebar { position: fixed; z-index: 5; top: var(--margin); left: calc((100% - 300px - var(--margin)) / 2); max-width: calc(100% - 340px); }
   .hint { position: fixed; z-index: 5; left: calc((100% - 300px - var(--margin)) / 2); right: auto; bottom: 14px; transform: translateX(-50%); width: max-content; max-width: calc(100% - 340px);
-          padding: 4px 12px; border-radius: 999px; background: var(--glass); box-shadow: var(--glass-edge), var(--rim);
-          -webkit-backdrop-filter: blur(20px) saturate(180%); backdrop-filter: blur(20px) saturate(180%); }
-  .publicrows { display: flex; flex-direction: column; }
+          padding: 4px 12px; border-radius: 999px; background: var(--glass); box-shadow: var(--glass-edge); }
 
   /* preview: the real site in a frame of that width, so its own size classes apply */
   #preview { position: fixed; z-index: 3; inset: 0; display: flex; align-items: center; justify-content: center; background: var(--bg);
              padding: 68px calc(var(--margin) * 2 + 300px) 24px 24px; }
-  #preview iframe { height: 100%; max-width: 100%; border: 0; background: var(--bg); border-radius: var(--radius-glass); box-shadow: 0 0 0 0.5px var(--separator), var(--glass-shadow); }
+  #preview iframe { height: 100%; max-width: 100%; border: 0; background: var(--bg); border-radius: var(--radius-glass); box-shadow: var(--glass-edge); }
 
   html[data-ui="off"] .rail, html[data-ui="off"] #preview { display: none; }
   html[data-ui="off"] .body { padding: 0; }
 
-  @media (min-width: 1180px) {
-    html[data-dev="on"] .col.right { right: calc(var(--margin) + 300px + var(--gutter)); }
-  }
-  /* narrower: the words and the controls stacked down the left */
-  @media (max-width: 1179px) {
-    :root { --round: var(--round-tablet); }
-    .body { padding-right: var(--margin); }
-    .rail { overflow-y: auto; }
-    .col.right { position: static; width: auto; max-height: none; overflow: visible; }
-  }
-  /* compact: the controls in two columns, your words behind the question mark, then the bento */
+  @media (max-width: 1179px) { :root { --round: var(--round-tablet); } }
+  /* compact: your words at the top, then the bento */
   @media (max-width: 759px) {
     :root { --margin: calc(var(--site) * 0.8); --round: var(--round-mobile); }
     .body { display: block; padding: max(var(--margin), env(safe-area-inset-top)) var(--margin) var(--margin); }
-    .rail { position: static; width: auto; max-height: none; overflow: visible; margin-bottom: var(--gutter); }
-    .intro, html[data-tight] .intro { order: 2; display: none; padding: 0; background: none; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
-    html[data-about] .intro { display: flex; }
-    #public { order: 1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 12px; align-items: center; }
-    #publicSliders { display: contents; }
-    #about { display: inline-flex; align-items: center; justify-content: center; }
-    #actions { flex-wrap: nowrap; }
-    #actions .btn { flex: 1; min-width: 0; }
-    #about[aria-expanded="false"] { flex: 0 0 auto; width: 32px; padding: 0; justify-content: center; border-radius: 999px; }
-    .col.right { padding: 0; background: none; -webkit-backdrop-filter: none; backdrop-filter: none; box-shadow: none; transform: none; }
+    .rail { position: static; width: auto; margin-bottom: var(--gutter); }
     .col.dev { left: var(--margin); right: var(--margin); top: auto; bottom: var(--margin); width: auto; max-height: 60%; }
     .stagebar, .hint { left: 50%; max-width: calc(100% - 24px); }
     .hint { display: none; }
@@ -525,21 +484,6 @@
       </header>
       <!-- ============================================================ -->
 
-      <!-- What visitors can change. Which of these show is set in dev mode: type 69420, then Enter. -->
-      <aside class="col right" id="public" aria-label="View controls">
-        <div class="rows" id="publicSliders"></div>
-        <div class="popup" data-public="order"><span class="plabel">Order</span><span class="pwrap"><span class="pvalue"></span>
-          <select data-order aria-label="Order">
-            <option value="random">Random</option><option value="chronological">Chronological</option><option value="alphabetical">Alphabetical</option>
-          </select></span></div>
-        <div class="seg" data-public="theme" data-theme-seg role="group" aria-label="Appearance">
-          <button data-value="light">Light</button><button data-value="dark">Dark</button>
-        </div>
-        <div class="btnrow" id="actions">
-          <button class="btn" id="refresh" data-public="refresh" title="Rearrange the frames">Refresh</button>
-          <button class="btn" id="about" aria-controls="intro" aria-expanded="false" aria-label="About">?</button>
-        </div>
-      </aside>
     </div>
 
     <main><div id="board" aria-label="Instagram posts"></div></main>
@@ -553,6 +497,7 @@
     <div class="stagebar" data-dev-only hidden>
       <div class="note" id="caption" aria-live="polite"></div>
       <button class="btn primary" id="save" title="Write these settings to settings.json">Save</button>
+      <button class="btn" id="refresh" title="Rearrange the frames">Refresh</button>
       <button class="btn" id="record" title="Record the bento as video; press again to stop and save">Record</button>
       <button class="btn" data-hide-ui title="Hide the controls (H)">Hide UI</button>
       <button class="btn" id="exitDev">Exit</button>
@@ -570,14 +515,14 @@
         <div class="seg" data-theme-seg role="group" aria-label="Starting appearance">
           <button data-value="light">Light</button><button data-value="dark">Dark</button>
         </div>
-        <div class="note">What you set here is where every visitor starts.</div>
+        <div class="note">Visitors see what you set here, and can’t change it.</div>
       </section>
       <section class="panel">
         <button class="phead" aria-expanded="false"><span class="badge">2</span><span>Type</span></button>
         <div class="popup"><span class="plabel">Applies to</span><span class="pwrap"><span class="pvalue"></span>
           <select id="tyEl" aria-label="Text to style">
             <option value="name">Name</option><option value="bio">Description</option><option value="tipTitle">Popup title</option>
-            <option value="tipBody">Popup text</option><option value="controls">Controls</option>
+            <option value="tipBody">Popup text</option>
           </select></span></div>
         <div class="popup"><span class="plabel">Typeface</span><span class="pwrap"><span class="pvalue"></span>
           <select id="tyFont" aria-label="Typeface">
@@ -608,12 +553,8 @@
         <div class="colorrow"><span class="plabel">Canvas</span><span class="cwrap"><span class="val"></span><label class="well"><span></span><input type="color" id="canvas" aria-label="Canvas colour"></label></span></div>
         <div class="note">Light and dark keep their own colours; these change whichever is showing.</div>
       </section>
-      <section class="panel">
-        <button class="phead" aria-expanded="false"><span class="badge">4</span><span>Public controls</span></button>
-        <div class="publicrows" id="publicSwitches"></div>
-      </section>
       <section class="panel" id="postsPanel">
-        <button class="phead" aria-expanded="false"><span class="badge">5</span><span>Post text</span></button>
+        <button class="phead" aria-expanded="false"><span class="badge">4</span><span>Post text</span></button>
         <div class="popup"><span class="plabel">Post</span><span class="pwrap"><span class="pvalue"></span><select id="ovPost" aria-label="Post"></select></span></div>
         <input class="field" id="ovTitle" placeholder="Title" aria-label="Title">
         <textarea class="field" id="ovDesc" placeholder="Description" aria-label="Description" rows="6"></textarea>
@@ -621,7 +562,7 @@
         <div class="note">Write a link as [words](https://…). A bare URL links itself. Text here replaces the caption until you reset it.</div>
       </section>
       <section class="panel">
-        <button class="phead" aria-expanded="false"><span class="badge">6</span><span>Preview</span></button>
+        <button class="phead" aria-expanded="false"><span class="badge">5</span><span>Preview</span></button>
         <div class="seg small" id="previewSeg" role="group" aria-label="Preview size">
           <button class="on" data-w="0">Desktop</button><button data-w="820">Tablet</button><button data-w="390">Mobile</button>
         </div>
@@ -648,7 +589,7 @@
     </select></span></div>
 </div>
 <script type="module">
-import { parseCaption, parseRich, sequence, pack } from './layout.js';
+import { parseCaption, parseRich, sequence, pack, edgeColours, blendsIn, hexRgb } from './layout.js';
 const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
 const clamp = (v, a, b) => v < a ? a : v > b ? b : v;
 const root = document.documentElement;
@@ -658,21 +599,19 @@ const embedded = new URLSearchParams(location.search).has('embed');   // inside 
 // settings.json is what dev mode's Save writes; what's left out comes from here.
 const SF = '-apple-system, "SF Pro Display", "Helvetica Neue", sans-serif';
 const DEFAULTS = {
-  scale: 100, irregularity: 100, grouping: 0, gap: 5, rounding: 14, roundingTablet: 12, roundingMobile: 10, side: 0, site: 20, shadow: 100,
+  scale: 100, irregularity: 100, grouping: 0, gap: 5, rounding: 14, roundingTablet: 12, roundingMobile: 10, side: 0, site: 20,
   order: 'random', theme: 'light',
-  public: { scale: true, irregularity: true, grouping: true, gap: false, rounding: false, roundingTablet: false, roundingMobile: false, side: false, site: false, shadow: false, order: true, theme: true, refresh: true },
   type: {
     name: { font: SF, size: 15, leading: 1.33, tracking: -0.005, weight: 600, align: 'left', italic: false, features: '' },
     bio: { font: SF, size: 13, leading: 1.23, tracking: -0.006, weight: 400, align: 'left', italic: false, features: '' },
     tipTitle: { font: SF, size: 13, leading: 1.23, tracking: -0.006, weight: 600, align: 'left', italic: false, features: '' },
     tipBody: { font: SF, size: 13, leading: 1.23, tracking: -0.006, weight: 400, align: 'left', italic: false, features: '' },
-    controls: { font: SF, size: 13, leading: 1.23, tracking: -0.006, weight: 400, align: 'left', italic: false, features: '' },
   },
   colors: { light: {}, dark: {} },
   fonts: [],       // { name, family, src }: fonts opened in dev mode, saved in the project
   overrides: {},   // post id → { title, desc }
 };
-const HOUSE_COLORS = { light: { ink: '#000000', canvas: '#ffffff' }, dark: { ink: '#ffffff', canvas: '#1c1c1e' } };
+const HOUSE_COLORS = { light: { ink: '#000000', canvas: '#ffffff' }, dark: { ink: '#ffffff', canvas: '#000000' } };
 const merge = (a, b) => {
   const out = structuredClone(a);
   for (const k in b) out[k] = b[k] && typeof b[k] === 'object' && !Array.isArray(b[k]) && out[k] ? merge(out[k], b[k]) : b[k];
@@ -683,32 +622,20 @@ const [saved, data] = await Promise.all([json('settings.json', {}), json('posts.
 let cfg = merge(DEFAULTS, saved), seed = crypto.getRandomValues(new Uint32Array(1))[0], dev = false, dirty = false;
 
 // ---------- sliders
-// The same slider can show in both the public panel and dev mode's Layout panel; they stay in step.
 const SLIDERS = {
   scale: ['Scale', 40, 300, 1, '%'], irregularity: ['Irregularity', 0, 100, 1, '%'], grouping: ['Grouping', 0, 100, 1, '%'],
   gap: ['Frame padding', 0, 48, 1, 'px'], rounding: ['Corner rounding: desktop', 0, 60, 1, 'px'],
   roundingTablet: ['Corner rounding: tablet', 0, 60, 1, 'px'], roundingMobile: ['Corner rounding: mobile', 0, 60, 1, 'px'],
   side: ['Side padding', 0, 480, 1, 'px'], site: ['Site padding', 0, 80, 1, 'px'],
-  shadow: ['Tile shadow', 0, 300, 1, '%'],
 };
-const NAMES = { ...Object.fromEntries(Object.entries(SLIDERS).map(([k, s]) => [k, s[0]])), order: 'Order', theme: 'Light and dark', refresh: 'Refresh button' };
 function sliderRow(key) {
   const [label, min, max, step, unit] = SLIDERS[key], d = document.createElement('div');
-  d.className = 'row'; d.dataset.public = key;
+  d.className = 'row';
   d.innerHTML = `<div class="rowhead"><span>${label}</span><span class="val" data-unit="${unit}"></span></div>
     <input type="range" data-key="${key}" min="${Math.min(min, cfg[key])}" max="${Math.max(max, cfg[key])}" step="${step}" value="${cfg[key]}" aria-label="${label}">`;
   return d;
 }
-for (const key in SLIDERS) {
-  $('#publicSliders').append(sliderRow(key));
-  $('#devSliders').append(sliderRow(key));
-}
-for (const key in NAMES) {
-  const l = document.createElement('label');
-  l.className = 'check';
-  l.innerHTML = `<span>${NAMES[key]}</span><input type="checkbox" role="switch" data-pub="${key}"><span class="box"></span>`;
-  $('#publicSwitches').append(l);
-}
+for (const key in SLIDERS) $('#devSliders').append(sliderRow(key));
 
 // slider fill and read-out follow the value (not while the read-out is being typed into)
 const fill = r => {
@@ -734,14 +661,27 @@ const posts = (data?.posts ?? []).filter(p => p.media?.length);
 const reduced = matchMedia('(prefers-reduced-motion: reduce)');
 // videos play only while they're on screen, and load nothing until then
 const inView = new IntersectionObserver(es => es.forEach(e => e.isIntersecting && !reduced.matches ? e.target.play().catch(() => {}) : e.target.pause()));
+// A frame whose edge is close to the page colour gets a stroke, or it would vanish into the page.
+const pageColour = () => hexRgb(cfg.colors[cfg.theme].canvas ?? HOUSE_COLORS[cfg.theme].canvas);
+const strokeTile = el => el.edge && el.toggleAttribute('data-stroke', blendsIn(el.edge, pageColour()));
+function readEdge(el, img) {
+  img.addEventListener('load', () => {
+    const c = Object.assign(document.createElement('canvas'), { width: 32, height: 32 }), g = c.getContext('2d', { willReadFrequently: true });
+    g.drawImage(img, 0, 0, 32, 32);
+    el.edge = edgeColours(g.getImageData(0, 0, 32, 32).data, 32);
+    strokeTile(el);
+  }, { once: true });
+}
 function makeTile(m) {
   const el = document.createElement('div');
   el.className = 'tile'; el.tabIndex = 0; el.setAttribute('role', 'img');
   if (m.type === 'video') {
     const v = Object.assign(document.createElement('video'), { muted: true, loop: true, playsInline: true, preload: 'none', src: m.src, poster: m.poster ?? '' });
     el.append(v); inView.observe(v);
+    if (m.poster) readEdge(el, Object.assign(new Image(), { src: m.poster }));   // the browser has fetched the poster already
   } else {
-    el.append(Object.assign(document.createElement('img'), { src: m.src, alt: '', loading: 'lazy', decoding: 'async' }));
+    const img = Object.assign(document.createElement('img'), { src: m.src, alt: '', loading: 'lazy', decoding: 'async' });
+    el.append(img); readEdge(el, img);
   }
   return el;
 }
@@ -784,23 +724,22 @@ new ResizeObserver(layoutSoon).observe(board);
 // ---------- applying the settings
 // "ss01, tnum, liga 0" in the field, with or without quotes, to what CSS wants
 const features = text => text.trim() ? text.replace(/["']/g, '').replace(/\b[a-z0-9]{4}\b/gi, '"$&"') : 'normal';
-const SELECTOR = { name: '.name', bio: '.bio', tipTitle: '#tip b', tipBody: '#tip .desc', controls: '#public' };
+const SELECTOR = { name: '.name', bio: '.bio', tipTitle: '#tip b', tipBody: '#tip .desc' };
 function apply() {
   root.dataset.theme = cfg.theme;
   root.style.colorScheme = cfg.theme;
   root.style.setProperty('--site', `${cfg.site}px`);
   root.style.setProperty('--side', `${cfg.side}px`);
-  root.style.setProperty('--edge', cfg.shadow / 100);
   root.style.setProperty('--round-desktop', `${cfg.rounding}px`);
   root.style.setProperty('--round-tablet', `${cfg.roundingTablet}px`);
   root.style.setProperty('--round-mobile', `${cfg.roundingMobile}px`);
-  root.toggleAttribute('data-tight', cfg.side < 170 + 12);
   const c = cfg.colors[cfg.theme];
   c.ink ? root.style.setProperty('--label', c.ink) : root.style.removeProperty('--label');
   c.canvas ? root.style.setProperty('--bg', c.canvas) : root.style.removeProperty('--bg');
   $('#typeStyle').textContent = Object.entries(cfg.type).map(([k, t]) => `${SELECTOR[k]} { font-family: ${t.font}; font-size: ${t.size}px; line-height: ${t.leading}; letter-spacing: ${t.tracking}em; font-weight: ${t.weight}; text-align: ${t.align}; font-style: ${t.italic ? 'italic' : 'normal'}; font-feature-settings: ${features(t.features)}; }`).join('\n');
-  $$('#public [data-public]').forEach(el => el.hidden = !cfg.public[el.dataset.public]);
-  root.toggleAttribute('data-nocontrols', !Object.values(cfg.public).some(Boolean));
+  const [r, g, b] = pageColour();
+  root.style.setProperty('--stroke', 0.299 * r + 0.587 * g + 0.114 * b > 127 ? '#000' : '#fff');
+  $$('.tile').forEach(strokeTile);
   layoutSoon();
   sendToFrame();
 }
@@ -831,7 +770,6 @@ function showControls() {
   });
   $$('[data-order]').forEach(s => { s.value = cfg.order; showChoice(s); });
   $$('[data-theme-seg]').forEach(s => segSet(s, cfg.theme));
-  $$('[data-pub]').forEach(i => i.checked = cfg.public[i.dataset.pub]);
   showWells(); showType();
 }
 
@@ -839,7 +777,6 @@ function showControls() {
 $$('input[data-key]').forEach(r => r.addEventListener('input', () => {
   const key = r.dataset.key;
   cfg[key] = +r.value;
-  $$(`input[data-key="${key}"]`).forEach(o => { if (o !== r) { o.min = r.min; o.max = r.max; o.step = r.step; o.value = r.value; fill(o); } });
   touch();
 }));
 $$('[data-order]').forEach(s => s.addEventListener('change', () => { cfg.order = s.value; showControls(); touch(); }));
@@ -848,14 +785,6 @@ $$('[data-theme-seg]').forEach(s => s.addEventListener('click', e => {
   cfg.theme = b.dataset.value; showControls(); touch();
 }));
 $('#refresh').addEventListener('click', () => { seed = crypto.getRandomValues(new Uint32Array(1))[0]; hideTip(); apply(); });
-$('#about').addEventListener('click', e => {
-  const open = root.toggleAttribute('data-about'), b = e.currentTarget;
-  b.textContent = open ? 'Hide' : '?';
-  b.setAttribute('aria-expanded', open);
-  b.setAttribute('aria-label', open ? 'Hide about' : 'About');
-});
-$$('[data-pub]').forEach(i => i.addEventListener('change', () => { cfg.public[i.dataset.pub] = i.checked; touch(); }));
-
 // type: applies to the chosen piece of text
 const ty = () => cfg.type[$('#tyEl').value];
 function showType() {

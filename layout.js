@@ -210,3 +210,26 @@ export function pack(frames, { width, gap = 0, base, irr = 0, group = 0, seed = 
   }
   return best;
 }
+
+// ---------- frames that vanish into the page
+// The colours round the rim of a square of RGBA pixels (size × size).
+export function edgeColours(px, size) {
+  const out = [];
+  for (let y = 0; y < size; y++) for (let x = 0; x < size; x++) {
+    if (x && y && x < size - 1 && y < size - 1) continue;
+    const i = (y * size + x) * 4;
+    out.push([px[i], px[i + 1], px[i + 2]]);
+  }
+  return out;
+}
+const luminance = rgb => {
+  const [r, g, b] = rgb.map(v => (v /= 255) <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4);
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+};
+const contrast = (a, b) => { const [x, y] = [luminance(a), luminance(b)].sort((p, q) => q - p); return (x + 0.05) / (y + 0.05); };
+// True when at least 30% of the rim is under 1.5:1 against the page, and it isn't just a hue change.
+export function blendsIn(edge, page, share = 0.3, limit = 1.5) {
+  const near = c => contrast(c, page) < limit && Math.max(...c.map((v, i) => Math.abs(v - page[i]))) < 90;
+  return edge.filter(near).length >= share * edge.length;
+}
+export const hexRgb = hex => [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16));
