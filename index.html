@@ -444,7 +444,7 @@
   #tip .info { padding: 4px 8px 6px; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
   #tip .desc { white-space: pre-line; overflow-wrap: anywhere; }
   #tip .desc:empty { display: none; }
-  #tip { box-shadow: none; }   /* its colour and text are set per hover, by showTip() */
+  #tip { box-shadow: none; }   /* its colour and text are set by paintTip() */
   #tip a { color: inherit; text-decoration: underline; }
 
   #toast { position: fixed; }
@@ -791,7 +791,7 @@ $$('[data-theme-seg]').forEach(s => s.addEventListener('click', e => {
   const b = e.target.closest('button'); if (!b) return;
   cfg.theme = b.dataset.value; showControls(); touch();
 }));
-$('#refresh').addEventListener('click', () => { seed = crypto.getRandomValues(new Uint32Array(1))[0]; hideTip(); apply(); });
+$('#refresh').addEventListener('click', () => { seed = crypto.getRandomValues(new Uint32Array(1))[0]; hideTip(); paintTip(); apply(); });
 $('#about').addEventListener('click', e => {
   const open = $('#intro').hidden, b = e.currentTarget;
   $('#intro').hidden = !open;
@@ -879,6 +879,12 @@ $('#ovReset').addEventListener('click', () => {
 // ---------- the hover card
 const tip = $('#tip');
 let tipTile = null, tipHide = 0;
+// one colour for every hover card, new with each page load and each press of Refresh
+function paintTip() {
+  const { bg, ink } = randomColour();
+  tip.style.setProperty('--glass', bg); tip.style.color = ink;
+}
+paintTip();
 function richNodes(text) {
   return parseRich(text).map(({ text, href }) => {
     if (!href) return document.createTextNode(text);
@@ -894,8 +900,6 @@ function showTip(el) {
   tip.classList.remove('live');
   tip.querySelector('b').textContent = title;
   tip.querySelector('.desc').replaceChildren(...richNodes(desc));
-  const { bg, ink } = randomColour();
-  tip.style.setProperty('--glass', bg); tip.style.color = ink;
   tip.hidden = false; tip.scrollTop = 0;
   return true;
 }
