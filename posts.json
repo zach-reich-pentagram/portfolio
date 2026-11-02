@@ -402,9 +402,9 @@
      "id": "18123289672758847",
      "type": "video",
      "src": "originals/18123289672758847.mp4",
+     "poster": "media/18123289672758847-cover.jpg",
      "w": 714,
-     "h": 1280,
-     "poster": "media/18123289672758847-cover.jpg"
+     "h": 1280
     }
    ]
   },
@@ -450,9 +450,9 @@
      "id": "18100826185951320",
      "type": "video",
      "src": "originals/18100826185951320.mp4",
+     "poster": "media/18100826185951320-cover.jpg",
      "w": 718,
-     "h": 1280,
-     "poster": "media/18100826185951320-cover.jpg"
+     "h": 1280
     }
    ]
   },
