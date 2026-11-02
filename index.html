@@ -419,9 +419,9 @@
   .rail { margin-bottom: var(--gutter); }
   .top { display: flex; align-items: center; justify-content: space-between; gap: var(--gutter); }
   .icons { display: flex; gap: 6px; flex-shrink: 0; }
-  .icon { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; min-height: 0; padding: 0; border-radius: 999px;
-          border: 1px solid var(--stroke); background: var(--bg); color: var(--label); }
-  .icon:hover { background: var(--fill); }
+  .icon { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; min-height: 0; padding: 0;
+          background: none !important; color: var(--label); transition: color .15s ease; }
+  .icon:hover { color: var(--label-2); }   /* grey is the only sign it can be clicked */
   .icon svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
   #about[aria-expanded="false"] .less, #about[aria-expanded="true"] .more { display: none; }
   .intro { display: flex; flex-direction: column; gap: 6px; max-width: 60ch; padding-top: var(--gutter); }
