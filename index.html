@@ -1,0 +1,1249 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Zach Reich</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🍱%3C/text%3E%3C/svg%3E">
+<!-- House style: extracted from sweat-type and image-experiments. The design rules are in ~/.claude/CLAUDE.md. -->
+<style>
+  /* ------------------------------------------------------------------ tokens
+     Apple's semantic colours: labels, fills and separators by vibrancy tier,
+     the grouped backgrounds, and the system accent — light, dark, and high
+     contrast. Colour is used sparingly: the accent marks only what is chosen
+     and the one primary action. */
+  :root {
+    color-scheme: light;
+    --blue: rgb(0, 136, 255);
+    --blue-soft: rgba(0, 136, 255, 0.14);
+    --blue-ring: rgba(0, 136, 255, 0.35);
+    --green: rgb(52, 199, 89);
+    --red: rgb(255, 59, 48);
+    --label: #000;
+    --label-2: rgba(60, 60, 67, 0.60);
+    --label-3: rgba(60, 60, 67, 0.30);
+    --label-4: rgba(60, 60, 67, 0.18);
+    --fill: rgba(120, 120, 128, 0.20);
+    --fill-2: rgba(120, 120, 128, 0.16);
+    --fill-3: rgba(118, 118, 128, 0.12);
+    --separator: rgba(60, 60, 67, 0.29);
+    --separator-opaque: rgb(198, 198, 200);
+    --bg: #F2F2F7;                           /* systemGroupedBackground */
+    --bg-2: #FFFFFF;                         /* secondarySystemGroupedBackground */
+    --bg-3: #F2F2F7;                         /* tertiarySystemGroupedBackground */
+    --card: rgba(255, 255, 255, 0.78);       /* regular standard material, inside the glass */
+    --glass: rgba(255, 255, 255, 0.72);      /* Liquid Glass, regular */
+    --sidebar: #FBFBFD;                      /* that glass over the plain light page */
+    --glass-edge: inset 0 0 0 0.5px rgba(255, 255, 255, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.06);
+    --glass-sheen: rgba(255, 255, 255, 0.35);  /* the light caught along the top of the glass */
+    --card-glass: rgba(118, 118, 128, 0.07);   /* a grouped section inside floating glass */
+    --seg-on: #FFFFFF;
+    --seg-shadow: 0 3px 8px rgba(0, 0, 0, 0.12), 0 3px 1px rgba(0, 0, 0, 0.04), 0 0 0 0.5px rgba(0, 0, 0, 0.04);
+    --knob: #FFFFFF;
+    --knob-shadow: 0 1px 3px rgba(0, 0, 0, 0.22), 0 0 0 0.5px rgba(0, 0, 0, 0.06);
+    --gray: rgb(142, 142, 147);
+    --gray-4: rgb(209, 209, 214);
+    --gray-6: rgb(242, 242, 247);
+    --target: 44px;                          /* the smallest thing anyone has to hit */
+    --margin: 20px;                          /* regular width */
+    --gutter: 12px;
+    --radius-glass: 22px;
+    --radius-card: 14px;
+    --radius-control: 10px;
+    --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "SF Pro", "Helvetica Neue", Helvetica, sans-serif;
+  }
+  html[data-theme="dark"] {
+      color-scheme: dark;
+      --blue: rgb(0, 145, 255);
+      --blue-soft: rgba(0, 145, 255, 0.22);
+      --blue-ring: rgba(0, 145, 255, 0.45);
+      --green: rgb(48, 209, 88);
+      --red: rgb(255, 69, 58);
+      --label: #FFF;
+      --label-2: rgba(235, 235, 245, 0.60);
+      --label-3: rgba(235, 235, 245, 0.30);
+      --label-4: rgba(235, 235, 245, 0.16);
+      --fill: rgba(120, 120, 128, 0.36);
+      --fill-2: rgba(120, 120, 128, 0.32);
+      --fill-3: rgba(118, 118, 128, 0.24);
+      --separator: rgba(84, 84, 88, 0.65);
+      --separator-opaque: rgb(56, 56, 58);
+      --bg: #000000;
+      --bg-2: #1C1C1E;
+      --bg-3: #2C2C2E;
+      --card: rgba(44, 44, 46, 0.62);
+      --glass: rgba(28, 28, 30, 0.75);
+      --sidebar: #151517;                    /* that glass over the plain dark page */
+      --glass-edge: inset 0 0 0 0.5px rgba(255, 255, 255, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.45), 0 1px 3px rgba(0, 0, 0, 0.3);
+      --glass-sheen: rgba(255, 255, 255, 0.07);
+      --card-glass: rgba(255, 255, 255, 0.06);
+      --seg-on: rgb(99, 99, 102);
+      --seg-shadow: 0 3px 8px rgba(0, 0, 0, 0.3), 0 0 0 0.5px rgba(255, 255, 255, 0.06);
+      --knob: rgb(229, 229, 234);
+      --knob-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+      --gray-4: rgb(58, 58, 60);
+      --gray-6: rgb(28, 28, 30);
+  }
+  @media (prefers-contrast: more) {
+    :root { --blue: rgb(30, 110, 244); --label-2: rgba(60, 60, 67, 0.80); --label-3: rgba(60, 60, 67, 0.55); --separator: rgba(60, 60, 67, 0.55); --gray: rgb(108, 108, 112); }
+  }
+  @media (prefers-contrast: more) {
+    html[data-theme="dark"] { --blue: rgb(92, 184, 255); --label-2: rgba(235, 235, 245, 0.80); --label-3: rgba(235, 235, 245, 0.55); --separator: rgba(160, 160, 168, 0.8); --gray: rgb(174, 174, 178); }
+  }
+
+  /* ------------------------------------------------------------- type
+     The macOS desktop scale, tracked per size the way SF Pro is:
+     Title 3 15/20, Headline/Body 13/16, Subheadline 11/14 for notes,
+     Footnote 10/13 for the smallest marks. */
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  [hidden] { display: none !important; }
+  html, body { height: 100%; }
+  body {
+    background: var(--bg); color: var(--label); font-family: var(--font);
+    font-size: 13px; line-height: 16px; letter-spacing: -0.08px; font-weight: 400;
+    -webkit-font-smoothing: antialiased; overflow: hidden;
+  }
+  button, input, textarea, select { font: inherit; color: inherit; letter-spacing: inherit; }
+  ::selection { background: var(--blue-ring); }
+  :focus-visible { outline: 3px solid var(--blue-ring); outline-offset: 1px; border-radius: var(--radius-control); }
+
+  /* ------------------------------------------------------------ shell
+     The canvas is the content and runs edge to edge; the two sidebars are the
+     controls layer, floating over it in Liquid Glass, as tall as what they hold. */
+  .app { height: 100vh; }
+  .body { position: relative; height: 100%; }
+  .col {
+    position: absolute; top: max(var(--margin), env(safe-area-inset-top)); max-height: calc(100% - var(--margin) * 2);
+    z-index: 4; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 10px; color: var(--label);
+    background: linear-gradient(180deg, var(--glass-sheen), transparent 120px), var(--glass);
+    -webkit-backdrop-filter: blur(24px) saturate(180%); backdrop-filter: blur(24px) saturate(180%);
+    border-radius: var(--radius-glass); box-shadow: var(--glass-edge), var(--glass-shadow);
+    transform: translateZ(0);   /* its own layer, so the blur is redrawn cleanly on resize */
+  }
+  .col.left { left: max(var(--margin), env(safe-area-inset-left)); width: 320px; }
+  .col.right { right: max(var(--margin), env(safe-area-inset-right)); width: 300px; }
+  .col .panel { background: var(--card-glass); }
+  .col > *, .panel > * { flex-shrink: 0; }
+  .col { scrollbar-width: thin; scrollbar-color: var(--fill) transparent; }
+  .col::-webkit-scrollbar { width: 14px; }
+  .col::-webkit-scrollbar-track { background: transparent; margin: var(--radius-glass) 0; }
+  .col::-webkit-scrollbar-thumb { background: var(--fill); border-radius: 999px; border: 4px solid transparent; background-clip: padding-box; }
+  .col::-webkit-scrollbar-corner { background: transparent; }
+
+  /* ----------------------------------------------------------- sections
+     Every panel collapses: its whole head is the button, a chevron at the end turns
+     down when open, and everything below the head shows only while open. All start closed. */
+  .panel { background: var(--card); border-radius: var(--radius-card); padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+  .panel.off { opacity: 0.45; }
+  .panel:not(.open) > :not(.phead) { display: none; }
+  .phead {
+    display: flex; align-items: center; gap: 8px; width: calc(100% + 28px); margin: -14px; padding: 14px;
+    border: 0; background: transparent; color: var(--label); text-align: left; cursor: pointer; border-radius: var(--radius-card);
+  }
+  .phead::after {
+    content: ""; margin-left: auto; width: 7px; height: 12px; background: var(--label-3); transition: transform .2s ease, background-color .15s ease;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 12'%3E%3Cpath d='M1.2 1.2 5.8 6l-4.6 4.8' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 12'%3E%3Cpath d='M1.2 1.2 5.8 6l-4.6 4.8' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+  }
+  .phead:hover::after { background: var(--label-2); }
+  .panel.open > .phead::after { transform: rotate(90deg); }
+  .badge {
+    width: 20px; height: 20px; min-width: 20px; border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center;
+    background: var(--fill-3); color: var(--label-2);
+    font-size: 10px; line-height: 13px; font-weight: 600; letter-spacing: 0.12px; font-variant-numeric: tabular-nums;
+  }
+  .note { color: var(--label-2); font-size: 11px; line-height: 14px; letter-spacing: 0.06px; }
+  .grouphead {
+    border-top: 0.5px solid var(--separator); padding-top: 12px;
+    font-size: 11px; line-height: 14px; font-weight: 600; letter-spacing: 0.06px; text-transform: uppercase; color: var(--label-2);
+  }
+
+  /* ---------------------------------------------------------- controls */
+  /* push buttons: sized to their label, a quiet fill; the accent only for the one primary action */
+  .btn {
+    height: 30px; padding: 0 14px; border: 0; border-radius: 9px;
+    background: var(--fill-2); color: var(--label);
+    font-weight: 500; cursor: pointer; text-align: center; white-space: nowrap;
+    transition: background-color .15s ease;
+  }
+  .btn:hover, .btn:active { background: var(--fill); }
+  .btn.primary, .btn.on { background: var(--blue); color: #fff; font-weight: 600; }
+  .btn.primary:hover { filter: brightness(1.08); }
+  .btn[disabled] { color: var(--label-3); background: var(--fill-3); cursor: default; }
+  .btnrow { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+
+  /* segmented controls: a sunken track, the chosen segment raised in the material */
+  .seg { display: flex; gap: 2px; padding: 2px; min-height: var(--target); background: var(--fill-3); border-radius: calc(var(--radius-control) + 2px); }
+  .seg button {
+    flex: 1 1 0; min-width: 60px; border: 0; background: transparent; border-radius: var(--radius-control);
+    padding: 0 8px; cursor: pointer; white-space: nowrap; font-weight: 500; color: var(--label);
+    transition: background-color .15s ease, box-shadow .15s ease;
+  }
+  .seg button:hover:not(.on) { background: var(--fill-3); }
+  .seg button.on { background: var(--seg-on); box-shadow: var(--seg-shadow); font-weight: 600; }
+  .seg.small { min-height: 32px; }
+  .seg.small button { min-width: 0; font-size: 12px; }
+
+  /* choice chips: capsules, the chosen one in the accent */
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    min-height: var(--target); min-width: 60px; padding: 0 16px; border: 0; border-radius: 999px;
+    background: var(--fill-3); color: var(--label); font-weight: 500; cursor: pointer; transition: background-color .15s ease;
+  }
+  .chip:hover:not(.on) { background: var(--fill-2); }
+  .chip.on { background: var(--blue); color: #fff; font-weight: 600; }
+
+  /* pop-up menus: label left, choice right beside chevrons in a small round well, rows split by a hairline */
+  .rows { display: flex; flex-direction: column; gap: 10px; }
+  .popup { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: var(--target); }
+  .popup + .popup { border-top: 0.5px solid var(--separator); }
+  .popup.off { opacity: 0.4; pointer-events: none; }
+  .plabel { color: var(--label); white-space: nowrap; }
+  .pwrap { position: relative; display: inline-flex; align-items: center; min-width: 0; min-height: var(--target); padding: 0 32px 0 8px; border-radius: var(--radius-control); }
+  .pvalue { color: var(--label); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .pwrap select {
+    position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; z-index: 3;
+    -webkit-appearance: none; appearance: none; border: 0; background: transparent; opacity: 0; cursor: pointer; font-size: 16px;
+  }
+  .pwrap:has(select:focus-visible) { outline: 3px solid var(--blue-ring); outline-offset: -2px; }
+  .pwrap::after { content: ""; position: absolute; right: 0; top: 50%; width: 22px; height: 22px; margin-top: -11px; border-radius: 50%; background: var(--fill-2); pointer-events: none; z-index: 0; }
+  .pwrap::before {
+    content: ""; position: absolute; right: 7px; top: 50%; width: 8px; height: 12px; margin-top: -6px; z-index: 2;
+    background: var(--label-2); pointer-events: none;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 12'%3E%3Cpath d='M1 4.3 4 1.3 7 4.3M1 7.7 4 10.7 7 7.7' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 12'%3E%3Cpath d='M1 4.3 4 1.3 7 4.3M1 7.7 4 10.7 7 7.7' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+  }
+  .pwrap:hover::after { background: var(--fill); }
+
+  /* text fields: a sunken fill, no border, a focus ring in the accent */
+  .field { border: 0; border-radius: var(--radius-control); padding: 10px 12px; width: 100%; background: var(--fill-3); outline: none; resize: vertical; transition: box-shadow .15s ease; }
+  .field::placeholder { color: var(--label-3); }
+  .field:focus { box-shadow: 0 0 0 3px var(--blue-ring); }
+  textarea.field { min-height: 88px; }
+
+  /* drop zones */
+  .drop {
+    min-height: 72px; border: 1.5px dashed var(--label-3); border-radius: var(--radius-card); padding: 18px 12px; text-align: center; cursor: pointer;
+    background: var(--fill-3); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+    transition: background-color .15s ease, border-color .15s ease;
+  }
+  .drop:hover { border-color: var(--label-2); }
+  .drop.hot, body.dragging .drop { background: var(--blue-soft); border-color: var(--blue); }
+
+  /* labelled sliders: name left, value right in label-2 tabular figures */
+  .row { display: flex; flex-direction: column; gap: 2px; }
+  .rowhead { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+  .rowhead .val { color: var(--label-2); font-variant-numeric: tabular-nums; }
+  .rowhead .lab { display: inline-flex; align-items: center; gap: 6px; min-width: 0; }
+  .rowhead:has(.lab) { align-items: center; }
+  input[type=range] {
+    --p: 50%;
+    -webkit-appearance: none; appearance: none; width: 100%; height: var(--target); margin: -6px 0; background: transparent; cursor: pointer;
+  }
+  input[type=range]::-webkit-slider-runnable-track { height: 8px; border-radius: 4px; background: linear-gradient(to right, var(--blue) 0 var(--p), var(--fill) var(--p) 100%); }
+  input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 28px; height: 20px; margin-top: -6px; border-radius: 10px; border: 0; background: var(--knob); box-shadow: var(--knob-shadow); }
+  input[type=range]::-moz-range-track { height: 8px; border-radius: 4px; background: var(--fill); }
+  input[type=range]::-moz-range-progress { height: 8px; border-radius: 4px; background: var(--blue); }
+  input[type=range]::-moz-range-thumb { width: 28px; height: 20px; border-radius: 10px; border: 0; background: var(--knob); box-shadow: var(--knob-shadow); }
+  input[type=range]:active::-webkit-slider-thumb { transform: scale(1.04); }
+  input[type=range]:focus-visible { outline: none; }
+  input[type=range]:focus-visible::-webkit-slider-thumb { box-shadow: var(--knob-shadow), 0 0 0 3px var(--blue-ring); }
+  input[type=range]:disabled { cursor: default; opacity: 0.5; }
+
+  /* a value you can type into: nothing until you go near it, a field while you do */
+  .val.typein { cursor: text; padding: 1px 6px; margin: -1px -6px; border-radius: 6px; transition: background-color .15s ease; }
+  .val.typein:hover { background: var(--fill-3); }
+  .val.typein.editing { background: var(--bg-2); color: var(--label); box-shadow: 0 0 0 3px var(--blue-ring); outline: none; min-width: 36px; text-align: right; }
+
+  /* sweep: a small round button beside every slider's name. Grey while still; in the accent
+     while the slider runs, its wave showing how: a triangle to bounce, a sawtooth to loop. */
+  .osc { width: 22px; height: 22px; min-width: 22px; margin: -3px 0; border: 0; border-radius: 50%; padding: 0; cursor: pointer;
+         display: inline-flex; align-items: center; justify-content: center; background: var(--fill-3); color: var(--label-2); transition: background-color .15s ease; }
+  .osc:hover { background: var(--fill-2); color: var(--label); }
+  .osc.on { background: var(--blue); color: #fff; }
+  .osc svg { width: 13px; height: 8px; display: block; }
+
+  /* on/off is a switch (a real checkbox underneath), green when on */
+  .check { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: var(--target); cursor: pointer; }
+  .check input { position: absolute; opacity: 0; pointer-events: none; }
+  .check + .check { border-top: 0.5px solid var(--separator); }
+  .box { width: 42px; min-width: 42px; height: 26px; border-radius: 13px; background: var(--fill); position: relative; transition: background-color .2s ease; }
+  .box::after { content: ""; position: absolute; top: 2px; left: 2px; width: 22px; height: 22px; border-radius: 50%; background: #fff;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15), 0 3px 1px rgba(0, 0, 0, 0.06); transition: transform .2s ease; }
+  .check:has(input:checked) .box { background: var(--green); }
+  .check:has(input:checked) .box::after { transform: translateX(16px); }
+  .check:has(input:focus-visible) .box { box-shadow: 0 0 0 3px var(--blue-ring); }
+
+  /* read-outs: key left, value right, hairline between */
+  .kv { display: flex; justify-content: space-between; gap: 8px; min-height: 24px; align-items: center; }
+  .kv + .kv { border-top: 0.5px solid var(--separator); }
+  .kv .val { color: var(--label-2); font-variant-numeric: tabular-nums; }
+
+  /* colour: a round well (a real colour input underneath), the hex beside it */
+  .colorrow { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: var(--target); }
+  .colorrow + .colorrow, .popup + .colorrow, .colorrow + .popup { border-top: 0.5px solid var(--separator); }
+  .cwrap { display: flex; align-items: center; gap: 8px; min-width: 0; }
+  .cwrap .val { color: var(--label-2); font-variant-numeric: tabular-nums; font-size: 11px; min-width: 52px; text-align: right; text-transform: lowercase; }
+  .well { position: relative; width: 26px; height: 26px; min-width: 26px; border-radius: 50%; overflow: hidden; cursor: pointer;
+          box-shadow: inset 0 0 0 0.5px rgba(0, 0, 0, 0.2), 0 0 0 2px var(--fill-3); }
+  .well input { position: absolute; inset: -8px; width: calc(100% + 16px); height: calc(100% + 16px); border: 0; padding: 0; cursor: pointer; opacity: 0; }
+  .well span { position: absolute; inset: 0; border-radius: 50%; }
+  .well:has(input:focus-visible) { box-shadow: inset 0 0 0 0.5px rgba(0, 0, 0, 0.2), 0 0 0 3px var(--blue-ring); }
+
+  /* menus that open from a button: glass, beside the button that opened them */
+  .menu { position: fixed; inset: auto; margin: 0; border: 0; width: 248px; padding: 12px; color: var(--label);
+          background: linear-gradient(180deg, var(--glass-sheen), transparent 80px), var(--glass);
+          -webkit-backdrop-filter: blur(24px) saturate(180%); backdrop-filter: blur(24px) saturate(180%);
+          border-radius: var(--radius-card); box-shadow: var(--glass-edge), var(--glass-shadow); }
+  .menu:popover-open { display: flex; flex-direction: column; gap: 6px; }
+  .menu .popup { min-height: 36px; }
+  .menu .pwrap { min-height: 32px; }
+  .menuhead { font-size: 11px; line-height: 14px; font-weight: 600; letter-spacing: 0.06px; text-transform: uppercase; color: var(--label-2); padding: 0 2px 4px; }
+
+  /* ------------------------------------------------------------- stage */
+  .stagewrap { position: absolute; inset: 0; overflow: hidden; }
+  /* The top bar: a floating glass capsule centred over the open canvas.
+     It has the glass rim ONLY — never --glass-shadow or any drop shadow underneath. */
+  .stagebar {
+    position: absolute; top: max(var(--margin), env(safe-area-inset-top)); left: calc(50% + 10px); transform: translateX(-50%); z-index: 3;
+    display: flex; align-items: center; gap: 10px; padding: 5px 5px 5px 14px; color: var(--label);
+    background: linear-gradient(180deg, var(--glass-sheen), transparent), var(--glass);
+    -webkit-backdrop-filter: blur(20px) saturate(180%); backdrop-filter: blur(20px) saturate(180%);
+    border-radius: 999px; box-shadow: var(--glass-edge);
+    max-width: calc(100% - 720px); white-space: nowrap;
+  }
+  .stagebar .note { font-variant-numeric: tabular-nums; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+  .stagebar .note b { color: var(--label); font-weight: 600; }
+  .stagebar .btn { height: 28px; border-radius: 999px; padding: 0 12px; }
+  /* recording: the one place red means something other than an error */
+  .btn.rec { background: var(--red); color: #fff; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .btn.rec::before { content: ""; display: inline-block; width: 7px; height: 7px; margin: 0 6px 1px 0; border-radius: 50%; background: #fff; animation: blink 1s steps(2, jump-none) infinite; }
+  @keyframes blink { 50% { opacity: 0.3; } }
+  .stage { position: absolute; inset: 0; overflow: hidden; display: flex; align-items: center; justify-content: center; background: var(--bg);
+           padding: 68px calc(var(--margin) * 2 + 300px + 24px) 40px calc(var(--margin) * 2 + 320px + 24px); }
+  .hint { position: absolute; bottom: 18px; left: calc(var(--margin) * 2 + 320px + 8px); right: calc(var(--margin) * 2 + 300px + 8px);
+          color: var(--label-2); font-size: 11px; line-height: 14px; letter-spacing: 0.06px; pointer-events: none; text-align: center; }
+  /* the content, as large as the open canvas lets its proportions be */
+  .fit { width: 100%; height: 100%; container-type: size; display: flex; align-items: center; justify-content: center; }
+  #board { --r: 1; position: relative; width: min(100cqw, calc(100cqh * var(--r))); aspect-ratio: var(--r); background: var(--canvas, var(--bg-2)); color: var(--ink, var(--label)); box-shadow: var(--glass-shadow); overflow: hidden; }
+  /* a canvas too close to the page to see (dark in dark mode, light in light mode) gets a
+     hairline in the inverse: bright round a dark canvas, dark round a light one. Set by canvasEdge(). */
+  #board[data-edge="bright"] { outline: 1px solid rgba(255, 255, 255, 0.4); }
+  #board[data-edge="dark"] { outline: 1px solid rgba(0, 0, 0, 0.2); }
+  /* the text on the canvas, set entirely by the Type and Colour controls; empty to begin with */
+  .specimen { position: absolute; inset: 8%; outline: none; overflow: hidden; overflow-wrap: break-word; white-space: pre-wrap;
+              font-family: var(--t-font); font-size: var(--t-size); line-height: var(--t-leading); letter-spacing: var(--t-tracking); text-align: var(--t-align); }
+
+  /* floating glass bits: tooltip, toast, show-UI button */
+  .float {
+    position: absolute; z-index: 6; pointer-events: none;
+    background: linear-gradient(180deg, var(--glass-sheen), transparent), var(--glass);
+    -webkit-backdrop-filter: blur(20px) saturate(180%); backdrop-filter: blur(20px) saturate(180%);
+    box-shadow: var(--glass-edge), var(--glass-shadow);
+  }
+  #toast { left: 50%; bottom: 44px; transform: translate(-50%, 8px); padding: 8px 16px; border-radius: 999px; opacity: 0; transition: opacity .2s, transform .2s; max-width: calc(100% - 32px); }
+  #toast.show { opacity: 1; transform: translate(-50%, 0); }
+  #toast.err { color: var(--red); }
+  #showUi { position: fixed; top: 12px; right: 12px; z-index: 7; display: none; opacity: 0; transition: opacity .2s; border-radius: 999px; pointer-events: auto; }
+  #showUi:hover, #showUi:focus-visible { opacity: 1; }
+
+  /* ------------------------------------------------------------ hidden UI: the content alone, edge to edge */
+  html[data-ui="off"] .col, html[data-ui="off"] .stagebar, html[data-ui="off"] .hint { display: none; }
+  html[data-ui="off"] .stage { padding: 0; }
+  html[data-ui="off"] .stagewrap { position: fixed; inset: 0; height: auto; border-radius: 0; z-index: 5; }
+  html[data-ui="off"] #board { box-shadow: none; outline: none; }
+  html[data-ui="off"] #showUi { display: block; }
+
+  /* ------------------------------------------------------------ size classes
+     Regular width: a sidebar floating either side of the canvas. Narrower:
+     both float stacked down the left. Compact: one column, canvas first, the
+     sections below it in the page, solid rather than floating. */
+  @media (max-width: 1179px) {
+    .col.left, .col.right { left: max(var(--margin), env(safe-area-inset-left)); right: auto; width: 330px; }
+    .col.left { max-height: calc(68% - var(--margin) - var(--gutter) / 2); }
+    .col.right { top: auto; bottom: max(var(--margin), env(safe-area-inset-bottom)); max-height: calc(32% - var(--margin) - var(--gutter) / 2); }
+    .stage { padding: 68px 32px 40px calc(var(--margin) * 2 + 330px + 24px); }
+    .stagebar { left: calc(50% + 185px); max-width: calc(100% - 420px); }
+    .hint { left: calc(var(--margin) * 2 + 330px + 8px); right: 24px; }
+  }
+  @media (max-width: 759px) {
+    :root { --margin: 16px; }
+    body { overflow: auto; }
+    .app { height: auto; min-height: 100vh; }
+    .body { height: auto; display: flex; flex-direction: column; gap: var(--gutter); padding: var(--margin); padding-top: max(var(--margin), env(safe-area-inset-top)); }
+    .stagewrap { position: relative; inset: auto; order: -1; flex-shrink: 0; height: 62vh; border-radius: var(--radius-glass); box-shadow: 0 0 0 0.5px var(--separator); }
+    .stage { padding: 56px 16px 32px; }
+    .stagebar { left: 50%; max-width: calc(100% - 24px); }
+    .hint { left: 16px; right: 16px; bottom: 10px; }
+    /* in the page rather than over the canvas: nothing to see through, so solid */
+    .col.left, .col.right { position: static; width: auto; height: auto; max-height: none; overflow: visible;
+      background: var(--sidebar); -webkit-backdrop-filter: none; backdrop-filter: none; transform: none; }
+    .col .panel { background: var(--card); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #toast, #showUi, .btn, .seg button, .chip, .box, .box::after, .phead::after, .osc, .val.typein { transition: none; }
+    .btn.rec::before { animation: none; }
+  }
+
+  /* ------------------------------------------------------------ this app
+     A long scrolling page rather than an artboard: the bento runs down the middle, the words and
+     the controls stay put either side of it. Colour mode is chosen on the page and starts light,
+     so the tokens above hang off html[data-theme] rather than the system setting. */
+  :root {
+    --site: 20px;     /* padding round the whole site */
+    --side: 200px;    /* room either side of the bento, where the two columns sit */
+    --round: 14px;    /* corners of the frames */
+    --margin: var(--site);
+    --colw: max(calc(var(--side) - var(--gutter)), 170px);
+  }
+  html, body { height: auto; }
+  body { overflow: visible; }
+  .app { height: auto; min-height: 100vh; }
+  .body { height: auto; padding: var(--margin) calc(var(--margin) + var(--side)); }
+  a { color: inherit; }
+
+  /* the words, plain on the page; the rail holds them, and the controls too on narrower screens */
+  .rail { position: fixed; z-index: 2; top: var(--margin); left: var(--margin); width: var(--colw); max-height: calc(100vh - var(--margin) * 2);
+          display: flex; flex-direction: column; gap: var(--gutter); pointer-events: none; }
+  .rail > * { pointer-events: auto; flex-shrink: 0; }
+  .intro { display: flex; flex-direction: column; gap: 6px; }
+  .bio { color: var(--label-2); }
+  /* side padding set so small the bento runs under the words: give them glass to sit on */
+  html[data-tight] .intro { padding: 14px; border-radius: var(--radius-card); background: var(--glass); box-shadow: var(--glass-edge);
+    -webkit-backdrop-filter: blur(24px) saturate(180%); backdrop-filter: blur(24px) saturate(180%); }
+
+  /* the controls: one glass panel, sized to what it holds */
+  .col.right { position: fixed; z-index: 2; top: var(--margin); right: var(--margin); left: auto; width: var(--colw); padding: 14px; }
+
+  /* the bento: frames placed by layout.js */
+  #board { position: relative; width: auto; aspect-ratio: auto; background: none; box-shadow: none; overflow: visible; }
+  .tile { position: absolute; overflow: hidden; border-radius: var(--round); background: var(--fill-3); }
+  .tile:focus-visible { border-radius: var(--round); outline-offset: 2px; }
+  .tile img, .tile video { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .empty { padding: 40px 0; text-align: center; }
+
+  /* hover card: as in image-experiments, centred over the frame, without the picture */
+  #tip { position: fixed; width: 280px; max-height: min(60vh, 420px); overflow-y: auto; padding: 6px; border-radius: var(--radius-glass); }
+  #tip.live { pointer-events: auto; }   /* only when there's a link to reach or text to scroll, so it never blocks its neighbours otherwise */
+  #tip .info { padding: 4px 8px 6px; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  #tip .desc { white-space: pre-line; overflow-wrap: anywhere; }
+  #tip .desc:empty { display: none; }
+  #tip a { color: var(--blue); }
+
+  #toast { position: fixed; }
+
+  /* dev mode: its own glass column at the right, the public controls moved in beside it */
+  .col.dev { position: fixed; z-index: 5; top: var(--margin); right: var(--margin); width: 300px; }
+  .stagebar { position: fixed; z-index: 5; top: var(--margin); left: calc((100% - 300px - var(--margin)) / 2); max-width: calc(100% - 340px); }
+  .hint { position: fixed; z-index: 5; left: calc((100% - 300px - var(--margin)) / 2); right: auto; bottom: 14px; transform: translateX(-50%); width: max-content; max-width: calc(100% - 340px);
+          padding: 4px 12px; border-radius: 999px; background: var(--glass); box-shadow: var(--glass-edge);
+          -webkit-backdrop-filter: blur(20px) saturate(180%); backdrop-filter: blur(20px) saturate(180%); }
+  .publicrows { display: flex; flex-direction: column; }
+
+  /* preview: the real site in a frame of that width, so its own size classes apply */
+  #preview { position: fixed; z-index: 3; inset: 0; display: flex; align-items: center; justify-content: center; background: var(--bg);
+             padding: 68px calc(var(--margin) * 2 + 300px) 24px 24px; }
+  #preview iframe { height: 100%; max-width: 100%; border: 0; background: var(--bg); border-radius: var(--radius-glass); box-shadow: 0 0 0 0.5px var(--separator), var(--glass-shadow); }
+
+  html[data-ui="off"] .rail, html[data-ui="off"] #preview { display: none; }
+  html[data-ui="off"] .body { padding: 0; }
+
+  @media (min-width: 1180px) {
+    html[data-dev="on"] .col.right { right: calc(var(--margin) + 300px + var(--gutter)); }
+  }
+  /* narrower: the words and the controls stacked down the left */
+  @media (max-width: 1179px) {
+    .body { padding-right: var(--margin); }
+    .rail { overflow-y: auto; }
+    .col.right { position: static; width: auto; max-height: none; overflow: visible; }
+  }
+  /* compact: words top left, controls top right, then the bento across the full width */
+  @media (max-width: 759px) {
+    :root { --margin: calc(var(--site) * 0.8); }
+    .body { display: block; padding: max(var(--margin), env(safe-area-inset-top)) var(--margin) var(--margin); }
+    .rail { position: static; width: auto; max-height: none; overflow: visible; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; margin-bottom: var(--gutter); }
+    html[data-tight] .intro { padding: 0; background: none; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
+    .col.right { padding: 0; background: none; -webkit-backdrop-filter: none; backdrop-filter: none; box-shadow: none; transform: none; }
+    .col.dev { left: var(--margin); right: var(--margin); top: auto; bottom: var(--margin); width: auto; max-height: 60%; }
+    .stagebar, .hint { left: 50%; max-width: calc(100% - 24px); }
+    .hint { display: none; }
+    #preview { display: none; }
+  }
+</style>
+<style id="typeStyle"></style>
+</head>
+<body>
+<div class="app">
+  <div class="body">
+    <div class="rail">
+      <!-- ============================================================
+           YOUR DESCRIPTION: edit the name and the text between these tags.
+           Add another <p class="bio">…</p> for another paragraph, and
+           <a href="https://…">words</a> for a link.
+           ============================================================ -->
+      <header class="intro">
+        <h1 class="name">Zach Reich</h1>
+        <p class="bio">Graphic designer. A sentence or two on who you are and the design you do goes here.</p>
+        <p class="bio"><a href="https://www.instagram.com/zachalligraphy/">@zachalligraphy</a></p>
+      </header>
+      <!-- ============================================================ -->
+
+      <!-- What visitors can change. Which of these show is set in dev mode: type 69420, then Enter. -->
+      <aside class="col right" id="public" aria-label="View controls">
+        <div class="rows" id="publicSliders"></div>
+        <div class="popup" data-public="order"><span class="plabel">Order</span><span class="pwrap"><span class="pvalue"></span>
+          <select data-order aria-label="Order">
+            <option value="random">Random</option><option value="chronological">Chronological</option><option value="alphabetical">Alphabetical</option>
+          </select></span></div>
+        <div class="seg" data-public="theme" data-theme-seg role="group" aria-label="Appearance">
+          <button data-value="light">Light</button><button data-value="dark">Dark</button>
+        </div>
+      </aside>
+    </div>
+
+    <main><div id="board" aria-label="Instagram posts"></div></main>
+
+    <div id="preview" hidden><iframe id="frame" title="Site preview"></iframe></div>
+    <div class="float" id="tip" role="tooltip" hidden><div class="info"><b></b><div class="desc"></div></div></div>
+    <div class="float" id="toast" role="status"></div>
+    <button class="btn float" id="showUi" title="Show the controls (H or Esc)">Show UI</button>
+
+    <!-- dev mode: nothing here shows until it's asked for -->
+    <div class="stagebar" data-dev-only hidden>
+      <div class="note" id="caption" aria-live="polite"></div>
+      <button class="btn primary" id="save" title="Write these settings to settings.json">Save</button>
+      <button class="btn" id="record" title="Record the bento as video; press again to stop and save">Record</button>
+      <button class="btn" data-hide-ui title="Hide the controls (H)">Hide UI</button>
+      <button class="btn" id="exitDev">Exit</button>
+    </div>
+    <div class="hint" data-dev-only hidden>Click a frame to edit its text · click any value to type it · H hides the controls</div>
+
+    <aside class="col dev" data-dev-only hidden aria-label="Advanced settings">
+      <section class="panel">
+        <button class="phead" aria-expanded="false"><span class="badge">1</span><span>Layout</span></button>
+        <div class="rows" id="devSliders"></div>
+        <div class="popup"><span class="plabel">Order</span><span class="pwrap"><span class="pvalue"></span>
+          <select data-order aria-label="Starting order">
+            <option value="random">Random</option><option value="chronological">Chronological</option><option value="alphabetical">Alphabetical</option>
+          </select></span></div>
+        <div class="seg" data-theme-seg role="group" aria-label="Starting appearance">
+          <button data-value="light">Light</button><button data-value="dark">Dark</button>
+        </div>
+        <div class="note">What you set here is where every visitor starts.</div>
+      </section>
+      <section class="panel">
+        <button class="phead" aria-expanded="false"><span class="badge">2</span><span>Type</span></button>
+        <div class="popup"><span class="plabel">Applies to</span><span class="pwrap"><span class="pvalue"></span>
+          <select id="tyEl" aria-label="Text to style">
+            <option value="name">Name</option><option value="bio">Description</option><option value="tipTitle">Popup title</option>
+            <option value="tipBody">Popup text</option><option value="controls">Controls</option>
+          </select></span></div>
+        <div class="popup"><span class="plabel">Typeface</span><span class="pwrap"><span class="pvalue"></span>
+          <select id="tyFont" aria-label="Typeface">
+            <option value='-apple-system, "SF Pro Display", "Helvetica Neue", sans-serif'>SF Pro</option>
+            <option value='"Helvetica Neue", Helvetica, Arial, sans-serif'>Helvetica Neue</option>
+            <option value='ui-serif, "New York", Georgia, serif'>New York</option>
+            <option value='Georgia, serif'>Georgia</option>
+            <option value='"Times New Roman", Times, serif'>Times</option>
+            <option value='ui-monospace, "SF Mono", Menlo, monospace'>SF Mono</option>
+          </select></span></div>
+        <div class="btnrow"><button class="btn" id="openFont">Open font…</button></div>
+        <div class="rows">
+          <div class="row"><div class="rowhead"><span>Size</span><span class="val" data-unit="px"></span></div><input type="range" id="tySize" min="8" max="96" step="1" aria-label="Size"></div>
+          <div class="row"><div class="rowhead"><span>Leading</span><span class="val" data-unit="×"></span></div><input type="range" id="tyLeading" min="0.6" max="3" step="0.01" aria-label="Leading"></div>
+          <div class="row"><div class="rowhead"><span>Tracking</span><span class="val" data-unit="em"></span></div><input type="range" id="tyTracking" min="-0.2" max="0.5" step="0.005" aria-label="Tracking"></div>
+          <div class="row"><div class="rowhead"><span>Weight</span><span class="val"></span></div><input type="range" id="tyWeight" min="100" max="900" step="10" aria-label="Weight"></div>
+        </div>
+        <div class="seg small" id="tyAlign" role="group" aria-label="Alignment">
+          <button data-value="left">Left</button><button data-value="center">Centre</button><button data-value="right">Right</button><button data-value="justify">Justify</button>
+        </div>
+        <label class="check"><span>Italic</span><input type="checkbox" role="switch" id="tyItalic"><span class="box"></span></label>
+        <input class="field" id="tyFeatures" placeholder="OpenType, e.g. ss01, tnum, liga 0" aria-label="OpenType features" spellcheck="false">
+        <div class="note">A font you open is saved into the project when it's running from Start.command, then published with the site.</div>
+      </section>
+      <section class="panel">
+        <button class="phead" aria-expanded="false"><span class="badge">3</span><span>Colour</span></button>
+        <div class="colorrow"><span class="plabel">Text</span><span class="cwrap"><span class="val"></span><label class="well"><span></span><input type="color" id="ink" aria-label="Text colour"></label></span></div>
+        <div class="colorrow"><span class="plabel">Canvas</span><span class="cwrap"><span class="val"></span><label class="well"><span></span><input type="color" id="canvas" aria-label="Canvas colour"></label></span></div>
+        <div class="note">Light and dark keep their own colours; these change whichever is showing.</div>
+      </section>
+      <section class="panel">
+        <button class="phead" aria-expanded="false"><span class="badge">4</span><span>Public controls</span></button>
+        <div class="publicrows" id="publicSwitches"></div>
+      </section>
+      <section class="panel" id="postsPanel">
+        <button class="phead" aria-expanded="false"><span class="badge">5</span><span>Post text</span></button>
+        <div class="popup"><span class="plabel">Post</span><span class="pwrap"><span class="pvalue"></span><select id="ovPost" aria-label="Post"></select></span></div>
+        <input class="field" id="ovTitle" placeholder="Title" aria-label="Title">
+        <textarea class="field" id="ovDesc" placeholder="Description" aria-label="Description" rows="6"></textarea>
+        <div class="btnrow"><button class="btn" id="ovReset">Use Instagram’s text</button></div>
+        <div class="note">Write a link as [words](https://…). A bare URL links itself. Text here replaces the caption until you reset it.</div>
+      </section>
+      <section class="panel">
+        <button class="phead" aria-expanded="false"><span class="badge">6</span><span>Preview</span></button>
+        <div class="seg small" id="previewSeg" role="group" aria-label="Preview size">
+          <button class="on" data-w="0">Desktop</button><button data-w="820">Tablet</button><button data-w="390">Mobile</button>
+        </div>
+        <div class="note">The real site at that width, with live changes from these panels.</div>
+      </section>
+    </aside>
+  </div>
+</div>
+<!-- the one sweep menu, opened beside whichever slider's button was pressed -->
+<div class="menu" id="sweep" popover>
+  <div class="menuhead" id="sweepName"></div>
+  <div class="seg small" id="sweepMode" role="group" aria-label="Sweep">
+    <button data-mode="off">Off</button><button data-mode="bounce">Bounce</button><button data-mode="loop">Loop</button>
+  </div>
+  <div class="popup"><span class="plabel">Interpolation</span><span class="pwrap"><span class="pvalue"></span>
+    <select id="sweepEase" aria-label="Interpolation">
+      <option value="linear">Linear</option><option value="inout" selected>Ease in-out</option><option value="in">Ease in</option>
+      <option value="out">Ease out</option><option value="sine">Sine</option>
+    </select></span></div>
+  <div class="popup"><span class="plabel">Duration</span><span class="pwrap"><span class="pvalue"></span>
+    <select id="sweepDur" aria-label="Duration of one sweep">
+      <option value="0.5">0.5 s</option><option value="1">1 s</option><option value="2" selected>2 s</option><option value="4">4 s</option>
+      <option value="8">8 s</option><option value="16">16 s</option><option value="30">30 s</option>
+    </select></span></div>
+</div>
+<script type="module">
+import { parseCaption, parseRich, sequence, pack } from './layout.js';
+const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+const clamp = (v, a, b) => v < a ? a : v > b ? b : v;
+const root = document.documentElement;
+const embedded = new URLSearchParams(location.search).has('embed');   // inside the preview frame
+
+// ---------- settings
+// settings.json is what dev mode's Save writes; what's left out comes from here.
+const SF = '-apple-system, "SF Pro Display", "Helvetica Neue", sans-serif';
+const DEFAULTS = {
+  scale: 100, irregularity: 60, grouping: 70, gap: 8, rounding: 14, side: 200, site: 20,
+  order: 'random', theme: 'light',
+  public: { scale: true, irregularity: true, grouping: true, gap: false, rounding: false, side: false, site: false, order: true, theme: true },
+  type: {
+    name: { font: SF, size: 15, leading: 1.33, tracking: -0.005, weight: 600, align: 'left', italic: false, features: '' },
+    bio: { font: SF, size: 13, leading: 1.23, tracking: -0.006, weight: 400, align: 'left', italic: false, features: '' },
+    tipTitle: { font: SF, size: 13, leading: 1.23, tracking: -0.006, weight: 600, align: 'left', italic: false, features: '' },
+    tipBody: { font: SF, size: 13, leading: 1.23, tracking: -0.006, weight: 400, align: 'left', italic: false, features: '' },
+    controls: { font: SF, size: 13, leading: 1.23, tracking: -0.006, weight: 400, align: 'left', italic: false, features: '' },
+  },
+  colors: { light: {}, dark: {} },
+  fonts: [],       // { name, family, src }: fonts opened in dev mode, saved in the project
+  overrides: {},   // post id → { title, desc }
+};
+const HOUSE_COLORS = { light: { ink: '#000000', canvas: '#f2f2f7' }, dark: { ink: '#ffffff', canvas: '#000000' } };
+const merge = (a, b) => {
+  const out = structuredClone(a);
+  for (const k in b) out[k] = b[k] && typeof b[k] === 'object' && !Array.isArray(b[k]) && out[k] ? merge(out[k], b[k]) : b[k];
+  return out;
+};
+const json = (url, or) => fetch(url).then(r => r.ok ? r.json() : or).catch(() => or);
+const [saved, data] = await Promise.all([json('settings.json', {}), json('posts.json', null)]);
+let cfg = merge(DEFAULTS, saved), seed = crypto.getRandomValues(new Uint32Array(1))[0], dev = false, dirty = false;
+
+// ---------- sliders
+// The same slider can show in both the public panel and dev mode's Layout panel; they stay in step.
+const SLIDERS = {
+  scale: ['Scale', 40, 300, 1, '%'], irregularity: ['Irregularity', 0, 100, 1, '%'], grouping: ['Grouping', 0, 100, 1, '%'],
+  gap: ['Frame padding', 0, 48, 1, 'px'], rounding: ['Corner rounding', 0, 60, 1, 'px'],
+  side: ['Side padding', 0, 480, 1, 'px'], site: ['Site padding', 0, 80, 1, 'px'],
+};
+const NAMES = { ...Object.fromEntries(Object.entries(SLIDERS).map(([k, s]) => [k, s[0]])), order: 'Order', theme: 'Light and dark' };
+function sliderRow(key) {
+  const [label, min, max, step, unit] = SLIDERS[key], d = document.createElement('div');
+  d.className = 'row'; d.dataset.public = key;
+  d.innerHTML = `<div class="rowhead"><span>${label}</span><span class="val" data-unit="${unit}"></span></div>
+    <input type="range" data-key="${key}" min="${Math.min(min, cfg[key])}" max="${Math.max(max, cfg[key])}" step="${step}" value="${cfg[key]}" aria-label="${label}">`;
+  return d;
+}
+for (const key in SLIDERS) {
+  $('#publicSliders').append(sliderRow(key));
+  $('#devSliders').append(sliderRow(key));
+}
+for (const key in NAMES) {
+  const l = document.createElement('label');
+  l.className = 'check';
+  l.innerHTML = `<span>${NAMES[key]}</span><input type="checkbox" role="switch" data-pub="${key}"><span class="box"></span>`;
+  $('#publicSwitches').append(l);
+}
+
+// slider fill and read-out follow the value (not while the read-out is being typed into)
+const fill = r => {
+  r.style.setProperty('--p', `${(r.value - r.min) / (r.max - r.min) * 100}%`);
+  const v = r.closest('.row')?.querySelector('.val');
+  if (!v || v.classList.contains('editing')) return;
+  const n = +(+r.value).toFixed(3), u = v.dataset.unit;
+  v.textContent = !u ? n : u === '×' || u === '%' ? `${n}${u}` : `${n} ${u}`;
+};
+$$('input[type=range]').forEach(r => { fill(r); r.addEventListener('input', () => fill(r)); });
+// segmented controls: one on at a time
+const segSet = (s, value) => s.querySelectorAll('button').forEach(x => x.classList.toggle('on', x.dataset.value === value));
+$$('.seg').forEach(s => s.addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; s.querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b)); }));
+// pop-up menus show their choice
+const showChoice = sel => sel.parentElement.querySelector('.pvalue').textContent = sel.selectedOptions[0]?.text ?? '';
+$$('.pwrap select').forEach(sel => { showChoice(sel); sel.addEventListener('change', () => showChoice(sel)); });
+// panels open and close from their heads; all start closed
+$$('.panel > .phead').forEach(h => h.addEventListener('click', () => h.setAttribute('aria-expanded', h.closest('.panel').classList.toggle('open'))));
+
+// ---------- the posts
+const board = $('#board');
+const posts = (data?.posts ?? []).filter(p => p.media?.length);
+const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+// videos play only while they're on screen, and load nothing until then
+const inView = new IntersectionObserver(es => es.forEach(e => e.isIntersecting && !reduced.matches ? e.target.play().catch(() => {}) : e.target.pause()));
+function makeTile(m) {
+  const el = document.createElement('div');
+  el.className = 'tile'; el.tabIndex = 0; el.setAttribute('role', 'img');
+  if (m.type === 'video') {
+    const v = Object.assign(document.createElement('video'), { muted: true, loop: true, playsInline: true, preload: 'none', src: m.src, poster: m.poster ?? '' });
+    el.append(v); inView.observe(v);
+  } else {
+    el.append(Object.assign(document.createElement('img'), { src: m.src, alt: '', loading: 'lazy', decoding: 'async' }));
+  }
+  return el;
+}
+for (const p of posts) {
+  p.frames = p.media.map(m => ({ id: m.id, post: p, aspect: m.w / m.h || 1, el: makeTile(m) }));
+  p.frames.forEach(f => { f.el.frame = f; board.append(f.el); });
+}
+// A post's words: your override where there is one, otherwise from its caption
+function retitle() {
+  for (const p of posts) {
+    const o = parseCaption(p.caption), v = cfg.overrides[p.id] ?? {};
+    p.title = v.title ?? o.title; p.desc = v.desc ?? o.desc;
+    p.frames.forEach(f => f.el.setAttribute('aria-label', p.title || 'Post'));
+  }
+}
+if (!posts.length) board.innerHTML = `<p class="note empty">${data ? 'No posts yet.' : 'Couldn’t load the posts.'}</p>`;
+
+// ---------- the bento
+const MIN_FRAME = 76;   // px: the smallest a frame can be, on any screen
+let queued = 0;
+function layout() {
+  queued = 0;
+  const W = board.clientWidth, n = posts.length;
+  if (!W || !n) return;
+  const gap = cfg.gap;
+  // An average frame's width at 100%: most of the screen on a phone, about a quarter on a desktop
+  const base = cfg.scale / 100 * (120 + 0.14 * W);
+  const cols = Math.max(6, Math.round((W + gap) / (base / 6))), u = (W + gap) / cols;
+  const group = cfg.grouping / 100;
+  const { tiles, rows } = pack(sequence(posts, { order: cfg.order, group, seed }), {
+    cols, group, seed, irr: cfg.irregularity / 100, maxRows: Math.floor(innerHeight * 0.92 / u),
+    min: Math.max(2, Math.ceil(MIN_FRAME / u)),
+  });
+  for (const t of tiles) {
+    const s = t.f.el.style;
+    s.left = `${t.x * u}px`; s.top = `${t.y * u}px`;
+    s.width = `${t.w * u - gap}px`; s.height = `${t.h * u - gap}px`;
+  }
+  board.style.height = `${rows * u - gap}px`;
+}
+const layoutSoon = () => queued ||= requestAnimationFrame(layout);
+new ResizeObserver(layoutSoon).observe(board);
+
+// ---------- applying the settings
+// "ss01, tnum, liga 0" in the field, with or without quotes, to what CSS wants
+const features = text => text.trim() ? text.replace(/["']/g, '').replace(/\b[a-z0-9]{4}\b/gi, '"$&"') : 'normal';
+const SELECTOR = { name: '.name', bio: '.bio', tipTitle: '#tip b', tipBody: '#tip .desc', controls: '#public' };
+function apply() {
+  root.dataset.theme = cfg.theme;
+  root.style.colorScheme = cfg.theme;
+  root.style.setProperty('--site', `${cfg.site}px`);
+  root.style.setProperty('--side', `${cfg.side}px`);
+  root.style.setProperty('--round', `${cfg.rounding}px`);
+  root.toggleAttribute('data-tight', cfg.side < 170 + 12);
+  const c = cfg.colors[cfg.theme];
+  c.ink ? root.style.setProperty('--label', c.ink) : root.style.removeProperty('--label');
+  c.canvas ? root.style.setProperty('--bg', c.canvas) : root.style.removeProperty('--bg');
+  $('#typeStyle').textContent = Object.entries(cfg.type).map(([k, t]) => `${SELECTOR[k]} { font-family: ${t.font}; font-size: ${t.size}px; line-height: ${t.leading}; letter-spacing: ${t.tracking}em; font-weight: ${t.weight}; text-align: ${t.align}; font-style: ${t.italic ? 'italic' : 'normal'}; font-feature-settings: ${features(t.features)}; }`).join('\n');
+  $$('#public [data-public]').forEach(el => el.hidden = !cfg.public[el.dataset.public]);
+  $('#public').hidden = !Object.values(cfg.public).some(Boolean);
+  layoutSoon();
+  sendToFrame();
+}
+function touch() {   // something changed that Save would keep
+  dirty = true; showCaption(); apply();
+}
+
+// fonts opened in dev mode and saved with the site
+const fontsLoaded = new Set();
+function loadFonts() {
+  for (const f of cfg.fonts) {
+    if (fontsLoaded.has(f.family) || !f.src) continue;
+    fontsLoaded.add(f.family);
+    new FontFace(f.family, `url(${JSON.stringify(f.src)})`).load().then(x => document.fonts.add(x)).catch(() => toast(`Couldn’t load ${f.name}`, true));
+    addFontOption(f);
+  }
+}
+function addFontOption(f) {
+  const v = `"${f.family}", sans-serif`;
+  if (![...$('#tyFont').options].some(o => o.value === v)) $('#tyFont').add(new Option(f.name, v));
+}
+
+// every control shows what's in the settings
+function showControls() {
+  $$('input[data-key]').forEach(r => {
+    r.min = Math.min(r.min, cfg[r.dataset.key]); r.max = Math.max(r.max, cfg[r.dataset.key]);
+    r.value = cfg[r.dataset.key]; fill(r);
+  });
+  $$('[data-order]').forEach(s => { s.value = cfg.order; showChoice(s); });
+  $$('[data-theme-seg]').forEach(s => segSet(s, cfg.theme));
+  $$('[data-pub]').forEach(i => i.checked = cfg.public[i.dataset.pub]);
+  showWells(); showType();
+}
+
+// ---------- controls
+$$('input[data-key]').forEach(r => r.addEventListener('input', () => {
+  const key = r.dataset.key;
+  cfg[key] = +r.value;
+  $$(`input[data-key="${key}"]`).forEach(o => { if (o !== r) { o.min = r.min; o.max = r.max; o.step = r.step; o.value = r.value; fill(o); } });
+  touch();
+}));
+$$('[data-order]').forEach(s => s.addEventListener('change', () => { cfg.order = s.value; showControls(); touch(); }));
+$$('[data-theme-seg]').forEach(s => s.addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  cfg.theme = b.dataset.value; showControls(); touch();
+}));
+$$('[data-pub]').forEach(i => i.addEventListener('change', () => { cfg.public[i.dataset.pub] = i.checked; touch(); }));
+
+// type: applies to the chosen piece of text
+const ty = () => cfg.type[$('#tyEl').value];
+function showType() {
+  const t = ty();
+  $('#tyFont').value = t.font; showChoice($('#tyFont'));
+  for (const [id, key] of [['#tySize', 'size'], ['#tyLeading', 'leading'], ['#tyTracking', 'tracking'], ['#tyWeight', 'weight']]) {
+    const r = $(id);
+    r.min = Math.min(r.min, t[key]); r.max = Math.max(r.max, t[key]); r.value = t[key]; fill(r);
+  }
+  segSet($('#tyAlign'), t.align);
+  $('#tyItalic').checked = t.italic;
+  $('#tyFeatures').value = t.features;
+}
+$('#tyEl').addEventListener('change', showType);
+$('#tyFont').addEventListener('change', e => { ty().font = e.target.value; touch(); });
+for (const [id, key] of [['#tySize', 'size'], ['#tyLeading', 'leading'], ['#tyTracking', 'tracking'], ['#tyWeight', 'weight']]) {
+  $(id).addEventListener('input', e => { ty()[key] = +e.target.value; touch(); });
+}
+$('#tyAlign').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { ty().align = b.dataset.value; touch(); } });
+$('#tyItalic').addEventListener('change', e => { ty().italic = e.target.checked; touch(); });
+$('#tyFeatures').addEventListener('input', e => { ty().features = e.target.value; touch(); });
+// A local font joins the list. It's saved into the project (otf/, woff2/ …) so it can be published.
+const fontFile = Object.assign(document.createElement('input'), { type: 'file', accept: '.otf,.ttf,.woff,.woff2' });
+$('#openFont').addEventListener('click', () => fontFile.click());
+fontFile.addEventListener('change', async () => {
+  const file = fontFile.files[0]; if (!file) return;
+  const name = file.name.replace(/\.[^.]+$/, ''), family = `user-${Date.now()}`;
+  try {
+    document.fonts.add(await new FontFace(family, await file.arrayBuffer()).load());
+  } catch { return toast(`Couldn’t read ${file.name}`, true); }
+  const src = await saveFile(file, file.name.replace(/[^A-Za-z0-9 ._-]/g, '-').replace(/^[^A-Za-z0-9]+/, ''));
+  const f = { name, family, src };
+  if (src) cfg.fonts.push(f); else toast(`${name} works here until you reload. Run Start.command to keep it.`);
+  fontsLoaded.add(family); addFontOption(f);
+  ty().font = `"${family}", sans-serif`; showType(); touch();
+});
+
+// colour: light and dark keep their own
+const wellValue = inp => cfg.colors[cfg.theme][inp.id] ?? HOUSE_COLORS[cfg.theme][inp.id];
+function showWell(inp) {
+  const row = inp.closest('.cwrap'), v = row.querySelector('.val');
+  row.querySelector('.well span').style.background = inp.value;
+  if (!v.classList.contains('editing')) v.textContent = inp.value;
+}
+function showWells() { $$('.well input').forEach(inp => { inp.value = wellValue(inp); showWell(inp); }); }
+$$('.well input').forEach(inp => inp.addEventListener('input', () => {
+  cfg.colors[cfg.theme][inp.id] = inp.value; showWell(inp); touch();
+}));
+
+// post text overrides
+const byNewest = [...posts].sort((a, b) => String(b.timestamp).localeCompare(String(a.timestamp)));
+const ovPost = () => posts.find(p => p.id === $('#ovPost').value);
+function showOverride() {
+  const p = ovPost(); if (!p) return;
+  $('#ovTitle').value = p.title; $('#ovDesc').value = p.desc;
+  showChoice($('#ovPost'));
+}
+function listPosts() {
+  const at = $('#ovPost').value;
+  $('#ovPost').replaceChildren(...byNewest.map(p => new Option(p.title || '(no title)', p.id)));
+  if (at) $('#ovPost').value = at;
+  showOverride();
+}
+$('#ovPost').addEventListener('change', showOverride);
+const writeOverride = () => {
+  const p = ovPost(); if (!p) return;
+  cfg.overrides[p.id] = { title: $('#ovTitle').value, desc: $('#ovDesc').value };
+  retitle(); $('#ovPost').selectedOptions[0].text = p.title || '(no title)'; showChoice($('#ovPost')); touch();
+};
+$('#ovTitle').addEventListener('input', writeOverride);
+$('#ovDesc').addEventListener('input', writeOverride);
+$('#ovReset').addEventListener('click', () => {
+  const p = ovPost(); if (!p) return;
+  delete cfg.overrides[p.id]; retitle(); listPosts(); touch();
+});
+
+// ---------- the hover card
+const tip = $('#tip');
+let tipTile = null, tipHide = 0;
+function richNodes(text) {
+  return parseRich(text).map(({ text, href }) => {
+    if (!href) return document.createTextNode(text);
+    return Object.assign(document.createElement('a'), { href, textContent: text, target: '_blank', rel: 'noopener' });
+  });
+}
+function showTip(el) {
+  clearTimeout(tipHide);
+  if (el === tipTile && !tip.hidden) return;
+  const { title, desc } = el.frame.post;
+  if (!title && !desc) return hideTip();
+  tipTile = el;
+  tip.querySelector('b').textContent = title;
+  tip.querySelector('.desc').replaceChildren(...richNodes(desc));
+  tip.hidden = false; tip.scrollTop = 0;
+  tip.classList.toggle('live', !!tip.querySelector('a') || tip.scrollHeight > tip.clientHeight);
+  // centred on the frame, kept on the screen
+  const r = el.getBoundingClientRect(), t = tip.getBoundingClientRect();
+  tip.style.left = `${clamp(r.left + r.width / 2 - t.width / 2, 8, innerWidth - t.width - 8)}px`;
+  tip.style.top = `${clamp(r.top + r.height / 2 - t.height / 2, 8, innerHeight - t.height - 8)}px`;
+}
+function hideTip() { clearTimeout(tipHide); tip.hidden = true; tipTile = null; }
+const hideSoon = () => { clearTimeout(tipHide); tipHide = setTimeout(hideTip, 120); };   // time to reach a link in the card
+board.addEventListener('pointerover', e => {
+  if (e.pointerType === 'touch') return;
+  const el = e.target.closest('.tile');
+  el ? showTip(el) : hideSoon();
+});
+board.addEventListener('pointerleave', e => { if (e.pointerType !== 'touch') hideSoon(); });
+tip.addEventListener('pointerenter', () => clearTimeout(tipHide));
+tip.addEventListener('pointerleave', hideSoon);
+board.addEventListener('focusin', e => { if (e.target.matches(':focus-visible')) showTip(e.target); });
+board.addEventListener('focusout', hideSoon);
+tip.addEventListener('focusin', () => clearTimeout(tipHide));
+addEventListener('scroll', hideTip, { passive: true });
+// a tap has no hover: it shows the card, and tapping again or elsewhere puts it away.
+// In dev mode a click picks that post in the Post text panel instead.
+board.addEventListener('click', e => {
+  const el = e.target.closest('.tile');
+  if (!el) return hideTip();
+  if (dev) pickPost(el.frame.post);
+  else if (lastPointer === 'touch') el === tipTile && !tip.hidden ? hideTip() : showTip(el);
+});
+tip.addEventListener('click', e => { if (dev && tipTile && !e.target.closest('a')) pickPost(tipTile.frame.post); });
+function pickPost(p) {
+  $('#ovPost').value = p.id; showOverride();
+  const panel = $('#postsPanel');
+  if (!panel.classList.contains('open')) panel.querySelector('.phead').click();
+  panel.scrollIntoView({ block: 'nearest' });
+}
+let lastPointer = '';   // read here because not every browser says on the click itself
+addEventListener('pointerdown', e => {
+  lastPointer = e.pointerType;
+  if (e.pointerType === 'touch' && !e.target.closest('.tile, #tip')) hideTip();
+});
+
+// ---------- dev mode: type 69420, then Enter
+// Not a password: it only opens the panels, and changes stay in this browser unless saved into the
+// project and published. The page holds no secrets for anyone to find.
+let typed = '';
+addEventListener('keydown', e => {
+  if (embedded || e.target.closest('input:not([type=range]), textarea, select, [contenteditable]:not([contenteditable="false"])')) return;
+  if (/^\d$/.test(e.key)) { typed = (typed + e.key).slice(-5); return; }
+  if (e.key === 'Enter' && typed === '69420') { e.preventDefault(); setDev(!dev); }
+  if (e.key !== 'Shift') typed = '';
+});
+function setDev(on) {
+  dev = on;
+  root.dataset.dev = on ? 'on' : '';
+  $$('[data-dev-only]').forEach(el => el.hidden = !on);
+  on ? sessionStorage.setItem('dev', '1') : sessionStorage.removeItem('dev');
+  if (!on) setPreview(0);
+  showCaption();
+  if (on) toast('Dev mode');
+}
+function showCaption() {
+  const frames = posts.reduce((n, p) => n + p.frames.length, 0);
+  $('#caption').innerHTML = `<b>Dev mode</b> · ${posts.length} posts · ${frames} frames${data?.sample ? ' · sample data' : ''}${dirty ? ' · unsaved' : ''}`;
+}
+$('#exitDev').addEventListener('click', () => setDev(false));
+addEventListener('beforeunload', e => { if (dev && dirty) e.preventDefault(); });
+// Running from Start.command this writes settings.json. On the published site, where there's
+// nowhere to write, it downloads the file to put in the project.
+$('#save').addEventListener('click', async () => {
+  const body = JSON.stringify(cfg, null, 2) + '\n';
+  let ok = false;
+  try { ok = (await fetch('/__settings', { method: 'POST', headers: { 'X-Save': '1' }, body })).ok; } catch {}
+  if (ok) toast('Saved settings.json. Publish it to show visitors.');
+  else await saveFile(new Blob([body], { type: 'application/json' }), 'settings.json');
+  dirty = false; showCaption();
+});
+
+// ---------- preview: the site itself in a frame, so its media queries see that width
+const frame = $('#frame');
+let frameWidth = 0;
+function setPreview(w) {
+  frameWidth = w;
+  $('#preview').hidden = !w;
+  $$('#previewSeg button').forEach(b => b.classList.toggle('on', +b.dataset.w === w));
+  if (!w) return;
+  frame.style.width = `${w}px`; frame.style.maxHeight = w < 760 ? '844px' : '1180px';
+  if (!frame.getAttribute('src')) frame.src = '?embed';
+}
+$('#previewSeg').addEventListener('click', e => { const b = e.target.closest('button'); if (b) setPreview(+b.dataset.w); });
+function sendToFrame() { if (frameWidth && frame.contentWindow) frame.contentWindow.postMessage({ cfg, seed }, location.origin); }
+addEventListener('message', e => {
+  if (e.origin !== location.origin) return;
+  if (e.data.ready) return sendToFrame();
+  if (embedded && e.data.cfg) { cfg = e.data.cfg; seed = e.data.seed; loadFonts(); retitle(); showControls(); apply(); }
+});
+
+// ---------- typed values
+// Every value beside a slider or colour can be clicked (or tabbed to) and typed into. Enter or
+// leaving it sets the value, Esc puts it back, ↑/↓ nudge by a step (⇧ by ten). A number past
+// either end of the slider widens the slider to reach it.
+function typein(el, { get, set, nudge }) {
+  el.classList.add('typein'); el.tabIndex = 0; el.setAttribute('role', 'textbox');
+  let before = null;
+  const begin = () => {
+    if (before !== null) return;
+    before = el.textContent; el.textContent = get();
+    el.contentEditable = 'plaintext-only'; el.classList.add('editing'); el.focus();
+    getSelection().selectAllChildren(el);
+  };
+  const end = commit => {
+    if (before === null) return;
+    const text = el.textContent.trim();
+    el.contentEditable = 'false'; el.classList.remove('editing'); el.textContent = before; before = null;
+    if (commit) set(text);
+  };
+  el.addEventListener('focus', begin);
+  el.addEventListener('click', begin);
+  el.addEventListener('blur', () => end(true));
+  el.addEventListener('keydown', e => {
+    if (e.key === 'Enter') { e.preventDefault(); el.blur(); }
+    else if (e.key === 'Escape') { e.stopPropagation(); end(false); el.blur(); }
+    else if (nudge && (e.key === 'ArrowUp' || e.key === 'ArrowDown')) {
+      e.preventDefault(); nudge((e.key === 'ArrowUp' ? 1 : -1) * (e.shiftKey ? 10 : 1));
+      el.textContent = get(); getSelection().selectAllChildren(el);
+    }
+  });
+}
+const setRange = (r, n) => {
+  if (!isFinite(n)) return;
+  stopSweep(r);
+  if (n < +r.min) r.min = n;
+  if (n > +r.max) r.max = n;
+  const step = +r.step || 0;
+  if (step && Math.abs((n - r.min) / step - Math.round((n - r.min) / step)) > 1e-6) r.step = 'any';
+  r.value = n; r.dispatchEvent(new Event('input'));
+};
+$$('.row').forEach(row => {
+  const r = row.querySelector('input[type=range]'), v = row.querySelector('.rowhead .val');
+  if (!r || !v) return;
+  typein(v, {
+    get: () => String(+(+r.value).toFixed(3)),
+    set: text => setRange(r, parseFloat(text.replace(',', '.'))),
+    nudge: k => setRange(r, +(+r.value + k * (+r.step || (r.max - r.min) / 100)).toFixed(6)),
+  });
+});
+$$('.well input').forEach(inp => typein(inp.closest('.cwrap').querySelector('.val'), {
+  get: () => inp.value,
+  set: text => {
+    let h = text.trim().toLowerCase().replace(/^#?/, '#');
+    if (/^#[0-9a-f]{3}$/.test(h)) h = '#' + [...h.slice(1)].map(c => c + c).join('');
+    if (/^#[0-9a-f]{6}$/.test(h)) { inp.value = h; inp.dispatchEvent(new Event('input')); }
+  },
+}));
+
+// ---------- sweeps
+// Every slider can run on its own: the round button beside its name opens a menu to bounce it
+// from one end to the other and back, or loop it from start to end, through the chosen
+// interpolation, with the chosen duration per sweep. It starts from where the slider is.
+// Moving the slider by hand or typing its value stops it.
+const EASE = {
+  linear: x => x,
+  inout: x => x < 0.5 ? 4 * x ** 3 : 1 - (-2 * x + 2) ** 3 / 2,
+  in: x => x ** 3,
+  out: x => 1 - (1 - x) ** 3,
+  sine: x => (1 - Math.cos(Math.PI * x)) / 2,
+};
+const WAVE = {
+  bounce: '<svg viewBox="0 0 13 8" aria-hidden="true"><path d="M1 6.5 4 1.5 7 6.5 10 1.5 12 4.8" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  loop: '<svg viewBox="0 0 13 8" aria-hidden="true"><path d="M1 6.5 6 1.5V6.5L11 1.5V6.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+};
+const sweeps = new Map();   // range → { mode: off | bounce | loop, ease, dur, p, btn }
+const menu = $('#sweep');
+let current = null, raf = 0, last = 0;
+// where in the sweep the slider is now: invert the easing at its position, by halving
+function phaseOf(r, s) {
+  const x = clamp((r.value - r.min) / (r.max - r.min), 0, 1), f = EASE[s.ease];
+  let lo = 0, hi = 1;
+  for (let i = 0; i < 30; i++) { const m = (lo + hi) / 2; if (f(m) < x) lo = m; else hi = m; }
+  return (lo + hi) / 2;
+}
+function showSweep(r) {
+  const s = sweeps.get(r);
+  s.btn.classList.toggle('on', s.mode !== 'off');
+  s.btn.innerHTML = WAVE[s.mode === 'loop' ? 'loop' : 'bounce'];
+  s.btn.setAttribute('aria-label', `${r.getAttribute('aria-label')}: ${s.mode === 'off' ? 'still' : s.mode}`);
+  if (menu.matches(':popover-open') && current === r) $$('#sweepMode button').forEach(b => b.classList.toggle('on', b.dataset.mode === s.mode));
+}
+function setSweep(r, mode) {
+  const s = sweeps.get(r);
+  s.mode = mode;
+  if (mode !== 'off') s.p = phaseOf(r, s);
+  showSweep(r); run();
+}
+function stopSweep(r) { if (sweeps.get(r)?.mode !== 'off') setSweep(r, 'off'); }
+function run() {
+  if (raf || ![...sweeps.values()].some(s => s.mode !== 'off')) return;
+  last = performance.now(); raf = requestAnimationFrame(tick);
+}
+function tick(now) {
+  const dt = clamp((now - last) / 1000, 0, 0.1); last = now;   // a frame's time can predate the start
+  let any = false;
+  for (const [r, s] of sweeps) {
+    if (s.mode === 'off') continue;
+    any = true;
+    s.p += dt / s.dur;
+    let u;
+    if (s.mode === 'bounce') { s.p %= 2; u = s.p < 1 ? s.p : 2 - s.p; } else { s.p %= 1; u = s.p; }
+    r.value = +r.min + (r.max - r.min) * EASE[s.ease](u);
+    r.dispatchEvent(new Event('input'));
+  }
+  raf = any ? requestAnimationFrame(tick) : 0;
+}
+function openSweep(r) {
+  const s = sweeps.get(r);
+  current = r;
+  $('#sweepName').textContent = r.getAttribute('aria-label');
+  $('#sweepEase').value = s.ease; $('#sweepDur').value = s.dur;
+  showChoice($('#sweepEase')); showChoice($('#sweepDur'));
+  menu.showPopover(); showSweep(r);
+  const b = s.btn.getBoundingClientRect(), m = menu.getBoundingClientRect();
+  menu.style.left = `${clamp(b.left - 12, 8, innerWidth - m.width - 8)}px`;
+  menu.style.top = `${b.bottom + 8 + m.height > innerHeight - 8 ? b.top - 8 - m.height : b.bottom + 8}px`;
+}
+$$('.row').forEach(row => {
+  const r = row.querySelector('input[type=range]'), lab = row.querySelector('.rowhead > span:first-child');
+  if (!r || !lab) return;
+  const btn = document.createElement('button');
+  btn.className = 'osc'; btn.title = 'Bounce or loop this slider';
+  lab.classList.add('lab'); lab.append(btn);
+  sweeps.set(r, { mode: 'off', ease: 'inout', dur: 2, p: 0, btn });
+  showSweep(r);
+  // a press on the button while its menu is open closes the menu (light dismiss); don't reopen it
+  btn.addEventListener('pointerdown', () => btn.wasOpen = menu.matches(':popover-open') && current === r);
+  btn.addEventListener('click', () => { if (!btn.wasOpen) openSweep(r); btn.wasOpen = false; });
+  r.addEventListener('input', e => { if (e.isTrusted) stopSweep(r); });
+});
+$('#sweepMode').addEventListener('click', e => { const b = e.target.closest('button'); if (b && current) setSweep(current, b.dataset.mode); });
+$('#sweepEase').addEventListener('change', e => {
+  const s = sweeps.get(current); s.ease = e.target.value;
+  if (s.mode !== 'off') s.p = s.mode === 'bounce' && s.p >= 1 ? 2 - phaseOf(current, s) : phaseOf(current, s);
+});
+$('#sweepDur').addEventListener('change', e => { sweeps.get(current).dur = +e.target.value; });
+
+// ---------- saving
+// Every export lands in the project, in a folder named for its type (png/, jpg/, svg/, mp4/ …),
+// through serve.py's save endpoint, named for the app and the moment so nothing is overwritten.
+// Opened any other way (a plain server, the file system), it falls back to a download.
+const slug = () => (document.title || 'export').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+const stamp = () => { const d = new Date(), p = n => String(n).padStart(2, '0'); return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}-${p(d.getHours())}${p(d.getMinutes())}${p(d.getSeconds())}`; };
+async function saveFile(blob, name) {
+  if (location.protocol.startsWith('http')) {
+    try {
+      const r = await fetch(`/__save/${encodeURIComponent(name)}`, { method: 'POST', headers: { 'X-Save': '1' }, body: blob });
+      if (r.ok) { const { path } = await r.json(); toast(`Saved ${path}`); return path; }
+    } catch {}
+  }
+  const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(blob), download: name });
+  a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+  toast(`Downloaded ${name} (run serve.py to save into the project)`);
+}
+
+// ---------- recording
+// Record captures the canvas as video until it's pressed again, then saves it into mp4/ (or
+// webm/ where the browser can't make mp4). A board drawn in canvases (one, or a WebGL scene with
+// a 2D layer over it) is copied into the recording every frame, so a still canvas still records;
+// any other board is captured from this tab, cropped to the board, which Chrome asks to share
+// first.
+const VIDEO = ['video/mp4;codecs=avc1', 'video/mp4', 'video/webm;codecs=vp9', 'video/webm'];
+const rec = { r: null, t0: 0, timer: 0 };
+function compositeStream(layers) {
+  const out = document.createElement('canvas'), g = out.getContext('2d');
+  let on = true;
+  (function draw() {
+    if (!on) return;
+    const { width, height } = layers[0];
+    if (out.width !== width || out.height !== height) { out.width = width; out.height = height; }
+    g.clearRect(0, 0, width, height);
+    for (const c of layers) if (c.width && c.height) g.drawImage(c, 0, 0, width, height);
+    requestAnimationFrame(draw);
+  })();
+  return Object.assign(out.captureStream(60), { done: () => on = false });
+}
+async function boardStream() {
+  const layers = [...board.querySelectorAll('canvas')];
+  if (layers.length) return compositeStream(layers);
+  if (!navigator.mediaDevices?.getDisplayMedia || !window.CropTarget) throw new Error('This browser can only record a <canvas> board');
+  const s = await navigator.mediaDevices.getDisplayMedia({ video: { frameRate: 60 }, audio: false, preferCurrentTab: true });
+  await s.getVideoTracks()[0].cropTo(await CropTarget.fromElement(board));
+  return s;
+}
+async function startRecording(name = slug()) {
+  if (rec.r) return;
+  if (!window.MediaRecorder) return toast('This browser can’t record', true);
+  let stream;
+  try { stream = await boardStream(); } catch (e) { return toast(e.message, true); }
+  const type = VIDEO.find(t => MediaRecorder.isTypeSupported(t));
+  const r = new MediaRecorder(stream, { mimeType: type, videoBitsPerSecond: 16e6 }), parts = [];
+  r.ondataavailable = e => e.data.size && parts.push(e.data);
+  r.onstop = () => {
+    stream.done?.(); stream.getTracks().forEach(t => t.stop());
+    if (!parts.length) return toast('Nothing was recorded', true);
+    saveFile(new Blob(parts, { type: type.split(';')[0] }), `${name}-${stamp()}.${type.startsWith('video/mp4') ? 'mp4' : 'webm'}`);
+  };
+  stream.getVideoTracks()[0].addEventListener('ended', stopRecording);   // sharing stopped from the browser's own bar
+  rec.r = r; rec.t0 = performance.now(); r.start(1000);
+  showRec(); rec.timer = setInterval(showRec, 250);
+}
+function stopRecording() { if (!rec.r) return; rec.r.stop(); rec.r = null; clearInterval(rec.timer); showRec(); }
+function showRec() {
+  const b = $('#record'), s = Math.floor((performance.now() - rec.t0) / 1000);
+  b.classList.toggle('rec', !!rec.r);
+  b.textContent = rec.r ? `Stop ${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}` : 'Record';
+}
+$('#record').addEventListener('click', () => rec.r ? stopRecording() : startRecording());
+
+// hide / show the interface (H, Esc)
+const setUi = on => document.documentElement.dataset.ui = on ? 'on' : 'off';
+$('[data-hide-ui]').addEventListener('click', () => setUi(false));
+$('#showUi').addEventListener('click', () => setUi(true));
+addEventListener('keydown', e => {
+  if (e.target.closest('input:not([type=range]), textarea, select, [contenteditable]:not([contenteditable="false"])')) return;
+  if (e.key === 'h' || e.key === 'H') setUi(document.documentElement.dataset.ui === 'off');
+  if (e.key === 'Escape') setUi(true);
+});
+let toastT;
+function toast(msg, err) {
+  const el = $('#toast');
+  el.textContent = msg; el.className = 'float show' + (err ? ' err' : '');
+  clearTimeout(toastT); toastT = setTimeout(() => el.className = 'float', 3600);
+}
+
+// ---------- away we go
+loadFonts();
+retitle();
+listPosts();
+showControls();
+apply();
+showCaption();
+if (embedded) parent.postMessage({ ready: 1 }, location.origin);
+else if (sessionStorage.getItem('dev')) setDev(true);
+</script>
+</body>
+</html>

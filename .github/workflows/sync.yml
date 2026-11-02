@@ -1,0 +1,35 @@
+# Pulls new Instagram posts every few hours and publishes the site to GitHub Pages.
+# Needs a repository secret IG_TOKEN and a repository variable IG_API (see README.md).
+name: Sync and publish
+on:
+  push: { branches: [main] }
+  workflow_dispatch:
+  schedule:
+    - cron: '17 */6 * * *'   # look for new posts
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+concurrency: { group: pages, cancel-in-progress: false }
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment: { name: github-pages, url: '${{ steps.deploy.outputs.page_url }}' }
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch posts
+        env:
+          IG_TOKEN: ${{ secrets.IG_TOKEN }}
+          IG_API: ${{ vars.IG_API }}
+        run: python3 sync.py
+      - name: Commit anything new
+        run: |
+          date +%Y-%m > .keepalive     # GitHub pauses schedules on a repo with no commits for 60 days
+          git config user.name 'portfolio-sync'
+          git config user.email 'portfolio-sync@users.noreply.github.com'
+          git add -A posts.json media .keepalive
+          git diff --cached --quiet || { git commit -m 'Sync Instagram posts' && git push; }
+      - uses: actions/upload-pages-artifact@v3
+        with: { path: . }
+      - id: deploy
+        uses: actions/deploy-pages@v4
