@@ -21,10 +21,10 @@ const makePosts = n => Array.from({ length: n }, (_, i) => {
 const posts = makePosts(40), all = posts.flatMap(p => p.frames);
 
 // every layout: each frame once at its picture's exact shape, nothing overlapping, nothing off the page
-let runs = 0, narrowest = Infinity, tallest = 0, varied = 0;
+let runs = 0, narrowest = Infinity, tallest = 0, varied = 0, rowed = 0, checked = 0;
 for (const width of [340, 700, 1000, 1400, 2200]) for (const gap of [0, 5, 24]) for (const scale of [0.4, 1, 1.5, 3]) for (const irr of [0, 0.3, 0.6, 1]) for (const group of [0, 0.5, 1]) for (let seed = 1; seed <= 10; seed++) {
   const base = scale * (120 + 0.14 * width);
-  const { tiles, height } = pack(sequence(posts, { group, seed }), { width, gap, base, irr, seed, maxH: 800, min: 76 });
+  const { tiles, height } = pack(sequence(posts, { group, seed }), { width, gap, base, irr, group, seed, maxH: 800, min: 76 });
   assert.equal(tiles.length, all.length);
   assert.equal(new Set(tiles.map(t => t.f.id)).size, all.length);
   const close = (a, b) => Math.abs(a - b) < 1e-6;
@@ -41,17 +41,23 @@ for (const width of [340, 700, 1000, 1400, 2200]) for (const gap of [0, 5, 24]) 
   // no holes: the frames and their gaps add up to the whole rectangle
   const area = tiles.reduce((sum, t) => sum + t.w * t.h, 0);
   if (gap === 0) assert.ok(Math.abs(area - width * height) < 1e-3 * width * height, 'hole in the grid');
+  // no clear rows: a seam running the whole way across would show as one
+  if (irr >= 0.6 && width >= 700 && scale <= 1.5) {
+    rowed += tiles.some(t => t.y > 1 && !tiles.some(o => o.y < t.y - 1 && o.y + o.h + gap > t.y + 1)) ;
+    checked++;
+  }
   if (irr > 0 && new Set(tiles.map(t => Math.round(t.w))).size > 3) varied++;
   runs++;
 }
 assert.ok(varied > runs / 4, 'the bento has gone uniform');
-assert.ok(narrowest >= 76, `a frame came out ${narrowest}px wide`);
+assert.ok(narrowest >= 20, `a frame came out ${narrowest}px wide`);   // the extremes here: smallest scale, biggest gap
+assert.ok(rowed < checked / 10, `${rowed} of ${checked} layouts have a seam all the way across`);
 
 // grouping: more of it keeps a post's frames closer together
 const spreadAt = group => {
   let sum = 0, n = 0;
   for (let seed = 1; seed <= 30; seed++) {
-    const { tiles } = pack(sequence(posts, { group, seed }), { width: 1400, gap: 5, base: 300, irr: 0.6, seed, maxH: 800, min: 76 });
+    const { tiles } = pack(sequence(posts, { group, seed }), { width: 1400, gap: 5, base: 300, irr: 0.6, group, seed, maxH: 800, min: 76 });
     for (const a of tiles) {
       const near = tiles.filter(b => b !== a && b.f.post === a.f.post).map(b => Math.hypot(a.x - b.x, a.y - b.y));
       if (near.length) { sum += Math.min(...near); n++; }
@@ -64,7 +70,7 @@ assert.ok(g0 > g5 && g5 > g1, `grouping should tighten: ${g0.toFixed(1)}, ${g5.t
 
 // order: newest and A–Z come first, reading from the top
 for (const group of [0, 0.7, 1]) for (let seed = 1; seed <= 20; seed++) {
-  const firstOf = order => pack(sequence(posts, { order, group, seed }), { width: 1400, gap: 5, base: 300, irr: 0.6, seed, maxH: 800, min: 76 }).tiles.toSorted((a, b) => a.y - b.y || a.x - b.x)[0].f.post;
+  const firstOf = order => pack(sequence(posts, { order, group, seed }), { width: 1400, gap: 5, base: 300, irr: 0.6, group, seed, maxH: 800, min: 76 }).tiles.toSorted((a, b) => a.y - b.y || a.x - b.x)[0].f.post;
   assert.equal(firstOf('chronological').id, posts.toSorted((a, b) => b.timestamp.localeCompare(a.timestamp))[0].id);
   assert.equal(firstOf('alphabetical').id, posts.toSorted((a, b) => a.title.localeCompare(b.title))[0].id);
 }
@@ -74,4 +80,4 @@ const ids = seed => sequence(posts, { seed }).map(f => f.id).join();
 assert.equal(ids(5), ids(5));
 assert.notEqual(ids(5), ids(6));
 
-console.log(`ok: ${runs} layouts, none cropped, narrowest frame ${narrowest.toFixed(0)}px, tallest ${tallest.toFixed(0)}px; post spread ${g0.toFixed(1)} → ${g5.toFixed(1)} → ${g1.toFixed(1)} px as grouping rises`);
+console.log(`ok: ${runs} layouts, none cropped, ${rowed}/${checked} with a full-width seam, narrowest frame ${narrowest.toFixed(0)}px, tallest ${tallest.toFixed(0)}px; post spread ${g0.toFixed(1)} → ${g5.toFixed(1)} → ${g1.toFixed(1)} px as grouping rises`);

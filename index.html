@@ -430,7 +430,7 @@
 
   /* the bento: frames placed by layout.js */
   #board { position: relative; width: auto; aspect-ratio: auto; background: none; box-shadow: none; overflow: visible; }
-  .tile { position: absolute; overflow: hidden; border-radius: var(--round); background: var(--fill-3); box-shadow: var(--rim); }
+  .tile { position: absolute; overflow: hidden; border-radius: var(--round); background: var(--fill-3); box-shadow: var(--glass-edge), var(--glass-shadow); }
   .tile:focus-visible { border-radius: var(--round); outline-offset: 2px; }
   .tile img, .tile video { display: block; width: 100%; height: 100%; object-fit: cover; }
   .empty { padding: 40px 0; text-align: center; }
@@ -754,7 +754,7 @@ function layout() {
   // An average frame's width at 100%: most of the screen on a phone, about a quarter on a desktop
   const base = cfg.scale / 100 * (120 + 0.14 * W);
   const { tiles, height } = pack(sequence(posts, { order: cfg.order, group: cfg.grouping / 100, seed }), {
-    width: W, gap, base, seed, irr: cfg.irregularity / 100, maxH: innerHeight * 0.92, min: MIN_FRAME,
+    width: W, gap, base, seed, group: cfg.grouping / 100, irr: cfg.irregularity / 100, maxH: innerHeight * 0.92, min: MIN_FRAME,
   });
   for (const t of tiles) {
     const s = t.f.el.style;
