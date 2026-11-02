@@ -401,6 +401,10 @@
     /* white on white: glass and pale frames need something to hold their edge */
     --rim: 0 0 0 0.5px rgba(0, 0, 0, 0.1);
     --glass-shadow: var(--rim), 0 8px 32px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.06);
+    /* the frames' own shadows, scaled by the Tile shadow slider: dark inside and out on a light page */
+    --edge: 1;
+    --tile-outer: 0 0 0 0.5px rgba(0, 0, 0, calc(0.1 * var(--edge))), 0 8px 32px rgba(0, 0, 0, calc(0.1 * var(--edge))), 0 1px 3px rgba(0, 0, 0, calc(0.06 * var(--edge)));
+    --tile-inner: inset 0 0 0 0.5px rgba(0, 0, 0, calc(0.1 * var(--edge))), inset 0 0 14px rgba(0, 0, 0, calc(0.06 * var(--edge)));
     --margin: var(--site);
     --colw: max(calc(var(--side) - var(--gutter)), 170px);
   }
@@ -410,6 +414,9 @@
     --bg: #1C1C1E;
     --rim: 0 0 0 0.5px rgba(255, 255, 255, 0.14);
     --glass-shadow: var(--rim), 0 8px 32px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(0, 0, 0, 0.4);
+    /* a shadow can't darken a black post, so the inner one is a faint glow, the mirror of light mode */
+    --tile-outer: 0 0 0 0.5px rgba(255, 255, 255, calc(0.14 * var(--edge))), 0 8px 32px rgba(0, 0, 0, calc(0.5 * var(--edge))), 0 1px 3px rgba(0, 0, 0, calc(0.4 * var(--edge)));
+    --tile-inner: inset 0 0 0 0.5px rgba(255, 255, 255, calc(0.14 * var(--edge))), inset 0 0 14px rgba(255, 255, 255, calc(0.07 * var(--edge)));
   }
   html, body { height: auto; }
   body { overflow: visible; }
@@ -436,7 +443,9 @@
 
   /* the bento: frames placed by layout.js */
   #board { position: relative; width: auto; aspect-ratio: auto; background: none; box-shadow: none; overflow: visible; }
-  .tile { position: absolute; overflow: hidden; border-radius: var(--round); background: var(--fill-3); box-shadow: var(--glass-edge), var(--glass-shadow); }
+  .tile { position: absolute; overflow: hidden; border-radius: var(--round); background: var(--fill-3); box-shadow: var(--tile-outer); }
+  /* an inset shadow on the tile itself would sit behind its picture, so this layer lies over it */
+  .tile::after { content: ""; position: absolute; inset: 0; border-radius: inherit; box-shadow: var(--tile-inner); pointer-events: none; }
   .tile:focus-visible { border-radius: var(--round); outline-offset: 2px; }
   .tile img, .tile video { display: block; width: 100%; height: 100%; object-fit: cover; }
   .empty { padding: 40px 0; text-align: center; }
@@ -649,9 +658,9 @@ const embedded = new URLSearchParams(location.search).has('embed');   // inside 
 // settings.json is what dev mode's Save writes; what's left out comes from here.
 const SF = '-apple-system, "SF Pro Display", "Helvetica Neue", sans-serif';
 const DEFAULTS = {
-  scale: 100, irregularity: 100, grouping: 0, gap: 5, rounding: 14, roundingTablet: 12, roundingMobile: 10, side: 0, site: 20,
+  scale: 100, irregularity: 100, grouping: 0, gap: 5, rounding: 14, roundingTablet: 12, roundingMobile: 10, side: 0, site: 20, shadow: 100,
   order: 'random', theme: 'light',
-  public: { scale: true, irregularity: true, grouping: true, gap: false, rounding: false, roundingTablet: false, roundingMobile: false, side: false, site: false, order: true, theme: true, refresh: true },
+  public: { scale: true, irregularity: true, grouping: true, gap: false, rounding: false, roundingTablet: false, roundingMobile: false, side: false, site: false, shadow: false, order: true, theme: true, refresh: true },
   type: {
     name: { font: SF, size: 15, leading: 1.33, tracking: -0.005, weight: 600, align: 'left', italic: false, features: '' },
     bio: { font: SF, size: 13, leading: 1.23, tracking: -0.006, weight: 400, align: 'left', italic: false, features: '' },
@@ -680,6 +689,7 @@ const SLIDERS = {
   gap: ['Frame padding', 0, 48, 1, 'px'], rounding: ['Corner rounding: desktop', 0, 60, 1, 'px'],
   roundingTablet: ['Corner rounding: tablet', 0, 60, 1, 'px'], roundingMobile: ['Corner rounding: mobile', 0, 60, 1, 'px'],
   side: ['Side padding', 0, 480, 1, 'px'], site: ['Site padding', 0, 80, 1, 'px'],
+  shadow: ['Tile shadow', 0, 300, 1, '%'],
 };
 const NAMES = { ...Object.fromEntries(Object.entries(SLIDERS).map(([k, s]) => [k, s[0]])), order: 'Order', theme: 'Light and dark', refresh: 'Refresh button' };
 function sliderRow(key) {
@@ -780,6 +790,7 @@ function apply() {
   root.style.colorScheme = cfg.theme;
   root.style.setProperty('--site', `${cfg.site}px`);
   root.style.setProperty('--side', `${cfg.side}px`);
+  root.style.setProperty('--edge', cfg.shadow / 100);
   root.style.setProperty('--round-desktop', `${cfg.rounding}px`);
   root.style.setProperty('--round-tablet', `${cfg.roundingTablet}px`);
   root.style.setProperty('--round-mobile', `${cfg.roundingMobile}px`);
