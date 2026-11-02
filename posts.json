@@ -258,9 +258,9 @@
      "id": "18649401190015430",
      "type": "video",
      "src": "originals/18649401190015430.mp4",
+     "poster": "media/18649401190015430-cover.jpg",
      "w": 720,
-     "h": 1280,
-     "poster": "media/18649401190015430-cover.jpg"
+     "h": 1280
     }
    ]
   },
@@ -274,9 +274,9 @@
      "id": "18114618202820538",
      "type": "video",
      "src": "originals/18114618202820538.mp4",
+     "poster": "media/18114618202820538-cover.jpg",
      "w": 1204,
-     "h": 2144,
-     "poster": "media/18114618202820538-cover.jpg"
+     "h": 2144
     }
    ]
   },
@@ -290,9 +290,9 @@
      "id": "18167053015481391",
      "type": "video",
      "src": "originals/18167053015481391.mp4",
+     "poster": "media/18167053015481391-cover.jpg",
      "w": 1204,
-     "h": 2144,
-     "poster": "media/18167053015481391-cover.jpg"
+     "h": 2144
     }
    ]
   },
@@ -306,9 +306,9 @@
      "id": "18414303943158876",
      "type": "video",
      "src": "originals/18414303943158876.mp4",
+     "poster": "media/18414303943158876-cover.jpg",
      "w": 720,
-     "h": 1280,
-     "poster": "media/18414303943158876-cover.jpg"
+     "h": 1280
     }
    ]
   },
@@ -322,9 +322,9 @@
      "id": "18073626452720043",
      "type": "video",
      "src": "originals/18073626452720043.mp4",
+     "poster": "media/18073626452720043-cover.jpg",
      "w": 720,
-     "h": 1280,
-     "poster": "media/18073626452720043-cover.jpg"
+     "h": 1280
     }
    ]
   },
@@ -338,9 +338,9 @@
      "id": "18178007461426692",
      "type": "video",
      "src": "originals/18178007461426692.mp4",
+     "poster": "media/18178007461426692-cover.jpg",
      "w": 1206,
-     "h": 2144,
-     "poster": "media/18178007461426692-cover.jpg"
+     "h": 2144
     }
    ]
   },
@@ -354,9 +354,9 @@
      "id": "17948820999257922",
      "type": "video",
      "src": "originals/17948820999257922.mp4",
+     "poster": "media/17948820999257922-cover.jpg",
      "w": 1206,
-     "h": 2144,
-     "poster": "media/17948820999257922-cover.jpg"
+     "h": 2144
     }
    ]
   },
@@ -386,9 +386,9 @@
      "id": "18114610069905258",
      "type": "video",
      "src": "originals/18114610069905258.mp4",
+     "poster": "media/18114610069905258-cover.jpg",
      "w": 720,
-     "h": 1280,
-     "poster": "media/18114610069905258-cover.jpg"
+     "h": 1280
     }
    ]
   },
@@ -464,9 +464,9 @@
      "id": "18215113159338154",
      "type": "video",
      "src": "originals/18215113159338154.mp4",
+     "poster": "media/18215113159338154-cover.jpg",
      "w": 720,
-     "h": 1280,
-     "poster": "media/18215113159338154-cover.jpg"
+     "h": 1280
     }
    ]
   }
