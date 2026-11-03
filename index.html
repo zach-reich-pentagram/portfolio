@@ -397,6 +397,8 @@
     --side: 200px;    /* room either side of the bento, where the two columns sit */
     --round-desktop: 14px; --round-tablet: 14px; --round-mobile: 14px;   /* corners of the frames, set from the settings */
     --round: var(--round-desktop);
+    --head-desktop: 12px; --head-tablet: 12px; --head-mobile: 12px;   /* padding inside the heading, set from the settings */
+    --head: var(--head-desktop);
     --float: 20px;    /* how far advanced mode's panels sit from the window, whatever the site padding */
     --margin: var(--site);
   }
@@ -418,10 +420,12 @@
   a { color: inherit; }
 
   /* above the grid: your name at the left, two icons at the right, your description when asked for */
+  :root { --icon: 32px; }
   .rail { display: flex; flex-direction: column; gap: var(--gap); margin-bottom: var(--gap); }
-  .top { display: flex; align-items: center; justify-content: space-between; gap: var(--gutter); padding: 4px 6px 4px 16px; border-radius: 999px; background: var(--pill); }
-  .icons { display: flex; gap: 6px; flex-shrink: 0; }
-  .icon { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; min-height: 0; padding: 0;
+  .top { display: flex; align-items: center; justify-content: space-between; gap: var(--gutter); padding: var(--head); border-radius: 999px; background: var(--pill); }
+  /* the buttons reach past their icons to stay easy to hit; pulled in so the padding is measured from what you see */
+  .icons { display: flex; gap: 6px; flex-shrink: 0; margin: calc((16px - var(--icon)) / 2); margin-left: 0; }
+  .icon { display: inline-flex; align-items: center; justify-content: center; position: relative; width: var(--icon); height: var(--icon); min-height: 0; padding: 0;
           background: none !important; color: var(--label); transition: color .15s ease; }
   .icon:hover { color: var(--label-2); }   /* grey is the only sign it can be clicked */
   .icon svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
@@ -466,12 +470,12 @@
   html[data-ui="off"] .rail, html[data-ui="off"] #preview { display: none; }
   html[data-ui="off"] .body { padding: 0; }
 
-  @media (max-width: 1179px) { :root { --round: var(--round-tablet); } }
+  @media (max-width: 1179px) { :root { --round: var(--round-tablet); --head: var(--head-tablet); } }
   /* compact: the same, with room for fingers */
   @media (max-width: 759px) {
-    :root { --round: var(--round-mobile); }
+    :root { --round: var(--round-mobile); --head: var(--head-mobile); }
     .body { display: block; padding: max(var(--margin), env(safe-area-inset-top)) var(--margin) var(--margin); }
-    .icon { width: 44px; height: 44px; }   /* a finger's reach */
+    :root { --icon: 44px; }   /* a finger's reach */
     .col.dev { left: var(--float); right: var(--float); top: auto; bottom: var(--float); width: auto; max-height: 60%; }
     .stagebar, .hint { left: 50%; max-width: calc(100% - 24px); }
     .hint { display: none; }
@@ -621,7 +625,7 @@ const embedded = new URLSearchParams(location.search).has('embed');   // inside 
 // settings.json is what dev mode's Save writes; what's left out comes from here.
 const SF = '-apple-system, "SF Pro Display", "Helvetica Neue", sans-serif';
 const DEFAULTS = {
-  scale: 125, irregularity: 100, grouping: 0, gap: 2, rounding: 10, roundingTablet: 8, roundingMobile: 6, side: 0, site: 2,
+  scale: 125, irregularity: 100, grouping: 0, gap: 2, rounding: 10, roundingTablet: 8, roundingMobile: 6, headerPad: 12, headerPadTablet: 12, headerPadMobile: 12, side: 0, site: 2,
   order: 'random', theme: 'light',
   type: {
     name: { font: SF, size: 13, leading: 1.33, tracking: -0.005, weight: 400, align: 'left', italic: false, features: '' },
@@ -648,6 +652,7 @@ const SLIDERS = {
   scale: ['Scale', 40, 300, 1, '%'], irregularity: ['Irregularity', 0, 100, 1, '%'], grouping: ['Grouping', 0, 100, 1, '%'],
   gap: ['Frame padding', 0, 48, 1, 'px'], rounding: ['Corner rounding: desktop', 0, 60, 1, 'px'],
   roundingTablet: ['Corner rounding: tablet', 0, 60, 1, 'px'], roundingMobile: ['Corner rounding: mobile', 0, 60, 1, 'px'],
+  headerPad: ['Header padding: desktop', 0, 60, 1, 'px'], headerPadTablet: ['Header padding: tablet', 0, 60, 1, 'px'], headerPadMobile: ['Header padding: mobile', 0, 60, 1, 'px'],
   side: ['Side padding', 0, 480, 1, 'px'], site: ['Site padding', 0, 80, 1, 'px'],
 };
 function sliderRow(key) {
@@ -751,6 +756,9 @@ function apply() {
   root.style.setProperty('--round-desktop', `${cfg.rounding}px`);
   root.style.setProperty('--round-tablet', `${cfg.roundingTablet}px`);
   root.style.setProperty('--round-mobile', `${cfg.roundingMobile}px`);
+  root.style.setProperty('--head-desktop', `${cfg.headerPad}px`);
+  root.style.setProperty('--head-tablet', `${cfg.headerPadTablet}px`);
+  root.style.setProperty('--head-mobile', `${cfg.headerPadMobile}px`);
   const c = cfg.colors[cfg.theme];
   c.ink ? root.style.setProperty('--label', c.ink) : root.style.removeProperty('--label');
   c.canvas ? root.style.setProperty('--bg', c.canvas) : root.style.removeProperty('--bg');
