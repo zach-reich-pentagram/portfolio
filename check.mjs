@@ -96,12 +96,11 @@ const ids = seed => sequence(posts, { seed }).map(f => f.id).join();
 assert.equal(ids(5), ids(5));
 assert.notEqual(ids(5), ids(6));
 
-// Scale keeps working: frames go on growing all the way along the slider, on a tall mix like the real one
-const medianWidth = scale => {
-  const ws = [];
-  for (let seed = 1; seed <= 20; seed++) ws.push(...pack(sequence(tall, { seed }), { width: 1400, gap: 2, base: scale / 100 * (120 + 0.14 * 1400), irr: 1, seed, maxH: maxFrameHeight(scale, 900), min: 76 }).tiles.map(t => t.w));
-  return ws.sort((a, b) => a - b)[ws.length >> 1];
-};
-for (const [a, b] of [[100, 150], [150, 200], [200, 250]]) assert.ok(medianWidth(b) > medianWidth(a) * 1.1, `Scale ${a}→${b} barely changes the frames: ${medianWidth(a)} → ${medianWidth(b)}`);
+// Scale does what it says: each step along the slider makes the same seed's frames bigger, and so the page taller
+for (let seed = 1; seed <= 20; seed++) {
+  const heightAt = scale => pack(sequence(tall, { seed }), { width: 1400, gap: 2, base: scale / 100 * (120 + 0.14 * 1400), irr: 1, seed, maxH: maxFrameHeight(scale, 900), min: 76 }).height;
+  const hs = [60, 100, 150, 200, 300].map(heightAt);
+  hs.forEach((h, i) => { if (i) assert.ok(h > hs[i - 1] * 1.2, `Scale barely changes the frames, seed ${seed}: ${hs.map(Math.round)}`); });
+}
 
 console.log(`ok: ${runs} layouts, none cropped, ${rowed}/${checked} with a full-width seam, narrowest frame ${narrowest.toFixed(0)}px, tallest ${tallest.toFixed(0)}px; post spread ${g0.toFixed(1)} → ${g5.toFixed(1)} → ${g1.toFixed(1)} px as grouping rises`);
