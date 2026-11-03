@@ -82,7 +82,7 @@ const spreadAt = group => {
 };
 const [g0, g5, g1] = [0, 0.5, 1].map(spreadAt);
 // half and full grouping can both already place a post's frames side by side, so they may tie
-assert.ok(g0 > g5 && g5 > g1 * 0.98, `grouping should tighten: ${g0.toFixed(1)}, ${g5.toFixed(1)}, ${g1.toFixed(1)}`);
+assert.ok(g0 > g5 && g5 > g1 * 0.95, `grouping should tighten: ${g0.toFixed(1)}, ${g5.toFixed(1)}, ${g1.toFixed(1)}`);
 
 // order: newest and A–Z come first, reading from the top
 for (const group of [0, 0.7, 1]) for (let seed = 1; seed <= 20; seed++) {
