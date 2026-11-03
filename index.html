@@ -658,7 +658,7 @@ const DEFAULTS = {
   fonts: [],       // { name, family, src }: fonts opened in dev mode, saved in the project
   overrides: {},   // post id → { title, desc }
 };
-const RANDOM_BG = `hsl(${Math.random() * 360 | 0} ${50 + Math.random() * 40 | 0}% ${35 + Math.random() * 35 | 0}%)`;
+let RANDOM_BG = randomColour().bg;   // new with each page load and each press of Refresh
 const HOUSE_COLORS = { light: { ink: '#000000', canvas: '#808080' }, dark: { ink: '#ffffff', canvas: '#808080' } };
 const merge = (a, b) => {
   const out = structuredClone(a);
@@ -828,7 +828,7 @@ $$('[data-theme-seg]').forEach(s => s.addEventListener('click', e => {
   const b = e.target.closest('button'); if (!b) return;
   cfg.theme = b.dataset.value; showControls(); touch();
 }));
-$('#refresh').addEventListener('click', () => { seed = crypto.getRandomValues(new Uint32Array(1))[0]; hideTip(); paintTip(); apply(); });
+$('#refresh').addEventListener('click', () => { RANDOM_BG = randomColour().bg; seed = crypto.getRandomValues(new Uint32Array(1))[0]; hideTip(); paintTip(); apply(); });
 $('#about').addEventListener('click', e => {
   const open = $('#intro').hidden, b = e.currentTarget;
   $('#intro').hidden = !open;
