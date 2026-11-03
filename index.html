@@ -422,9 +422,10 @@
   /* above the grid: your name at the left, two icons at the right, your description when asked for */
   :root { --icon: 32px; }
   .rail { display: flex; flex-direction: column; gap: var(--gap); margin-bottom: var(--gap); }
-  .top { display: flex; align-items: center; justify-content: space-between; gap: var(--gutter); padding: var(--head); border-radius: 999px; background: var(--pill); }
+  .top { display: flex; align-items: center; justify-content: space-between; gap: var(--gutter); padding: var(--head); border-radius: 999px; background: #000000; color: #ffffff; }
+  .top .btn { color: #ffffff; }
   /* the buttons reach past their icons to stay easy to hit; pulled in so the padding is measured from what you see */
-  .icons { display: flex; gap: 6px; flex-shrink: 0; margin: calc((16px - var(--icon)) / 2); margin-left: 0; }
+  .icons { display: flex; gap: 2px; flex-shrink: 0; margin: calc((16px - var(--icon)) / 2); margin-left: 0; }
   .icon { display: inline-flex; align-items: center; justify-content: center; position: relative; width: var(--icon); height: var(--icon); min-height: 0; padding: 0;
           background: none !important; color: var(--label); transition: color .15s ease; }
   .icon:hover { color: var(--label-2); }   /* grey is the only sign it can be clicked */
@@ -628,7 +629,7 @@ const SF = '-apple-system, "SF Pro Display", "Helvetica Neue", sans-serif';
 const SIDES = ['Top', 'Right', 'Bottom', 'Left'], DEVICES = { '': 'desktop', Tablet: 'tablet', Mobile: 'mobile' };
 const headerKeys = f => Object.fromEntries(Object.entries(DEVICES).flatMap(([d, name]) => SIDES.map(side => [`header${side}${d}`, f(side, name)])));
 const DEFAULTS = {
-  scale: 125, irregularity: 100, grouping: 0, gap: 2, rounding: 10, roundingTablet: 8, roundingMobile: 6, side: 0, site: 2,
+  scale: 75, irregularity: 100, grouping: 0, gap: 2, rounding: 10, roundingTablet: 8, roundingMobile: 6, side: 0, site: 2,
   ...headerKeys((side, name) => name === 'mobile' && (side === 'Top' || side === 'Bottom') ? 8 : 12),
   order: 'random', theme: 'light',
   type: {
@@ -641,6 +642,7 @@ const DEFAULTS = {
   fonts: [],       // { name, family, src }: fonts opened in dev mode, saved in the project
   overrides: {},   // post id → { title, desc }
 };
+const RANDOM_BG = `hsl(${Math.random() * 360 | 0} ${50 + Math.random() * 40 | 0}% ${35 + Math.random() * 35 | 0}%)`;
 const HOUSE_COLORS = { light: { ink: '#000000', canvas: '#808080' }, dark: { ink: '#ffffff', canvas: '#808080' } };
 const merge = (a, b) => {
   const out = structuredClone(a);
@@ -763,7 +765,7 @@ function apply() {
   for (const [d, name] of Object.entries(DEVICES)) root.style.setProperty(`--head-${name}`, SIDES.map(side => `${cfg[`header${side}${d}`]}px`).join(' '));
   const c = cfg.colors[cfg.theme];
   c.ink ? root.style.setProperty('--label', c.ink) : root.style.removeProperty('--label');
-  c.canvas ? root.style.setProperty('--bg', c.canvas) : root.style.removeProperty('--bg');
+  root.style.setProperty('--bg', RANDOM_BG);
   $('#typeStyle').textContent = Object.entries(cfg.type).map(([k, t]) => `${SELECTOR[k]} { font-family: ${t.font}; font-size: ${t.size}px; line-height: ${t.leading}; letter-spacing: ${t.tracking}em; font-weight: ${t.weight}; text-align: ${t.align}; font-style: ${t.italic ? 'italic' : 'normal'}; font-feature-settings: ${features(t.features)}; }`).join('\n');
   root.style.setProperty('--gap', `${cfg.gap}px`);
   layoutSoon();
