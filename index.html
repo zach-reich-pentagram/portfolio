@@ -624,8 +624,12 @@ const embedded = new URLSearchParams(location.search).has('embed');   // inside 
 // ---------- settings
 // settings.json is what dev mode's Save writes; what's left out comes from here.
 const SF = '-apple-system, "SF Pro Display", "Helvetica Neue", sans-serif';
+// header padding: one value per side per device, e.g. headerTop, headerLeftTablet, headerBottomMobile
+const SIDES = ['Top', 'Right', 'Bottom', 'Left'], DEVICES = { '': 'desktop', Tablet: 'tablet', Mobile: 'mobile' };
+const headerKeys = f => Object.fromEntries(Object.entries(DEVICES).flatMap(([d, name]) => SIDES.map(side => [`header${side}${d}`, f(side, name)])));
 const DEFAULTS = {
-  scale: 125, irregularity: 100, grouping: 0, gap: 2, rounding: 10, roundingTablet: 8, roundingMobile: 6, headerPad: 12, headerPadTablet: 12, headerPadMobile: 12, side: 0, site: 2,
+  scale: 125, irregularity: 100, grouping: 0, gap: 2, rounding: 10, roundingTablet: 8, roundingMobile: 6, side: 0, site: 2,
+  ...headerKeys(() => 12),
   order: 'random', theme: 'light',
   type: {
     name: { font: SF, size: 13, leading: 1.33, tracking: -0.005, weight: 400, align: 'left', italic: false, features: '' },
@@ -652,7 +656,7 @@ const SLIDERS = {
   scale: ['Scale', 40, 300, 1, '%'], irregularity: ['Irregularity', 0, 100, 1, '%'], grouping: ['Grouping', 0, 100, 1, '%'],
   gap: ['Frame padding', 0, 48, 1, 'px'], rounding: ['Corner rounding: desktop', 0, 60, 1, 'px'],
   roundingTablet: ['Corner rounding: tablet', 0, 60, 1, 'px'], roundingMobile: ['Corner rounding: mobile', 0, 60, 1, 'px'],
-  headerPad: ['Header padding: desktop', 0, 60, 1, 'px'], headerPadTablet: ['Header padding: tablet', 0, 60, 1, 'px'], headerPadMobile: ['Header padding: mobile', 0, 60, 1, 'px'],
+  ...headerKeys((side, name) => [`Header ${side.toLowerCase()}: ${name}`, 0, 60, 1, 'px']),
   side: ['Side padding', 0, 480, 1, 'px'], site: ['Site padding', 0, 80, 1, 'px'],
 };
 function sliderRow(key) {
@@ -756,9 +760,7 @@ function apply() {
   root.style.setProperty('--round-desktop', `${cfg.rounding}px`);
   root.style.setProperty('--round-tablet', `${cfg.roundingTablet}px`);
   root.style.setProperty('--round-mobile', `${cfg.roundingMobile}px`);
-  root.style.setProperty('--head-desktop', `${cfg.headerPad}px`);
-  root.style.setProperty('--head-tablet', `${cfg.headerPadTablet}px`);
-  root.style.setProperty('--head-mobile', `${cfg.headerPadMobile}px`);
+  for (const [d, name] of Object.entries(DEVICES)) root.style.setProperty(`--head-${name}`, SIDES.map(side => `${cfg[`header${side}${d}`]}px`).join(' '));
   const c = cfg.colors[cfg.theme];
   c.ink ? root.style.setProperty('--label', c.ink) : root.style.removeProperty('--label');
   c.canvas ? root.style.setProperty('--bg', c.canvas) : root.style.removeProperty('--bg');
