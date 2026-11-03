@@ -62,7 +62,7 @@ const tall = Array.from({ length: 17 }, (_, i) => {
   return post;
 });
 for (const width of [1000, 1400]) for (const irr of [0.6, 1]) for (let seed = 1; seed <= 50; seed++) {
-  const { tiles } = pack(sequence(tall, { seed }), { width, gap: 5, base: 1.5 * (120 + 0.14 * width), irr, seed, maxH: 828, min: 76 });
+  const { tiles } = pack(sequence(tall, { seed }), { width, gap: 5, base: 1.5 * (120 + 0.14 * width), irr, seed, maxH: maxFrameHeight(150, 900), min: 76 });
   rowed += tiles.some(t => t.y > 1 && !tiles.some(o => o.y < t.y - 1 && o.y + o.h + 5 > t.y + 1));
   checked++;
 }
