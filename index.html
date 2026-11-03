@@ -611,7 +611,7 @@
     </select></span></div>
 </div>
 <script type="module">
-import { parseCaption, parseRich, sequence, pack, randomColour } from './layout.js';
+import { parseCaption, parseRich, sequence, pack, maxFrameHeight, randomColour } from './layout.js';
 const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
 const clamp = (v, a, b) => v < a ? a : v > b ? b : v;
 const root = document.documentElement;
@@ -621,7 +621,7 @@ const embedded = new URLSearchParams(location.search).has('embed');   // inside 
 // settings.json is what dev mode's Save writes; what's left out comes from here.
 const SF = '-apple-system, "SF Pro Display", "Helvetica Neue", sans-serif';
 const DEFAULTS = {
-  scale: 125, irregularity: 100, grouping: 0, gap: 1, rounding: 10, roundingTablet: 8, roundingMobile: 6, side: 0, site: 1,
+  scale: 150, irregularity: 100, grouping: 0, gap: 2, rounding: 10, roundingTablet: 8, roundingMobile: 6, side: 0, site: 2,
   order: 'random', theme: 'light',
   type: {
     name: { font: SF, size: 13, leading: 1.33, tracking: -0.005, weight: 400, align: 'left', italic: false, features: '' },
@@ -719,7 +719,7 @@ function layout() {
   // An average frame's width at 100%: most of the screen on a phone, about a quarter on a desktop
   const base = cfg.scale / 100 * (120 + 0.14 * W);
   const { tiles, height } = pack(sequence(posts, { order: cfg.order, group: cfg.grouping / 100, seed }), {
-    width: W, gap, base, seed, group: cfg.grouping / 100, irr: cfg.irregularity / 100, maxH: innerHeight * 0.92, min: MIN_FRAME,
+    width: W, gap, base, seed, group: cfg.grouping / 100, irr: cfg.irregularity / 100, maxH: maxFrameHeight(cfg.scale, innerHeight), min: MIN_FRAME,
   });
   for (const t of tiles) {
     const s = t.f.el.style;

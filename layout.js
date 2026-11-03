@@ -80,8 +80,9 @@ function arrange(frames, { cols, size, irr, group, seed, maxRows, min }) {
     // The range is worked out under this frame's height limit, or the limit would flatten every
     // tall frame to one size and leave Irregularity nothing to do.
     const cap = maxRows * f.aspect, centre = Math.min(size, cap * 0.7);
-    const lo = Math.max(min, centre / 4 ** irr), hi = Math.max(lo, Math.min(centre * 4 ** irr, cap * (1 + 0.25 * irr)));
-    const want = lo * (hi / lo) ** (noise(seed, 'size' + f.id) ** 1.8);
+    // Limits apply after the pick: applied to the range, the two ends stop moving and Scale goes dead.
+    const chosen = centre * 4 ** (irr * (2 * noise(seed, 'size' + f.id) ** 1.8 - 1));
+    const want = Math.max(min, Math.min(chosen, Math.max(min, cap * (1 + 0.25 * irr))));
 
     // A big frame needs a wide slot, and exact heights rarely line up to leave one. So the frames
     // along this slot's top are drawn down to a neighbour close by: only on the grid, as the true
@@ -129,6 +130,10 @@ function arrange(frames, { cols, size, irr, group, seed, maxRows, min }) {
   }
   return { tiles, rows };
 }
+
+// A frame's height limit: about a window, but growing with Scale past 100%, or a tall frame
+// would hit the limit there and the slider would go on moving with nothing left to change.
+export const maxFrameHeight = (scale, windowH) => windowH * 0.92 * Math.max(1, scale / 100);
 
 // The true sizes. Any arrangement of rectangles with set shapes has exactly one solution, the same
 // sums as squaring the square: each horizontal seam is a node whose height is unknown, a frame

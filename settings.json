@@ -1,13 +1,13 @@
 {
-  "scale": 125,
+  "scale": 150,
   "irregularity": 100,
   "grouping": 0,
-  "gap": 1,
+  "gap": 2,
   "rounding": 10,
   "roundingTablet": 8,
   "roundingMobile": 6,
   "side": 0,
-  "site": 1,
+  "site": 2,
   "order": "random",
   "theme": "light",
   "type": {
