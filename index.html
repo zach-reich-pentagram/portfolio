@@ -622,6 +622,22 @@ const clamp = (v, a, b) => v < a ? a : v > b ? b : v;
 const root = document.documentElement;
 const embedded = new URLSearchParams(location.search).has('embed');   // inside the preview frame
 
+// ---------- favicon: the clock face nearest New York time, rechecked every 15 seconds
+const NY = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', hour: 'numeric', minute: 'numeric', hourCycle: 'h23' });
+const clockEmoji = (date = new Date()) => {
+  const [h, m] = NY.formatToParts(date).filter(p => p.type === 'hour' || p.type === 'minute').map(p => +p.value);
+  const slot = Math.round((h * 60 + m) / 30) % 24;            // half hours past 12, on a 12-hour face
+  const hour = Math.floor(slot / 2) || 12;
+  return String.fromCodePoint((slot % 2 ? 0x1F55B : 0x1F54F) + hour);   // 🕐–🕛 on the hour, 🕜–🕧 at half past
+};
+const favicon = $('link[rel=icon]');
+const setFavicon = () => {
+  const href = `data:image/svg+xml,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>${clockEmoji()}</text></svg>`)}`;
+  if (favicon.href !== href) favicon.href = href;   // only when the face changes
+};
+setFavicon();
+setInterval(setFavicon, 15000);
+
 // ---------- settings
 // settings.json is what dev mode's Save writes; what's left out comes from here.
 const SF = '-apple-system, "SF Pro Display", "Helvetica Neue", sans-serif';
