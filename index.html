@@ -680,14 +680,23 @@ $$('.panel > .phead').forEach(h => h.addEventListener('click', () => h.setAttrib
 // ---------- the posts
 const board = $('#board');
 const posts = (data?.posts ?? []).filter(p => p.media?.length);
-const reduced = matchMedia('(prefers-reduced-motion: reduce)');
 // videos play only while they're on screen, and load nothing until then
-const inView = new IntersectionObserver(es => es.forEach(e => e.isIntersecting && !reduced.matches ? e.target.play().catch(() => {}) : e.target.pause()));
+const onScreen = new Set();
+const start = v => v.play().catch(() => {});   // refused: Low Power Mode on an iPhone, say. A tap tries again.
+const inView = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting) { onScreen.add(e.target); start(e.target); }
+  else { onScreen.delete(e.target); e.target.pause(); }
+}));
+const resume = () => onScreen.forEach(v => v.paused && start(v));
+// The posts are the work, so they play even with Reduce Motion on. A tap is what phones ask for before they'll play.
+for (const type of ['touchend', 'click']) document.addEventListener(type, resume, { passive: true });
+document.addEventListener('visibilitychange', () => { if (!document.hidden) resume(); });   // phones pause video in the background
 function makeTile(m) {
   const el = document.createElement('div');
   el.className = 'tile'; el.tabIndex = 0; el.setAttribute('role', 'img');
   if (m.type === 'video') {
     const v = Object.assign(document.createElement('video'), { muted: true, loop: true, playsInline: true, preload: 'none', src: m.src, poster: m.poster ?? '' });
+    v.setAttribute('muted', ''); v.setAttribute('playsinline', '');   // the attributes too: iOS is stricter than the properties suggest
     el.append(v); inView.observe(v);
   } else {
     el.append(Object.assign(document.createElement('img'), { src: m.src, alt: '', loading: 'lazy', decoding: 'async' }));
