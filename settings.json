@@ -32,36 +32,6 @@
       "align": "left",
       "italic": false,
       "features": ""
-    },
-    "bio": {
-      "font": "-apple-system, \"SF Pro Display\", \"Helvetica Neue\", sans-serif",
-      "size": 16,
-      "leading": 1.23,
-      "tracking": -0.006,
-      "weight": 400,
-      "align": "left",
-      "italic": false,
-      "features": ""
-    },
-    "tipTitle": {
-      "font": "-apple-system, \"SF Pro Display\", \"Helvetica Neue\", sans-serif",
-      "size": 16,
-      "leading": 1.23,
-      "tracking": -0.006,
-      "weight": 600,
-      "align": "left",
-      "italic": false,
-      "features": ""
-    },
-    "tipBody": {
-      "font": "-apple-system, \"SF Pro Display\", \"Helvetica Neue\", sans-serif",
-      "size": 16,
-      "leading": 1.23,
-      "tracking": -0.006,
-      "weight": 400,
-      "align": "left",
-      "italic": false,
-      "features": ""
     }
   },
   "colors": {
@@ -70,5 +40,8 @@
   },
   "fonts": [],
   "overrides": {},
-  "space": 75
+  "space": 75,
+  "marqueeSpeed": 40,
+  "marqueeStart": 1.5,
+  "marqueeEnd": 1
 }

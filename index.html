@@ -419,22 +419,23 @@
   .body { height: auto; padding: var(--margin) calc(var(--margin) + var(--side)); }
   a { color: inherit; }
 
-  /* above the grid: your name at the left, two icons at the right, your description when asked for */
+  /* above the grid, in one line on every screen: your name, the marquee, and Refresh, each its own black pill */
   :root { --icon: 32px; }
   .rail { display: flex; flex-direction: column; gap: var(--gap); margin-bottom: var(--gap); }
-  .top { display: flex; align-items: center; justify-content: space-between; gap: var(--gutter); padding: var(--head); border-radius: 999px; background: #000000; color: #ffffff; }
-  .top .btn { color: #ffffff; }
-  /* the buttons reach past their icons to stay easy to hit; pulled in so the padding is measured from what you see */
-  .icons { display: flex; gap: 2px; flex-shrink: 0; margin: calc((16px - var(--icon)) / 2); margin-left: 0; }
+  .top { display: flex; align-items: stretch; gap: var(--gap); }
+  .top > .pill { border-radius: 999px; background: #000000 !important; color: #ffffff; padding: var(--head); }
+  .name { flex: none; white-space: nowrap; }
+  .marquee { flex: 1; min-width: 0; }
+  .marquee .window { overflow: hidden; }
+  .marquee .track { display: inline-block; white-space: nowrap; will-change: transform; }
+  @media (prefers-reduced-motion: reduce) { .marquee .window { overflow-x: auto; scrollbar-width: none; } }   /* still, and scrolls by hand */
+  /* Refresh: a circle as tall as the pills beside it, with a hit area past its edge for fingers */
+  .top #refresh { flex: none; height: auto; padding: 0; border-radius: 50%; color: #ffffff; }   /* its width follows the name's height, in the script */
+  .top #refresh::after { content: ""; position: absolute; inset: -8px; }
   .icon { display: inline-flex; align-items: center; justify-content: center; position: relative; width: var(--icon); height: var(--icon); min-height: 0; padding: 0;
           background: none !important; color: var(--label); transition: color .15s ease; }
   .icon:hover { color: var(--label-2); }   /* grey is the only sign it can be clicked */
   .icon svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
-  #about[aria-expanded="false"] .less, #about[aria-expanded="true"] .more { display: none; }
-  .intro { display: flex; flex-direction: column; gap: 6px; padding: 14px 16px; border-radius: var(--round); background: var(--pill); }
-  .intro > * { max-width: 60ch; }
-  .intro[hidden] { display: none; }
-  .bio { color: var(--label-2); }
 
   /* the bento: frames placed by layout.js */
   #board { position: relative; width: auto; aspect-ratio: auto; background: none; box-shadow: none; overflow: visible; }
@@ -489,28 +490,17 @@
 <div class="app">
   <div class="body">
     <div class="rail">
-      <!-- ============================================================
-           YOUR DESCRIPTION: edit the name and the text between these tags.
-           Add another <p class="bio">…</p> for another paragraph, and
-           <a href="https://…">words</a> for a link.
-           ============================================================ -->
       <header class="top">
-        <h1 class="name">Zach Reich</h1>
-        <div class="icons">
-          <button class="btn icon" id="refresh" aria-label="Rearrange the posts" title="Rearrange the posts">
-            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 1 1-1.6-3.9"/><path d="M13.5 1.5v3h-3"/></svg>
-          </button>
-          <button class="btn icon" id="about" aria-controls="intro" aria-expanded="false" aria-label="About Zach" title="About">
-            <svg class="more" viewBox="0 0 16 16" aria-hidden="true"><path d="M5.5 6a2.5 2.5 0 1 1 3.7 2.2c-.8.5-1.2 1-1.2 1.8"/><path d="M8 12.6v.1"/></svg>
-            <svg class="less" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 10.5 8 6l4.5 4.5"/></svg>
-          </button>
-        </div>
+        <h1 class="name pill">Zach Reich</h1>
+        <div class="marquee pill"><div class="window"><p class="track">
+          <!-- ======================= YOUR MARQUEE TEXT: edit it here ======================= -->
+          I’m a graphic designer currently working at Pentagram on team Andrea Trabucco-Campos. I grew up in Florida, then studied graphic design in college at Yale, and most recently moved to New York City. Although I began my graphic design journey as a calligrapher, I’ve lately been interested in generative design tools. I’m at (813) 417-5275 and zachreichdesign@gmail.com.
+          <!-- ================================================================================ -->
+        </p></div></div>
+        <button class="btn icon pill" id="refresh" aria-label="Rearrange the posts" title="Rearrange the posts">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 1 1-1.6-3.9"/><path d="M13.5 1.5v3h-3"/></svg>
+        </button>
       </header>
-      <div class="intro" id="intro" hidden>
-        <p class="bio">Graphic designer. A sentence or two on who you are and the design you do goes here.</p>
-        <p class="bio"><a href="https://www.instagram.com/zachalligraphy/">@zachalligraphy</a></p>
-      </div>
-      <!-- ============================================================ -->
 
     </div>
 
@@ -548,8 +538,7 @@
         <button class="phead" aria-expanded="false"><span class="badge">2</span><span>Type</span></button>
         <div class="popup"><span class="plabel">Applies to</span><span class="pwrap"><span class="pvalue"></span>
           <select id="tyEl" aria-label="Text to style">
-            <option value="name">Name</option><option value="bio">Description</option><option value="tipTitle">Popup title</option>
-            <option value="tipBody">Popup text</option>
+            <option value="name">Name, marquee and popups</option>
           </select></span></div>
         <div class="popup"><span class="plabel">Typeface</span><span class="pwrap"><span class="pvalue"></span>
           <select id="tyFont" aria-label="Typeface">
@@ -645,14 +634,11 @@ const SF = '-apple-system, "SF Pro Display", "Helvetica Neue", sans-serif';
 const SIDES = ['Top', 'Right', 'Bottom', 'Left'], DEVICES = { '': 'desktop', Tablet: 'tablet', Mobile: 'mobile' };
 const headerKeys = f => Object.fromEntries(Object.entries(DEVICES).flatMap(([d, name]) => SIDES.map(side => [`header${side}${d}`, f(side, name)])));
 const DEFAULTS = {
-  scale: 75, irregularity: 100, grouping: 0, space: 75, gap: 2, rounding: 10, roundingTablet: 8, roundingMobile: 6, side: 0, site: 2,
+  scale: 75, irregularity: 100, grouping: 0, space: 75, gap: 2, rounding: 10, roundingTablet: 8, roundingMobile: 6, side: 0, site: 2, marqueeSpeed: 40, marqueeStart: 1.5, marqueeEnd: 1,
   ...headerKeys((side, name) => name === 'mobile' && (side === 'Top' || side === 'Bottom') ? 8 : 12),
   order: 'random', theme: 'light',
   type: {
     name: { font: SF, size: 13, leading: 1.33, tracking: -0.005, weight: 400, align: 'left', italic: false, features: '' },
-    bio: { font: SF, size: 13, leading: 1.23, tracking: -0.006, weight: 400, align: 'left', italic: false, features: '' },
-    tipTitle: { font: SF, size: 13, leading: 1.23, tracking: -0.006, weight: 600, align: 'left', italic: false, features: '' },
-    tipBody: { font: SF, size: 13, leading: 1.23, tracking: -0.006, weight: 400, align: 'left', italic: false, features: '' },
   },
   colors: { light: {}, dark: {} },
   fonts: [],       // { name, family, src }: fonts opened in dev mode, saved in the project
@@ -676,6 +662,7 @@ const SLIDERS = {
   roundingTablet: ['Corner rounding: tablet', 0, 60, 1, 'px'], roundingMobile: ['Corner rounding: mobile', 0, 60, 1, 'px'],
   ...headerKeys((side, name) => [`Header ${side.toLowerCase()}: ${name}`, 0, 60, 1, 'px']),
   side: ['Side padding', 0, 480, 1, 'px'], site: ['Site padding', 0, 80, 1, 'px'],
+  marqueeSpeed: ['Marquee speed', 5, 300, 1, 'px/s'], marqueeStart: ['Marquee pause at start', 0, 10, 0.1, 's'], marqueeEnd: ['Marquee pause at end', 0, 10, 0.1, 's'],
 };
 function sliderRow(key) {
   const [label, min, max, step, unit] = SLIDERS[key], d = document.createElement('div');
@@ -773,7 +760,7 @@ new ResizeObserver(layoutSoon).observe(board);
 // ---------- applying the settings
 // "ss01, tnum, liga 0" in the field, with or without quotes, to what CSS wants
 const features = text => text.trim() ? text.replace(/["']/g, '').replace(/\b[a-z0-9]{4}\b/gi, '"$&"') : 'normal';
-const SELECTOR = { name: '.name', bio: '.bio', tipTitle: '#tip b', tipBody: '#tip .desc' };
+const SELECTOR = { name: '.name, .marquee .track, #tip b, #tip .desc' };   // one style for all the site's text
 function apply() {
   root.dataset.theme = cfg.theme;
   root.style.colorScheme = cfg.theme;
@@ -786,9 +773,10 @@ function apply() {
   const c = cfg.colors[cfg.theme];
   c.ink ? root.style.setProperty('--label', c.ink) : root.style.removeProperty('--label');
   c.canvas ? root.style.setProperty('--bg', c.canvas) : root.style.removeProperty('--bg');
-  $('#typeStyle').textContent = Object.entries(cfg.type).map(([k, t]) => `${SELECTOR[k]} { font-family: ${t.font}; font-size: ${t.size}px; line-height: ${t.leading}; letter-spacing: ${t.tracking}em; font-weight: ${t.weight}; text-align: ${t.align}; font-style: ${t.italic ? 'italic' : 'normal'}; font-feature-settings: ${features(t.features)}; }`).join('\n');
+  $('#typeStyle').textContent = Object.entries(cfg.type).filter(([k]) => SELECTOR[k]).map(([k, t]) => `${SELECTOR[k]} { font-family: ${t.font}; font-size: ${t.size}px; line-height: ${t.leading}; letter-spacing: ${t.tracking}em; font-weight: ${t.weight}; text-align: ${t.align}; font-style: ${t.italic ? 'italic' : 'normal'}; font-feature-settings: ${features(t.features)}; }`).join('\n');
   root.style.setProperty('--gap', `${cfg.gap}px`);
   layoutSoon();
+  startMarquee();
   sendToFrame();
 }
 function touch() {   // something changed that Save would keep
@@ -833,13 +821,24 @@ $$('[data-theme-seg]').forEach(s => s.addEventListener('click', e => {
   cfg.theme = b.dataset.value; showControls(); touch();
 }));
 $('#refresh').addEventListener('click', () => { seed = crypto.getRandomValues(new Uint32Array(1))[0]; hideTip(); paintTip(); apply(); });
-$('#about').addEventListener('click', e => {
-  const open = $('#intro').hidden, b = e.currentTarget;
-  $('#intro').hidden = !open;
-  b.setAttribute('aria-expanded', open);
-  b.setAttribute('aria-label', open ? 'Hide description' : 'About Zach');
-  b.title = open ? 'Hide' : 'About';
-});
+
+// ---------- marquee: rests at the start, scrolls to the end of the text, rests, then starts over
+const marqueeWindow = $('.marquee .window'), track = $('.marquee .track');
+let marqueeRun;
+function startMarquee() {
+  marqueeRun?.cancel();
+  const far = track.offsetWidth - marqueeWindow.clientWidth;
+  if (far <= 0 || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const start = cfg.marqueeStart * 1000, move = far / cfg.marqueeSpeed * 1000, end = cfg.marqueeEnd * 1000, total = start + move + end;
+  marqueeRun = track.animate([
+    { transform: 'translateX(0)', offset: 0 }, { transform: 'translateX(0)', offset: start / total },
+    { transform: `translateX(${-far}px)`, offset: (start + move) / total }, { transform: `translateX(${-far}px)`, offset: 1 },
+  ], { duration: total, iterations: Infinity });
+}
+new ResizeObserver(() => startMarquee()).observe(marqueeWindow);
+// Refresh is a circle: as wide as the pills are tall
+new ResizeObserver(() => { $('#refresh').style.width = `${$('.name').offsetHeight}px`; }).observe($('.name'));
+document.fonts.ready.then(startMarquee);
 
 // type: applies to the chosen piece of text
 const ty = () => cfg.type[$('#tyEl').value];
