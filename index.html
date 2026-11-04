@@ -405,7 +405,7 @@
   /* no glass and no shadows here: floating surfaces are solid, with a hairline.
      Both selectors, so these beat the same tokens set for dark mode above. */
   :root, html[data-theme="dark"] {
-    --bg: rgb(128, 128, 128);
+    --bg: rgb(250, 250, 250);
     --glass: var(--pill); --sidebar: var(--pill); --glass-sheen: transparent;
     --glass-edge: 0 0 0 1px var(--separator);
     --glass-shadow: 0 0 transparent;
@@ -658,8 +658,7 @@ const DEFAULTS = {
   fonts: [],       // { name, family, src }: fonts opened in dev mode, saved in the project
   overrides: {},   // post id → { title, desc }
 };
-let RANDOM_BG = randomColour().bg;   // new with each page load and each press of Refresh
-const HOUSE_COLORS = { light: { ink: '#000000', canvas: '#808080' }, dark: { ink: '#ffffff', canvas: '#808080' } };
+const HOUSE_COLORS = { light: { ink: '#000000', canvas: '#fafafa' }, dark: { ink: '#ffffff', canvas: '#fafafa' } };
 const merge = (a, b) => {
   const out = structuredClone(a);
   for (const k in b) out[k] = b[k] && typeof b[k] === 'object' && !Array.isArray(b[k]) && out[k] ? merge(out[k], b[k]) : b[k];
@@ -781,7 +780,7 @@ function apply() {
   for (const [d, name] of Object.entries(DEVICES)) root.style.setProperty(`--head-${name}`, SIDES.map(side => `${cfg[`header${side}${d}`]}px`).join(' '));
   const c = cfg.colors[cfg.theme];
   c.ink ? root.style.setProperty('--label', c.ink) : root.style.removeProperty('--label');
-  root.style.setProperty('--bg', RANDOM_BG);
+  c.canvas ? root.style.setProperty('--bg', c.canvas) : root.style.removeProperty('--bg');
   $('#typeStyle').textContent = Object.entries(cfg.type).map(([k, t]) => `${SELECTOR[k]} { font-family: ${t.font}; font-size: ${t.size}px; line-height: ${t.leading}; letter-spacing: ${t.tracking}em; font-weight: ${t.weight}; text-align: ${t.align}; font-style: ${t.italic ? 'italic' : 'normal'}; font-feature-settings: ${features(t.features)}; }`).join('\n');
   root.style.setProperty('--gap', `${cfg.gap}px`);
   layoutSoon();
@@ -828,7 +827,7 @@ $$('[data-theme-seg]').forEach(s => s.addEventListener('click', e => {
   const b = e.target.closest('button'); if (!b) return;
   cfg.theme = b.dataset.value; showControls(); touch();
 }));
-$('#refresh').addEventListener('click', () => { RANDOM_BG = randomColour().bg; seed = crypto.getRandomValues(new Uint32Array(1))[0]; hideTip(); paintTip(); apply(); });
+$('#refresh').addEventListener('click', () => { seed = crypto.getRandomValues(new Uint32Array(1))[0]; hideTip(); paintTip(); apply(); });
 $('#about').addEventListener('click', e => {
   const open = $('#intro').hidden, b = e.currentTarget;
   $('#intro').hidden = !open;
