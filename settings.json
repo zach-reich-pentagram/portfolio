@@ -8,18 +8,18 @@
   "roundingMobile": 4,
   "side": 0,
   "site": 1.5,
-  "headerTop": 12,
+  "headerTop": 5,
   "headerRight": 12,
-  "headerBottom": 12,
-  "headerLeft": 16,
-  "headerTopTablet": 10,
-  "headerRightTablet": 14,
-  "headerBottomTablet": 10,
-  "headerLeftTablet": 14,
-  "headerTopMobile": 8,
-  "headerRightMobile": 12,
-  "headerBottomMobile": 8,
-  "headerLeftMobile": 12,
+  "headerBottom": 5,
+  "headerLeft": 12,
+  "headerTopTablet": 4,
+  "headerRightTablet": 10,
+  "headerBottomTablet": 4,
+  "headerLeftTablet": 10,
+  "headerTopMobile": 2,
+  "headerRightMobile": 8,
+  "headerBottomMobile": 2,
+  "headerLeftMobile": 8,
   "order": "random",
   "theme": "dark",
   "type": {
@@ -66,7 +66,9 @@
   },
   "colors": {
     "light": {},
-    "dark": {}
+    "dark": {
+      "canvas": "#ebebeb"
+    }
   },
   "fonts": [],
   "overrides": {}

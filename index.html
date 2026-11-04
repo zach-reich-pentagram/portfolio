@@ -616,7 +616,7 @@
     </select></span></div>
 </div>
 <script type="module">
-import { parseCaption, parseRich, sequence, pack, maxFrameHeight, randomColour } from './layout.js';
+import { parseCaption, parseRich, sequence, pack, maxFrameHeight, randomColour, noise } from './layout.js';
 const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
 const clamp = (v, a, b) => v < a ? a : v > b ? b : v;
 const root = document.documentElement;
@@ -645,7 +645,7 @@ const SF = '-apple-system, "SF Pro Display", "Helvetica Neue", sans-serif';
 const SIDES = ['Top', 'Right', 'Bottom', 'Left'], DEVICES = { '': 'desktop', Tablet: 'tablet', Mobile: 'mobile' };
 const headerKeys = f => Object.fromEntries(Object.entries(DEVICES).flatMap(([d, name]) => SIDES.map(side => [`header${side}${d}`, f(side, name)])));
 const DEFAULTS = {
-  scale: 75, irregularity: 100, grouping: 0, gap: 2, rounding: 10, roundingTablet: 8, roundingMobile: 6, side: 0, site: 2,
+  scale: 75, irregularity: 100, grouping: 0, space: 0, gap: 2, rounding: 10, roundingTablet: 8, roundingMobile: 6, side: 0, site: 2,
   ...headerKeys((side, name) => name === 'mobile' && (side === 'Top' || side === 'Bottom') ? 8 : 12),
   order: 'random', theme: 'light',
   type: {
@@ -671,6 +671,7 @@ let cfg = merge(DEFAULTS, saved), seed = crypto.getRandomValues(new Uint32Array(
 // ---------- sliders
 const SLIDERS = {
   scale: ['Scale', 40, 300, 1, '%'], irregularity: ['Irregularity', 0, 100, 1, '%'], grouping: ['Grouping', 0, 100, 1, '%'],
+  space: ['Negative space', 0, 100, 1, '%'],
   gap: ['Frame padding', 0, 48, 1, 'px'], rounding: ['Corner rounding: desktop', 0, 60, 1, 'px'],
   roundingTablet: ['Corner rounding: tablet', 0, 60, 1, 'px'], roundingMobile: ['Corner rounding: mobile', 0, 60, 1, 'px'],
   ...headerKeys((side, name) => [`Header ${side.toLowerCase()}: ${name}`, 0, 60, 1, 'px']),
@@ -753,10 +754,17 @@ function layout() {
   const gap = cfg.gap;
   // An average frame's width at 100%: most of the screen on a phone, about a quarter on a desktop
   const base = cfg.scale / 100 * (120 + 0.14 * W);
-  const { tiles, height } = pack(sequence(posts, { order: cfg.order, group: cfg.grouping / 100, seed }), {
+  const frames = sequence(posts, { order: cfg.order, group: cfg.grouping / 100, seed });
+  // Negative space: blank frames packed like the rest and never drawn. Up to one per two frames
+  // at 100%; their shapes and places come from the seed, so the slider adds holes without reshuffling.
+  for (let i = 0, k = Math.round(frames.length * cfg.space / 200); i < k; i++)
+    frames.splice(Math.floor(noise(seed, 'blankAt' + i) * (frames.length + 1)), 0,
+      { id: 'blank' + i, post: {}, aspect: 2 ** (2 * noise(seed, 'blank' + i) - 1) });
+  const { tiles, height } = pack(frames, {
     width: W, gap, base, seed, group: cfg.grouping / 100, irr: cfg.irregularity / 100, maxH: maxFrameHeight(cfg.scale, innerHeight), min: MIN_FRAME,
   });
   for (const t of tiles) {
+    if (!t.f.el) continue;   // a blank
     const s = t.f.el.style;
     s.left = `${t.x}px`; s.top = `${t.y}px`; s.width = `${t.w}px`; s.height = `${t.h}px`;
   }
