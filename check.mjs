@@ -103,4 +103,19 @@ for (let seed = 1; seed <= 20; seed++) {
   hs.forEach((h, i) => { if (i) assert.ok(h > hs[i - 1] * 1.2, `Scale barely changes the frames, seed ${seed}: ${hs.map(Math.round)}`); });
 }
 
+// Negative space: every post still placed, and at full most posts stand clear of the others
+{
+  let posts = 0, touching = 0;
+  const ov = (a0, a1, b0, b1) => Math.min(a1, b1) - Math.max(a0, b0), g = 3;
+  const shares = (a, b) => [['x', 'w', 'y', 'h'], ['y', 'h', 'x', 'w']].some(([p, s, q, z]) =>
+    ov(a[p], a[p] + a[s], b[p], b[p] + b[s]) > g && ov(a[q], a[q] + a[z] + g, b[q], b[q] + b[z] + g) > -1e-6 && ov(a[q], a[q] + a[z], b[q], b[q] + b[z]) < g);
+  for (let seed = 1; seed <= 20; seed++) {
+    const frames = sequence(tall, { seed });
+    const real = pack(frames, { width: 1400, gap: 2, base: 0.75 * (120 + 0.14 * 1400), irr: 1, space: 1, seed, maxH: 900, min: 76 }).tiles.filter(t => !t.f.blank);
+    assert.equal(real.length, frames.length, `negative space lost a frame, seed ${seed}`);
+    for (const a of real) { posts++; if (real.some(b => b !== a && shares(a, b))) touching++; }
+  }
+  assert.ok(touching / posts < 0.4, `at full negative space ${Math.round(100 * touching / posts)}% of posts still touch another`);
+}
+
 console.log(`ok: ${runs} layouts, none cropped, ${rowed}/${checked} with a full-width seam, narrowest frame ${narrowest.toFixed(0)}px, tallest ${tallest.toFixed(0)}px; post spread ${g0.toFixed(1)} → ${g5.toFixed(1)} → ${g1.toFixed(1)} px as grouping rises`);

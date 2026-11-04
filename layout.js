@@ -57,8 +57,10 @@ const away = (t, c, r) => Math.hypot(Math.max(t.x - c, 0, c - (t.x + t.w - 1)), 
 // The arrangement: a rough bento on a grid. Each frame goes in the highest, leftmost free cell, so
 // frames interlock with no rows or columns running through. This only decides who touches whom;
 // measure() below works out the true sizes.
-function arrange(frames, { cols, size, irr, group, seed, maxRows, min }) {
+function arrange(frames, { cols, size, irr, group, space = 0, seed, maxRows, min }) {
   const sky = new Array(cols).fill(0), left = [...frames], tiles = [], placed = new Map();
+  let blanks = 0;
+  const chance = 1 - (1 - space) ** 3;   // posts only stand clear near certainty, so the slider's middle reaches there
   const unit = size / 6;   // a sixth of an average frame: how far apart is near depends on how big frames are
   const near = group * 2 * unit, hold = group > 0 ? (1 - group) ** 2 * cols * 2 + 3 * unit : Infinity;   // in cells
   while (left.length) {
@@ -67,14 +69,21 @@ function arrange(frames, { cols, size, irr, group, seed, maxRows, min }) {
 
     // A frame whose post is already on the grid and touches this slot goes here. One whose post is
     // too far off waits for a nearer slot; otherwise the next frame in line goes.
-    let nearest = Infinity, closest = 0, first = -1;
-    left.forEach((f, i) => {
-      const d = group > 0 ? Math.min(Infinity, ...(placed.get(f.post) || []).map(t => away(t, c, r))) : Infinity;
-      if (d < nearest) { nearest = d; closest = i; }
-      if (first < 0 && (d === Infinity || d <= hold)) first = i;
-    });
-    const pick = nearest <= near ? closest : first >= 0 ? first : closest;
-    const f = left.splice(pick, 1)[0];
+    // Negative space: a slot against a frame, beside it or under it, gets a blank instead, `space`
+    // of the time. Blanks are packed like frames but never drawn, so posts stand apart.
+    const against = tiles.some(t => !t.f.blank && (((t.x + t.w === c || t.x === c + run) && t.y <= r && t.y + t.h > r) || (t.y + t.h === r && t.x < c + run && t.x + t.w > c)));
+    let f;
+    if (against && blanks < 6 * frames.length && noise(seed, 'space' + tiles.length) < chance) {
+      f = { id: 'blank' + blanks, post: {}, aspect: 2 ** (2 * noise(seed, 'blank' + blanks++) - 1), blank: true };
+    } else {
+      let nearest = Infinity, closest = 0, first = -1;
+      left.forEach((f, i) => {
+        const d = group > 0 ? Math.min(Infinity, ...(placed.get(f.post) || []).map(t => away(t, c, r))) : Infinity;
+        if (d < nearest) { nearest = d; closest = i; }
+        if (first < 0 && (d === Infinity || d <= hold)) first = i;
+      });
+      f = left.splice(nearest <= near ? closest : first >= 0 ? first : closest, 1)[0];
+    }
 
     // Up to 4× either way, weighted towards small so a few large frames stand among many little ones.
     // The range is worked out under this frame's height limit, or the limit would flatten every
@@ -199,7 +208,7 @@ function measure({ tiles, rows }, cols, width, gap) {
 // The size of the rough grid follows the frame size asked for. An arrangement can solve to a frame
 // narrower than `min`, or have a seam right across; the next seed's sizes usually don't, so the
 // best of a few is kept.
-export function pack(frames, { width, gap = 0, base, irr = 0, group = 0, seed = 1, maxH = Infinity, min = 1 }) {
+export function pack(frames, { width, gap = 0, base, irr = 0, group = 0, space = 0, seed = 1, maxH = Infinity, min = 1 }) {
   const cols = Math.max(6, Math.round((width + gap) / CELL)), u = (width + gap) / cols;
   const cells = Math.max(2, Math.ceil(min / u));
   // What Scale promises: frames' average area grows with its square, which fixes the page's height.
@@ -208,16 +217,19 @@ export function pack(frames, { width, gap = 0, base, irr = 0, group = 0, seed = 
   const target = 0.6 * frames.reduce((sum, f) => sum + base * base / f.aspect, 0) / width;
   let best = null, score = -Infinity, steer = 1;
   for (let i = 0; i < 24; i++) {
-    const done = measure(arrange(frames, { cols, size: steer * base / u, irr: i ? Math.max(irr, 0.1) : irr, group, seed: seed + i, min: cells, maxRows: Math.floor(maxH / u) }), cols, width, gap);
+    const done = measure(arrange(frames, { cols, size: steer * base / u, irr: i ? Math.max(irr, 0.1) : irr, group, space, seed: seed + i, min: cells, maxRows: Math.floor(maxH / u) }), cols, width, gap);
     const narrow = Math.min(...done.tiles.map(t => t.w));
     const tall = Math.max(...done.tiles.map(t => t.h)) / maxH - 1.25;  // the solve can grow a frame past its limit
     // Four corners meeting at a point can, very rarely, solve to frames that overlap or vanish: never use those
     const clash = narrow <= 0 || done.tiles.some((a, j) => done.tiles.some((b, k) => k > j && Math.min(a.x + a.w, b.x + b.w) - Math.max(a.x, b.x) + gap > 1e-6 && Math.min(a.y + a.h, b.y + b.h) - Math.max(a.y, b.y) + gap > 1e-6));
-    const off = Math.abs(Math.log(done.height / target));
+    // Scale is about the posts, so blanks' share of the page doesn't count towards its height
+    const area = ts => ts.reduce((a, t) => a + t.w * t.h, 0);
+    const posts = done.height * area(done.tiles.filter(t => !t.f.blank)) / area(done.tiles);
+    const off = Math.abs(Math.log(posts / target));
     const s = (clash ? -1e9 : 0) + (Math.min(narrow, min) - min) * 100 - done.rowed - Math.max(0, tall) * 10 - Math.max(0, off - 0.1) * 50;    // a frame's width comes first
     if (s > score) { best = done; score = s; }
     if (s === 0) break;
-    steer = Math.min(8, Math.max(1 / 8, steer * Math.sqrt(target / done.height)));
+    steer = Math.min(8, Math.max(1 / 8, steer * Math.sqrt(target / posts)));
   }
   return best;
 }
