@@ -745,7 +745,10 @@ function retitle() {
 if (!posts.length) board.innerHTML = `<p class="note empty">${data ? 'No posts yet.' : 'Couldn’t load the posts.'}</p>`;
 
 // ---------- the bento
-const MIN_FRAME = 76;   // px: the smallest a frame can be, on any screen
+// px: the smallest a frame can be. Smaller on narrower screens (the same breakpoints as the CSS),
+// or a phone's frames could only range from this to the screen's width and Irregularity would look
+// a third of what it does on a desktop. 44 is the smallest a finger can reliably tap.
+const minFrame = () => innerWidth < 760 ? 44 : innerWidth < 1180 ? 60 : 76;
 let queued = 0;
 function layout() {
   queued = 0;
@@ -755,7 +758,7 @@ function layout() {
   // An average frame's width at 100%: most of the screen on a phone, about a quarter on a desktop
   const base = cfg.scale / 100 * (120 + 0.14 * W);
   const { tiles, height } = pack(sequence(posts, { order: cfg.order, group: cfg.grouping / 100, seed }), {
-    width: W, gap, base, seed, group: cfg.grouping / 100, irr: cfg.irregularity / 100, space: cfg.space / 100, maxH: maxFrameHeight(cfg.scale, innerHeight), min: MIN_FRAME,
+    width: W, gap, base, seed, group: cfg.grouping / 100, irr: cfg.irregularity / 100, space: cfg.space / 100, maxH: maxFrameHeight(cfg.scale, innerHeight), min: minFrame(),
   });
   for (const t of tiles) {
     if (t.f.blank) continue;
