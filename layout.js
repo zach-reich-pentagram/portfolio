@@ -90,7 +90,7 @@ function arrange(frames, { cols, size, irr, group, space = 0, seed, maxRows, min
     // tall frame to one size and leave Irregularity nothing to do.
     const cap = maxRows * f.aspect, centre = Math.min(size, cap * 0.7);
     // Limits apply after the pick: applied to the range, the two ends stop moving and Scale goes dead.
-    const chosen = centre * 4 ** (irr * (2 * noise(seed, 'size' + f.id) ** 1.8 - 1));
+    const chosen = centre * 10 ** (irr * (2 * noise(seed, 'size' + f.id) ** 1.8 - 1));
     const want = Math.max(min, Math.min(chosen, Math.max(min, cap * (1 + 0.25 * irr))));
 
     // A big frame needs a wide slot, and exact heights rarely line up to leave one. So the frames
@@ -211,10 +211,11 @@ function measure({ tiles, rows }, cols, width, gap) {
 export function pack(frames, { width, gap = 0, base, irr = 0, group = 0, space = 0, seed = 1, maxH = Infinity, min = 1 }) {
   const cols = Math.max(6, Math.round((width + gap) / CELL)), u = (width + gap) / cols;
   const cells = Math.max(2, Math.ceil(min / u));
-  // What Scale promises: frames' average area grows with its square, which fixes the page's height.
-  // An arrangement's true sizes depend on who touches whom, so the size handed to arrange() is
-  // steered towards that height from one try to the next. 0.6 sets how big 100% looks.
-  const target = 0.6 * frames.reduce((sum, f) => sum + base * base / f.aspect, 0) / width;
+  // What Scale promises: the typical (median) frame's width. Irregularity then makes the big ones
+  // bigger and the page taller, rather than shrinking everything to keep the height. An arrangement's
+  // true sizes depend on who touches whom, so the size handed to arrange() is steered towards that
+  // width from one try to the next. 0.6 sets how big 100% looks.
+  const target = Math.sqrt(0.6) * base;
   let best = null, score = -Infinity, steer = 1;
   for (let i = 0; i < 24; i++) {
     const done = measure(arrange(frames, { cols, size: steer * base / u, irr: i ? Math.max(irr, 0.1) : irr, group, space, seed: seed + i, min: cells, maxRows: Math.floor(maxH / u) }), cols, width, gap);
@@ -222,14 +223,13 @@ export function pack(frames, { width, gap = 0, base, irr = 0, group = 0, space =
     const tall = Math.max(...done.tiles.map(t => t.h)) / maxH - 1.25;  // the solve can grow a frame past its limit
     // Four corners meeting at a point can, very rarely, solve to frames that overlap or vanish: never use those
     const clash = narrow <= 0 || done.tiles.some((a, j) => done.tiles.some((b, k) => k > j && Math.min(a.x + a.w, b.x + b.w) - Math.max(a.x, b.x) + gap > 1e-6 && Math.min(a.y + a.h, b.y + b.h) - Math.max(a.y, b.y) + gap > 1e-6));
-    // Scale is about the posts, so blanks' share of the page doesn't count towards its height
-    const area = ts => ts.reduce((a, t) => a + t.w * t.h, 0);
-    const posts = done.height * area(done.tiles.filter(t => !t.f.blank)) / area(done.tiles);
-    const off = Math.abs(Math.log(posts / target));
-    const s = (clash ? -1e9 : 0) + (Math.min(narrow, min) - min) * 100 - done.rowed - Math.max(0, tall) * 10 - Math.max(0, off - 0.1) * 50;    // a frame's width comes first
+    // the posts' median width: blanks don't count
+    const ws = done.tiles.filter(t => !t.f.blank).map(t => t.w).sort((a, b) => a - b), typical = ws[ws.length >> 1];
+    const off = Math.abs(Math.log(typical / target));
+    const s = (clash ? -1e9 : 0) + (Math.min(narrow, min) - min) * 100 - done.rowed * 20 - Math.max(0, tall) * 10 - Math.max(0, off - 0.25) * 50;    // a frame's width comes first
     if (s > score) { best = done; score = s; }
     if (s === 0) break;
-    steer = Math.min(8, Math.max(1 / 8, steer * Math.sqrt(target / posts)));
+    steer = Math.min(8, Math.max(1 / 8, steer * target / typical));
   }
   return best;
 }
