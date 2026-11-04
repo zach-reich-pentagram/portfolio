@@ -645,7 +645,7 @@ const SF = '-apple-system, "SF Pro Display", "Helvetica Neue", sans-serif';
 const SIDES = ['Top', 'Right', 'Bottom', 'Left'], DEVICES = { '': 'desktop', Tablet: 'tablet', Mobile: 'mobile' };
 const headerKeys = f => Object.fromEntries(Object.entries(DEVICES).flatMap(([d, name]) => SIDES.map(side => [`header${side}${d}`, f(side, name)])));
 const DEFAULTS = {
-  scale: 75, irregularity: 100, grouping: 0, space: 0, gap: 2, rounding: 10, roundingTablet: 8, roundingMobile: 6, side: 0, site: 2,
+  scale: 75, irregularity: 100, grouping: 0, space: 10, gap: 2, rounding: 10, roundingTablet: 8, roundingMobile: 6, side: 0, site: 2,
   ...headerKeys((side, name) => name === 'mobile' && (side === 'Top' || side === 'Bottom') ? 8 : 12),
   order: 'random', theme: 'light',
   type: {

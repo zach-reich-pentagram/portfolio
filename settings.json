@@ -66,10 +66,9 @@
   },
   "colors": {
     "light": {},
-    "dark": {
-      "canvas": "#ebebeb"
-    }
+    "dark": {}
   },
   "fonts": [],
-  "overrides": {}
+  "overrides": {},
+  "space": 10
 }
