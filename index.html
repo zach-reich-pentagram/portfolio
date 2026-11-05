@@ -5,138 +5,153 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Zach Reich</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🍱%3C/text%3E%3C/svg%3E">
-<!-- House style: extracted from sweat-type and image-experiments. The design rules are in ~/.claude/CLAUDE.md. -->
 <style>
-  /* ------------------------------------------------------------------ tokens
-     Apple's semantic colours: labels, fills and separators by vibrancy tier,
-     the grouped backgrounds, and the system accent — light, dark, and high
-     contrast. Colour is used sparingly: the accent marks only what is chosen
-     and the one primary action. */
+  /* ------------------------------------------------------------------ colours
+     For the dev panels mostly: labels, fills and separators, the accent that marks what's chosen.
+     Light and dark follow the Light / Dark setting, not the system. */
   :root {
     color-scheme: light;
     --blue: rgb(0, 136, 255);
-    --blue-soft: rgba(0, 136, 255, 0.14);
     --blue-ring: rgba(0, 136, 255, 0.35);
     --green: rgb(52, 199, 89);
     --red: rgb(255, 59, 48);
     --label: #000;
     --label-2: rgba(60, 60, 67, 0.60);
     --label-3: rgba(60, 60, 67, 0.30);
-    --label-4: rgba(60, 60, 67, 0.18);
     --fill: rgba(120, 120, 128, 0.20);
     --fill-2: rgba(120, 120, 128, 0.16);
     --fill-3: rgba(118, 118, 128, 0.12);
     --separator: rgba(60, 60, 67, 0.29);
-    --separator-opaque: rgb(198, 198, 200);
-    --bg: #F2F2F7;                           /* systemGroupedBackground */
-    --bg-2: #FFFFFF;                         /* secondarySystemGroupedBackground */
-    --bg-3: #F2F2F7;                         /* tertiarySystemGroupedBackground */
-    --card: rgba(255, 255, 255, 0.78);       /* regular standard material, inside the glass */
-    --glass: rgba(255, 255, 255, 0.72);      /* Liquid Glass, regular */
-    --sidebar: #FBFBFD;                      /* that glass over the plain light page */
-    --glass-edge: inset 0 0 0 0.5px rgba(255, 255, 255, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.8);
-    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.06);
-    --glass-sheen: rgba(255, 255, 255, 0.35);  /* the light caught along the top of the glass */
-    --card-glass: rgba(118, 118, 128, 0.07);   /* a grouped section inside floating glass */
+    --bg: rgb(250, 250, 250);                /* the page; Colour > Canvas replaces it */
+    --bg-2: #FFFFFF;
+    --pill: #FFFFFF;                         /* the dev panels, menus and toast */
+    --edge: 0 0 0 1px var(--separator);      /* their outline */
+    --card: rgba(255, 255, 255, 0.78);       /* a section in a dev panel, on a phone */
+    --card-2: rgba(118, 118, 128, 0.07);     /* a section in a dev panel */
     --seg-on: #FFFFFF;
     --seg-shadow: 0 3px 8px rgba(0, 0, 0, 0.12), 0 3px 1px rgba(0, 0, 0, 0.04), 0 0 0 0.5px rgba(0, 0, 0, 0.04);
     --knob: #FFFFFF;
     --knob-shadow: 0 1px 3px rgba(0, 0, 0, 0.22), 0 0 0 0.5px rgba(0, 0, 0, 0.06);
-    --gray: rgb(142, 142, 147);
-    --gray-4: rgb(209, 209, 214);
-    --gray-6: rgb(242, 242, 247);
     --target: 44px;                          /* the smallest thing anyone has to hit */
-    --margin: 20px;                          /* regular width */
-    --gutter: 12px;
-    --radius-glass: 22px;
+    --radius-glass: 22px;                    /* the hover card and About */
     --radius-card: 14px;
     --radius-control: 10px;
     --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "SF Pro", "Helvetica Neue", Helvetica, sans-serif;
   }
   html[data-theme="dark"] {
-      color-scheme: dark;
-      --blue: rgb(0, 145, 255);
-      --blue-soft: rgba(0, 145, 255, 0.22);
-      --blue-ring: rgba(0, 145, 255, 0.45);
-      --green: rgb(48, 209, 88);
-      --red: rgb(255, 69, 58);
-      --label: #FFF;
-      --label-2: rgba(235, 235, 245, 0.60);
-      --label-3: rgba(235, 235, 245, 0.30);
-      --label-4: rgba(235, 235, 245, 0.16);
-      --fill: rgba(120, 120, 128, 0.36);
-      --fill-2: rgba(120, 120, 128, 0.32);
-      --fill-3: rgba(118, 118, 128, 0.24);
-      --separator: rgba(84, 84, 88, 0.65);
-      --separator-opaque: rgb(56, 56, 58);
-      --bg: #000000;
-      --bg-2: #1C1C1E;
-      --bg-3: #2C2C2E;
-      --card: rgba(44, 44, 46, 0.62);
-      --glass: rgba(28, 28, 30, 0.75);
-      --sidebar: #151517;                    /* that glass over the plain dark page */
-      --glass-edge: inset 0 0 0 0.5px rgba(255, 255, 255, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.08);
-      --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.45), 0 1px 3px rgba(0, 0, 0, 0.3);
-      --glass-sheen: rgba(255, 255, 255, 0.07);
-      --card-glass: rgba(255, 255, 255, 0.06);
-      --seg-on: rgb(99, 99, 102);
-      --seg-shadow: 0 3px 8px rgba(0, 0, 0, 0.3), 0 0 0 0.5px rgba(255, 255, 255, 0.06);
-      --knob: rgb(229, 229, 234);
-      --knob-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-      --gray-4: rgb(58, 58, 60);
-      --gray-6: rgb(28, 28, 30);
+    color-scheme: dark;
+    --blue: rgb(0, 145, 255);
+    --blue-ring: rgba(0, 145, 255, 0.45);
+    --green: rgb(48, 209, 88);
+    --red: rgb(255, 69, 58);
+    --label: #FFF;
+    --label-2: rgba(235, 235, 245, 0.60);
+    --label-3: rgba(235, 235, 245, 0.30);
+    --fill: rgba(120, 120, 128, 0.36);
+    --fill-2: rgba(120, 120, 128, 0.32);
+    --fill-3: rgba(118, 118, 128, 0.24);
+    --separator: rgba(84, 84, 88, 0.65);
+    --bg-2: #1C1C1E;
+    --pill: #2C2C2E;
+    --card: rgba(44, 44, 46, 0.62);
+    --card-2: rgba(255, 255, 255, 0.06);
+    --seg-on: rgb(99, 99, 102);
+    --seg-shadow: 0 3px 8px rgba(0, 0, 0, 0.3), 0 0 0 0.5px rgba(255, 255, 255, 0.06);
+    --knob: rgb(229, 229, 234);
+    --knob-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
   }
   @media (prefers-contrast: more) {
-    :root { --blue: rgb(30, 110, 244); --label-2: rgba(60, 60, 67, 0.80); --label-3: rgba(60, 60, 67, 0.55); --separator: rgba(60, 60, 67, 0.55); --gray: rgb(108, 108, 112); }
+    :root { --blue: rgb(30, 110, 244); --label-2: rgba(60, 60, 67, 0.80); --label-3: rgba(60, 60, 67, 0.55); --separator: rgba(60, 60, 67, 0.55); }
+    html[data-theme="dark"] { --blue: rgb(92, 184, 255); --label-2: rgba(235, 235, 245, 0.80); --label-3: rgba(235, 235, 245, 0.55); --separator: rgba(160, 160, 168, 0.8); }
   }
-  @media (prefers-contrast: more) {
-    html[data-theme="dark"] { --blue: rgb(92, 184, 255); --label-2: rgba(235, 235, 245, 0.80); --label-3: rgba(235, 235, 245, 0.55); --separator: rgba(160, 160, 168, 0.8); --gray: rgb(174, 174, 178); }
+  :root {
+    --site: 20px;     /* padding round the whole site, set from the settings */
+    --side: 200px;    /* extra room either side of the bento, set from the settings */
+    --margin: var(--site);
+    --round-desktop: 14px; --round-tablet: 14px; --round-mobile: 14px;   /* corners of the frames, set from the settings */
+    --round: var(--round-desktop);
+    --head-desktop: 12px; --head-tablet: 12px; --head-mobile: 12px;   /* padding inside the pills, set from the settings */
+    --head: var(--head-desktop);
+    --float: 20px;    /* how far the dev panels sit from the window, whatever the site padding */
   }
 
-  /* ------------------------------------------------------------- type
-     The macOS desktop scale, tracked per size the way SF Pro is:
-     Title 3 15/20, Headline/Body 13/16, Subheadline 11/14 for notes,
-     Footnote 10/13 for the smallest marks. */
+  /* ------------------------------------------------------------------ base */
   * { box-sizing: border-box; margin: 0; padding: 0; }
   [hidden] { display: none !important; }
-  html, body { height: 100%; }
   body {
     background: var(--bg); color: var(--label); font-family: var(--font);
     font-size: 13px; line-height: 16px; letter-spacing: -0.08px; font-weight: 400;
-    -webkit-font-smoothing: antialiased; overflow: hidden;
+    -webkit-font-smoothing: antialiased;
   }
   button, input, textarea, select { font: inherit; color: inherit; letter-spacing: inherit; }
+  a { color: inherit; }
   ::selection { background: var(--blue-ring); }
   :focus-visible { outline: 3px solid var(--blue-ring); outline-offset: 1px; border-radius: var(--radius-control); }
+  .app { min-height: 100vh; }
+  .body { position: relative; padding: var(--margin) calc(var(--margin) + var(--side)); }
 
-  /* ------------------------------------------------------------ shell
-     The canvas is the content and runs edge to edge; the two sidebars are the
-     controls layer, floating over it in Liquid Glass, as tall as what they hold. */
-  .app { height: 100vh; }
-  .body { position: relative; height: 100%; }
-  .col {
-    position: absolute; top: max(var(--margin), env(safe-area-inset-top)); max-height: calc(100% - var(--margin) * 2);
-    z-index: 4; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 10px; color: var(--label);
-    background: linear-gradient(180deg, var(--glass-sheen), transparent 120px), var(--glass);
-    -webkit-backdrop-filter: blur(24px) saturate(180%); backdrop-filter: blur(24px) saturate(180%);
-    border-radius: var(--radius-glass); box-shadow: var(--glass-edge), var(--glass-shadow);
-    transform: translateZ(0);   /* its own layer, so the blur is redrawn cleanly on resize */
+  /* ------------------------------------------------------------------ the site
+     Above the bento, in one line on every screen: your name at the left and Refresh at the right.
+     The name, the buttons and About wear the hover card's colour, new with each load and each Refresh. */
+  .rail { display: flex; flex-direction: column; gap: var(--gap); margin-bottom: var(--gap); }
+  .top { display: flex; align-items: stretch; justify-content: space-between; gap: var(--gap); }
+  .pill, .link { border-radius: 999px; background: var(--hover-bg) !important; color: var(--hover-ink) !important; padding: var(--head); white-space: nowrap; text-decoration: none; }
+  .name { flex: none; }
+  .top .link { margin-right: auto; }   /* only here when the bento had no gap for it: next to the name */
+  #board .link { position: absolute; }
+  /* Refresh: a circle as tall as the name (its width is set in the script), with a hit area past its edge for fingers */
+  .top #refresh { flex: none; display: inline-flex; align-items: center; justify-content: center; position: relative; height: auto; padding: 0; border-radius: 50%; }
+  .top #refresh::after { content: ""; position: absolute; inset: -8px; }
+  #refresh svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+  .link:hover, .top #refresh:hover { background: #000000 !important; color: #ffffff !important; }   /* hovering a button turns it black */
+  /* About: in the bento like a post, the hover card's size and shape */
+  .about { position: absolute; overflow-y: auto; display: flex; flex-direction: column; gap: 4px; padding: 10px 14px 12px; border-radius: var(--radius-glass); background: var(--hover-bg); color: var(--hover-ink); }
+  .about h2 { font: inherit; }
+  #tip .info b, .about h2, .top .name { font-weight: 530; }   /* a caption's first paragraph, About's heading and your name */
+
+  /* the bento: frames placed by layout.js */
+  #board { position: relative; }
+  .tile { position: absolute; overflow: hidden; border-radius: var(--round); background: var(--fill-3); }
+  .tile:focus-visible { border-radius: var(--round); outline-offset: 2px; }
+  .tile img, .tile video { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .empty { padding: 40px 0; text-align: center; }
+
+  /* hover card: follows the cursor; a click pins it, so its links and long text can be reached */
+  #tip { position: fixed; width: 280px; max-height: min(60vh, 420px); overflow-y: auto; padding: 6px; border-radius: var(--radius-glass);
+         background: var(--hover-bg); color: var(--hover-ink); box-shadow: none; }
+  #tip.live { pointer-events: auto; }   /* only once pinned, so it never gets between the cursor and the frames */
+  #tip .info { padding: 4px 8px 6px; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  #tip .desc { white-space: pre-line; overflow-wrap: anywhere; }
+  #tip .desc:empty { display: none; }
+  #tip a { color: inherit; text-decoration: underline; }
+  #toast { position: fixed; left: 50%; bottom: 44px; transform: translate(-50%, 8px); padding: 8px 16px; border-radius: 999px; opacity: 0; transition: opacity .2s, transform .2s; max-width: calc(100% - 32px); }
+  #toast.show { opacity: 1; transform: translate(-50%, 0); }
+  #toast.err { color: var(--red); }
+
+  @media (max-width: 1179px) { :root { --round: var(--round-tablet); --head: var(--head-tablet); } }
+  @media (max-width: 759px) {
+    :root { --round: var(--round-mobile); --head: var(--head-mobile); }
+    .body { padding: max(var(--margin), env(safe-area-inset-top)) var(--margin) var(--margin); }
   }
-  .col.left { left: max(var(--margin), env(safe-area-inset-left)); width: 320px; }
-  .col.right { right: max(var(--margin), env(safe-area-inset-right)); width: 300px; }
-  .col .panel { background: var(--card-glass); }
-  .col > *, .panel > * { flex-shrink: 0; }
-  .col { scrollbar-width: thin; scrollbar-color: var(--fill) transparent; }
+
+  /* ------------------------------------------------------------------ dev mode
+     A column of panels at the top right, a bar across the top, and a hint at the foot. */
+  .col {
+    position: fixed; z-index: 5; top: var(--float); right: var(--float); width: 300px; max-height: calc(100% - var(--margin) * 2);
+    overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 10px; color: var(--label);
+    background: var(--pill); border-radius: var(--radius-glass); box-shadow: var(--edge);
+    scrollbar-width: thin; scrollbar-color: var(--fill) transparent;
+  }
   .col::-webkit-scrollbar { width: 14px; }
   .col::-webkit-scrollbar-track { background: transparent; margin: var(--radius-glass) 0; }
   .col::-webkit-scrollbar-thumb { background: var(--fill); border-radius: 999px; border: 4px solid transparent; background-clip: padding-box; }
   .col::-webkit-scrollbar-corner { background: transparent; }
+  .col > *, .panel > * { flex-shrink: 0; }
+  /* the dev column sits over the top right, so Refresh moves clear of it */
+  @media (min-width: 760px) { html[data-dev="on"] .top { padding-right: 328px; } }
 
-  /* ----------------------------------------------------------- sections
-     Every panel collapses: its whole head is the button, a chevron at the end turns
-     down when open, and everything below the head shows only while open. All start closed. */
-  .panel { background: var(--card); border-radius: var(--radius-card); padding: 14px; display: flex; flex-direction: column; gap: 10px; }
-  .panel.off { opacity: 0.45; }
+  /* panels: the whole head is the button, its chevron turning down when open. All start closed. */
+  .panel { background: var(--card-2); border-radius: var(--radius-card); padding: 14px; display: flex; flex-direction: column; gap: 10px; }
   .panel:not(.open) > :not(.phead) { display: none; }
   .phead {
     display: flex; align-items: center; gap: 8px; width: calc(100% + 28px); margin: -14px; padding: 14px;
@@ -156,13 +171,8 @@
     font-size: 10px; line-height: 13px; font-weight: 600; letter-spacing: 0.12px; font-variant-numeric: tabular-nums;
   }
   .note { color: var(--label-2); font-size: 11px; line-height: 14px; letter-spacing: 0.06px; }
-  .grouphead {
-    border-top: 0.5px solid var(--separator); padding-top: 12px;
-    font-size: 11px; line-height: 14px; font-weight: 600; letter-spacing: 0.06px; text-transform: uppercase; color: var(--label-2);
-  }
 
-  /* ---------------------------------------------------------- controls */
-  /* push buttons: sized to their label, a quiet fill; the accent only for the one primary action */
+  /* buttons: sized to their label, a quiet fill; the accent only for Save */
   .btn {
     height: 30px; padding: 0 14px; border: 0; border-radius: 9px;
     background: var(--fill-2); color: var(--label);
@@ -174,8 +184,10 @@
   .btn.primary:hover { filter: brightness(1.08); }
   .btn[disabled] { color: var(--label-3); background: var(--fill-3); cursor: default; }
   .btnrow { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  /* floating bits: the hover card, the toast, the Show UI button */
+  .float { position: absolute; z-index: 6; pointer-events: none; background: var(--pill); box-shadow: var(--edge); }
 
-  /* segmented controls: a sunken track, the chosen segment raised in the material */
+  /* segmented controls: a sunken track, the chosen segment raised */
   .seg { display: flex; gap: 2px; padding: 2px; min-height: var(--target); background: var(--fill-3); border-radius: calc(var(--radius-control) + 2px); }
   .seg button {
     flex: 1 1 0; min-width: 60px; border: 0; background: transparent; border-radius: var(--radius-control);
@@ -187,20 +199,10 @@
   .seg.small { min-height: 32px; }
   .seg.small button { min-width: 0; font-size: 12px; }
 
-  /* choice chips: capsules, the chosen one in the accent */
-  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
-  .chip {
-    min-height: var(--target); min-width: 60px; padding: 0 16px; border: 0; border-radius: 999px;
-    background: var(--fill-3); color: var(--label); font-weight: 500; cursor: pointer; transition: background-color .15s ease;
-  }
-  .chip:hover:not(.on) { background: var(--fill-2); }
-  .chip.on { background: var(--blue); color: #fff; font-weight: 600; }
-
   /* pop-up menus: label left, choice right beside chevrons in a small round well, rows split by a hairline */
   .rows { display: flex; flex-direction: column; gap: 10px; }
   .popup { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: var(--target); }
   .popup + .popup { border-top: 0.5px solid var(--separator); }
-  .popup.off { opacity: 0.4; pointer-events: none; }
   .plabel { color: var(--label); white-space: nowrap; }
   .pwrap { position: relative; display: inline-flex; align-items: center; min-width: 0; min-height: var(--target); padding: 0 32px 0 8px; border-radius: var(--radius-control); }
   .pvalue { color: var(--label); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -224,16 +226,7 @@
   .field:focus { box-shadow: 0 0 0 3px var(--blue-ring); }
   textarea.field { min-height: 88px; }
 
-  /* drop zones */
-  .drop {
-    min-height: 72px; border: 1.5px dashed var(--label-3); border-radius: var(--radius-card); padding: 18px 12px; text-align: center; cursor: pointer;
-    background: var(--fill-3); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
-    transition: background-color .15s ease, border-color .15s ease;
-  }
-  .drop:hover { border-color: var(--label-2); }
-  .drop.hot, body.dragging .drop { background: var(--blue-soft); border-color: var(--blue); }
-
-  /* labelled sliders: name left, value right in label-2 tabular figures */
+  /* labelled sliders: name left, value right */
   .row { display: flex; flex-direction: column; gap: 2px; }
   .rowhead { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
   .rowhead .val { color: var(--label-2); font-variant-numeric: tabular-nums; }
@@ -258,8 +251,8 @@
   .val.typein:hover { background: var(--fill-3); }
   .val.typein.editing { background: var(--bg-2); color: var(--label); box-shadow: 0 0 0 3px var(--blue-ring); outline: none; min-width: 36px; text-align: right; }
 
-  /* sweep: a small round button beside every slider's name. Grey while still; in the accent
-     while the slider runs, its wave showing how: a triangle to bounce, a sawtooth to loop. */
+  /* sweep: a small round button beside every slider's name, in the accent while the slider runs,
+     its wave showing how: a triangle to bounce, a sawtooth to loop */
   .osc { width: 22px; height: 22px; min-width: 22px; margin: -3px 0; border: 0; border-radius: 50%; padding: 0; cursor: pointer;
          display: inline-flex; align-items: center; justify-content: center; background: var(--fill-3); color: var(--label-2); transition: background-color .15s ease; }
   .osc:hover { background: var(--fill-2); color: var(--label); }
@@ -269,7 +262,6 @@
   /* on/off is a switch (a real checkbox underneath), green when on */
   .check { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: var(--target); cursor: pointer; }
   .check input { position: absolute; opacity: 0; pointer-events: none; }
-  .check + .check { border-top: 0.5px solid var(--separator); }
   .box { width: 42px; min-width: 42px; height: 26px; border-radius: 13px; background: var(--fill); position: relative; transition: background-color .2s ease; }
   .box::after { content: ""; position: absolute; top: 2px; left: 2px; width: 22px; height: 22px; border-radius: 50%; background: #fff;
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15), 0 3px 1px rgba(0, 0, 0, 0.06); transition: transform .2s ease; }
@@ -277,14 +269,8 @@
   .check:has(input:checked) .box::after { transform: translateX(16px); }
   .check:has(input:focus-visible) .box { box-shadow: 0 0 0 3px var(--blue-ring); }
 
-  /* read-outs: key left, value right, hairline between */
-  .kv { display: flex; justify-content: space-between; gap: 8px; min-height: 24px; align-items: center; }
-  .kv + .kv { border-top: 0.5px solid var(--separator); }
-  .kv .val { color: var(--label-2); font-variant-numeric: tabular-nums; }
-
   /* colour: a round well (a real colour input underneath), the hex beside it */
   .colorrow { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: var(--target); }
-  .colorrow + .colorrow, .popup + .colorrow, .colorrow + .popup { border-top: 0.5px solid var(--separator); }
   .cwrap { display: flex; align-items: center; gap: 8px; min-width: 0; }
   .cwrap .val { color: var(--label-2); font-variant-numeric: tabular-nums; font-size: 11px; min-width: 52px; text-align: right; text-transform: lowercase; }
   .well { position: relative; width: 26px; height: 26px; min-width: 26px; border-radius: 50%; overflow: hidden; cursor: pointer;
@@ -293,27 +279,19 @@
   .well span { position: absolute; inset: 0; border-radius: 50%; }
   .well:has(input:focus-visible) { box-shadow: inset 0 0 0 0.5px rgba(0, 0, 0, 0.2), 0 0 0 3px var(--blue-ring); }
 
-  /* menus that open from a button: glass, beside the button that opened them */
+  /* the sweep menu, beside the button that opened it */
   .menu { position: fixed; inset: auto; margin: 0; border: 0; width: 248px; padding: 12px; color: var(--label);
-          background: linear-gradient(180deg, var(--glass-sheen), transparent 80px), var(--glass);
-          -webkit-backdrop-filter: blur(24px) saturate(180%); backdrop-filter: blur(24px) saturate(180%);
-          border-radius: var(--radius-card); box-shadow: var(--glass-edge), var(--glass-shadow); }
+          background: var(--pill); border-radius: var(--radius-card); box-shadow: var(--edge); }
   .menu:popover-open { display: flex; flex-direction: column; gap: 6px; }
   .menu .popup { min-height: 36px; }
   .menu .pwrap { min-height: 32px; }
   .menuhead { font-size: 11px; line-height: 14px; font-weight: 600; letter-spacing: 0.06px; text-transform: uppercase; color: var(--label-2); padding: 0 2px 4px; }
 
-  /* ------------------------------------------------------------- stage */
-  .stagewrap { position: absolute; inset: 0; overflow: hidden; }
-  /* The top bar: a floating glass capsule centred over the open canvas.
-     It has the glass rim ONLY — never --glass-shadow or any drop shadow underneath. */
+  /* the bar across the top, and the hint at the foot */
   .stagebar {
-    position: absolute; top: max(var(--margin), env(safe-area-inset-top)); left: calc(50% + 10px); transform: translateX(-50%); z-index: 3;
-    display: flex; align-items: center; gap: 10px; padding: 5px 5px 5px 14px; color: var(--label);
-    background: linear-gradient(180deg, var(--glass-sheen), transparent), var(--glass);
-    -webkit-backdrop-filter: blur(20px) saturate(180%); backdrop-filter: blur(20px) saturate(180%);
-    border-radius: 999px; box-shadow: var(--glass-edge);
-    max-width: calc(100% - 720px); white-space: nowrap;
+    position: fixed; z-index: 5; top: var(--float); left: calc((100% - 300px - var(--float)) / 2); transform: translateX(-50%); max-width: calc(100% - 340px);
+    display: flex; align-items: center; gap: 10px; padding: 5px 5px 5px 14px; color: var(--label); white-space: nowrap;
+    background: var(--pill); border-radius: 999px; box-shadow: var(--edge);
   }
   .stagebar .note { font-variant-numeric: tabular-nums; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
   .stagebar .note b { color: var(--label); font-weight: 600; }
@@ -322,171 +300,33 @@
   .btn.rec { background: var(--red); color: #fff; font-weight: 600; font-variant-numeric: tabular-nums; }
   .btn.rec::before { content: ""; display: inline-block; width: 7px; height: 7px; margin: 0 6px 1px 0; border-radius: 50%; background: #fff; animation: blink 1s steps(2, jump-none) infinite; }
   @keyframes blink { 50% { opacity: 0.3; } }
-  .stage { position: absolute; inset: 0; overflow: hidden; display: flex; align-items: center; justify-content: center; background: var(--bg);
-           padding: 68px calc(var(--margin) * 2 + 300px + 24px) 40px calc(var(--margin) * 2 + 320px + 24px); }
-  .hint { position: absolute; bottom: 18px; left: calc(var(--margin) * 2 + 320px + 8px); right: calc(var(--margin) * 2 + 300px + 8px);
-          color: var(--label-2); font-size: 11px; line-height: 14px; letter-spacing: 0.06px; pointer-events: none; text-align: center; }
-  /* the content, as large as the open canvas lets its proportions be */
-  .fit { width: 100%; height: 100%; container-type: size; display: flex; align-items: center; justify-content: center; }
-  #board { --r: 1; position: relative; width: min(100cqw, calc(100cqh * var(--r))); aspect-ratio: var(--r); background: var(--canvas, var(--bg-2)); color: var(--ink, var(--label)); box-shadow: var(--glass-shadow); overflow: hidden; }
-  /* a canvas too close to the page to see (dark in dark mode, light in light mode) gets a
-     hairline in the inverse: bright round a dark canvas, dark round a light one. Set by canvasEdge(). */
-  #board[data-edge="bright"] { outline: 1px solid rgba(255, 255, 255, 0.4); }
-  #board[data-edge="dark"] { outline: 1px solid rgba(0, 0, 0, 0.2); }
-  /* the text on the canvas, set entirely by the Type and Colour controls; empty to begin with */
-  .specimen { position: absolute; inset: 8%; outline: none; overflow: hidden; overflow-wrap: break-word; white-space: pre-wrap;
-              font-family: var(--t-font); font-size: var(--t-size); line-height: var(--t-leading); letter-spacing: var(--t-tracking); text-align: var(--t-align); }
-
-  /* floating glass bits: tooltip, toast, show-UI button */
-  .float {
-    position: absolute; z-index: 6; pointer-events: none;
-    background: linear-gradient(180deg, var(--glass-sheen), transparent), var(--glass);
-    -webkit-backdrop-filter: blur(20px) saturate(180%); backdrop-filter: blur(20px) saturate(180%);
-    box-shadow: var(--glass-edge), var(--glass-shadow);
+  .hint {
+    position: fixed; z-index: 5; left: calc((100% - 300px - var(--float)) / 2); bottom: 14px; transform: translateX(-50%); width: max-content; max-width: calc(100% - 340px);
+    padding: 4px 12px; border-radius: 999px; background: var(--pill); box-shadow: var(--edge);
+    color: var(--label-2); font-size: 11px; line-height: 14px; letter-spacing: 0.06px; pointer-events: none; text-align: center;
   }
-  #toast { left: 50%; bottom: 44px; transform: translate(-50%, 8px); padding: 8px 16px; border-radius: 999px; opacity: 0; transition: opacity .2s, transform .2s; max-width: calc(100% - 32px); }
-  #toast.show { opacity: 1; transform: translate(-50%, 0); }
-  #toast.err { color: var(--red); }
-  #showUi { position: fixed; top: 12px; right: 12px; z-index: 7; display: none; opacity: 0; transition: opacity .2s; border-radius: 999px; pointer-events: auto; }
-  #showUi:hover, #showUi:focus-visible { opacity: 1; }
-
-  /* ------------------------------------------------------------ hidden UI: the content alone, edge to edge */
-  html[data-ui="off"] .col, html[data-ui="off"] .stagebar, html[data-ui="off"] .hint { display: none; }
-  html[data-ui="off"] .stage { padding: 0; }
-  html[data-ui="off"] .stagewrap { position: fixed; inset: 0; height: auto; border-radius: 0; z-index: 5; }
-  html[data-ui="off"] #board { box-shadow: none; outline: none; }
-  html[data-ui="off"] #showUi { display: block; }
-
-  /* ------------------------------------------------------------ size classes
-     Regular width: a sidebar floating either side of the canvas. Narrower:
-     both float stacked down the left. Compact: one column, canvas first, the
-     sections below it in the page, solid rather than floating. */
-  @media (max-width: 1179px) {
-    .col.left, .col.right { left: max(var(--margin), env(safe-area-inset-left)); right: auto; width: 330px; }
-    .col.left { max-height: calc(68% - var(--margin) - var(--gutter) / 2); }
-    .col.right { top: auto; bottom: max(var(--margin), env(safe-area-inset-bottom)); max-height: calc(32% - var(--margin) - var(--gutter) / 2); }
-    .stage { padding: 68px 32px 40px calc(var(--margin) * 2 + 330px + 24px); }
-    .stagebar { left: calc(50% + 185px); max-width: calc(100% - 420px); }
-    .hint { left: calc(var(--margin) * 2 + 330px + 8px); right: 24px; }
-  }
-  @media (max-width: 759px) {
-    :root { --margin: 16px; }
-    body { overflow: auto; }
-    .app { height: auto; min-height: 100vh; }
-    .body { height: auto; display: flex; flex-direction: column; gap: var(--gutter); padding: var(--margin); padding-top: max(var(--margin), env(safe-area-inset-top)); }
-    .stagewrap { position: relative; inset: auto; order: -1; flex-shrink: 0; height: 62vh; border-radius: var(--radius-glass); box-shadow: 0 0 0 0.5px var(--separator); }
-    .stage { padding: 56px 16px 32px; }
-    .stagebar { left: 50%; max-width: calc(100% - 24px); }
-    .hint { left: 16px; right: 16px; bottom: 10px; }
-    /* in the page rather than over the canvas: nothing to see through, so solid */
-    .col.left, .col.right { position: static; width: auto; height: auto; max-height: none; overflow: visible;
-      background: var(--sidebar); -webkit-backdrop-filter: none; backdrop-filter: none; transform: none; }
-    .col .panel { background: var(--card); }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    #toast, #showUi, .btn, .seg button, .chip, .box, .box::after, .phead::after, .osc, .val.typein { transition: none; }
-    .btn.rec::before { animation: none; }
-  }
-
-  /* ------------------------------------------------------------ this app
-     A long scrolling page rather than an artboard: the bento runs down the middle, the words and
-     the controls stay put either side of it. Colour mode is chosen on the page and starts light,
-     so the tokens above hang off html[data-theme] rather than the system setting. */
-  :root {
-    --site: 20px;     /* padding round the whole site */
-    --side: 200px;    /* room either side of the bento, where the two columns sit */
-    --round-desktop: 14px; --round-tablet: 14px; --round-mobile: 14px;   /* corners of the frames, set from the settings */
-    --round: var(--round-desktop);
-    --head-desktop: 12px; --head-tablet: 12px; --head-mobile: 12px;   /* padding inside the heading, set from the settings */
-    --head: var(--head-desktop);
-    --float: 20px;    /* how far advanced mode's panels sit from the window, whatever the site padding */
-    --margin: var(--site);
-  }
-  /* no glass and no shadows here: floating surfaces are solid, with a hairline.
-     Both selectors, so these beat the same tokens set for dark mode above. */
-  :root, html[data-theme="dark"] {
-    --bg: rgb(250, 250, 250);
-    --glass: var(--pill); --sidebar: var(--pill); --glass-sheen: transparent;
-    --glass-edge: 0 0 0 1px var(--separator);
-    --glass-shadow: 0 0 transparent;
-    --pill: #FFFFFF;
-  }
-  html[data-theme="dark"] { --pill: #2C2C2E; }
-  .col, .menu, .stagebar, .float, .hint { -webkit-backdrop-filter: none; backdrop-filter: none; }
-  html, body { height: auto; }
-  body { overflow: visible; }
-  .app { height: auto; min-height: 100vh; }
-  .body { height: auto; padding: var(--margin) calc(var(--margin) + var(--side)); }
-  a { color: inherit; }
-
-  /* above the grid, in one line on every screen: your name at the left and Refresh at the right, each its own black pill */
-  :root { --icon: 32px; }
-  .rail { display: flex; flex-direction: column; gap: var(--gap); margin-bottom: var(--gap); }
-  .top { display: flex; align-items: stretch; justify-content: space-between; gap: var(--gap); }
-  /* the name and every button wear the hover card's colour, new with each load and each Refresh */
-  .pill, .link { border-radius: 999px; background: var(--hover-bg) !important; color: var(--hover-ink) !important; padding: var(--head); white-space: nowrap; text-decoration: none; }
-  .name { flex: none; }
-  .top .link { margin-right: auto; }   /* only here when the bento had no gap for it: next to the name */
-  #board .link { position: absolute; }
-  /* the About tile: in the bento like a post, its words scrolling if the tile comes out small */
-  .about { position: absolute; overflow-y: auto; display: flex; flex-direction: column; gap: 4px; padding: 10px 14px 12px; border-radius: var(--radius-glass); background: var(--hover-bg); color: var(--hover-ink); }   /* the buttons' colour */
-  .about h2 { font: inherit; }
-  #tip .info b, .about h2, .top .name { font-weight: 530; }   /* a caption's first paragraph, About's heading and your name */
-  /* hovering a button turns it black */
-  .link:hover, .top #refresh:hover { background: #000000 !important; color: #ffffff !important; }
-  /* Refresh: a circle as tall as the pills beside it, with a hit area past its edge for fingers */
-  .top #refresh { flex: none; height: auto; padding: 0; border-radius: 50%; background: var(--hover-bg) !important; color: var(--hover-ink) !important; }   /* its width follows the name's height, in the script */
-  .top #refresh::after { content: ""; position: absolute; inset: -8px; }
-  .icon { display: inline-flex; align-items: center; justify-content: center; position: relative; width: var(--icon); height: var(--icon); min-height: 0; padding: 0;
-          background: none !important; color: var(--label); transition: color .15s ease; }
-  .icon:hover { color: var(--label-2); }   /* grey is the only sign it can be clicked */
-  .icon svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
-
-  /* the bento: frames placed by layout.js */
-  #board { position: relative; width: auto; aspect-ratio: auto; background: none; box-shadow: none; overflow: visible; }
-  .tile { position: absolute; overflow: hidden; border-radius: var(--round); background: var(--fill-3); }
-  .tile:focus-visible { border-radius: var(--round); outline-offset: 2px; }
-  .tile img, .tile video { display: block; width: 100%; height: 100%; object-fit: cover; }
-  .empty { padding: 40px 0; text-align: center; }
-
-  /* hover card: follows the cursor; a click pins it, so its links and long text can be reached */
-  #tip { position: fixed; width: 280px; max-height: min(60vh, 420px); overflow-y: auto; padding: 6px; border-radius: var(--radius-glass); }
-  #tip.live { pointer-events: auto; }   /* only once pinned, so it never gets between the cursor and the frames */
-  #tip .info { padding: 4px 8px 6px; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
-  #tip .desc { white-space: pre-line; overflow-wrap: anywhere; }
-  #tip .desc:empty { display: none; }
-  #tip { box-shadow: none; }   /* its colour and text are set by paintTip() */
-  #tip a { color: inherit; text-decoration: underline; }
-
-  #toast { position: fixed; }
-
-  /* dev mode: its own column at the right */
-  .col.dev { position: fixed; z-index: 5; top: var(--float); right: var(--float); width: 300px; }
-  .stagebar { position: fixed; z-index: 5; top: var(--float); left: calc((100% - 300px - var(--float)) / 2); max-width: calc(100% - 340px); }
-  .hint { position: fixed; z-index: 5; left: calc((100% - 300px - var(--float)) / 2); right: auto; bottom: 14px; transform: translateX(-50%); width: max-content; max-width: calc(100% - 340px);
-          padding: 4px 12px; border-radius: 999px; background: var(--glass); box-shadow: var(--glass-edge); }
 
   /* preview: the real site in a frame of that width, so its own size classes apply */
   #preview { position: fixed; z-index: 3; inset: 0; display: flex; align-items: center; justify-content: center; background: var(--bg);
              padding: 68px calc(var(--float) * 2 + 300px) 24px 24px; }
-  #preview iframe { height: 100%; max-width: 100%; border: 0; background: var(--bg); border-radius: var(--radius-glass); box-shadow: var(--glass-edge); }
+  #preview iframe { height: 100%; max-width: 100%; border: 0; background: var(--bg); border-radius: var(--radius-glass); box-shadow: var(--edge); }
 
-  /* the dev column sits over the top right, so the icons move clear of it */
-  @media (min-width: 760px) { html[data-dev="on"] .top { padding-right: 328px; } }
-
-  html[data-ui="off"] .rail, html[data-ui="off"] #preview { display: none; }
+  /* hidden controls (H): the bento alone, edge to edge */
+  #showUi { position: fixed; top: 12px; right: 12px; z-index: 7; display: none; opacity: 0; transition: opacity .2s; border-radius: 999px; pointer-events: auto; }
+  #showUi:hover, #showUi:focus-visible { opacity: 1; }
+  html[data-ui="off"] .col, html[data-ui="off"] .stagebar, html[data-ui="off"] .hint, html[data-ui="off"] .rail, html[data-ui="off"] #preview { display: none; }
   html[data-ui="off"] .body { padding: 0; }
+  html[data-ui="off"] #showUi { display: block; }
 
-  @media (max-width: 1179px) { :root { --round: var(--round-tablet); --head: var(--head-tablet); } }
-  /* compact: the same, with room for fingers */
   @media (max-width: 759px) {
-    :root { --round: var(--round-mobile); --head: var(--head-mobile); }
-    .body { display: block; padding: max(var(--margin), env(safe-area-inset-top)) var(--margin) var(--margin); }
-    :root { --icon: 44px; }   /* a finger's reach */
-    .col.dev { left: var(--float); right: var(--float); top: auto; bottom: var(--float); width: auto; max-height: 60%; }
-    .stagebar, .hint { left: 50%; max-width: calc(100% - 24px); }
-    .hint { display: none; }
-    #preview { display: none; }
+    .col { left: var(--float); top: auto; bottom: var(--float); width: auto; max-height: 60%; }
+    .col .panel { background: var(--card); }
+    .stagebar { left: 50%; max-width: calc(100% - 24px); }
+    .hint, #preview { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #toast, #showUi, .btn, .seg button, .box, .box::after, .phead::after, .osc, .val.typein { transition: none; }
+    .btn.rec::before { animation: none; }
   }
 </style>
 <style id="typeStyle"></style>
@@ -497,7 +337,7 @@
     <div class="rail">
       <header class="top">
         <h1 class="name pill">Zach Reich</h1>
-        <button class="btn icon pill" id="refresh" aria-label="Rearrange the posts" title="Rearrange the posts">
+        <button class="btn pill" id="refresh" aria-label="Rearrange the posts" title="Rearrange the posts">
           <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 1 1-1.6-3.9"/><path d="M13.5 1.5v3h-3"/></svg>
         </button>
       </header>
@@ -538,7 +378,7 @@
     </div>
     <div class="hint" data-dev-only hidden>Click a frame to edit its text · click any value to type it · H hides the controls</div>
 
-    <aside class="col dev" data-dev-only hidden aria-label="Advanced settings">
+    <aside class="col" data-dev-only hidden aria-label="Advanced settings">
       <section class="panel">
         <button class="phead" aria-expanded="false"><span class="badge">1</span><span>Layout</span></button>
         <div class="rows" id="devSliders"></div>
@@ -553,10 +393,6 @@
       </section>
       <section class="panel">
         <button class="phead" aria-expanded="false"><span class="badge">2</span><span>Type</span></button>
-        <div class="popup"><span class="plabel">Applies to</span><span class="pwrap"><span class="pvalue"></span>
-          <select id="tyEl" aria-label="Text to style">
-            <option value="name">All text</option>
-          </select></span></div>
         <div class="popup"><span class="plabel">Typeface</span><span class="pwrap"><span class="pvalue"></span>
           <select id="tyFont" aria-label="Typeface">
             <option value='-apple-system, "SF Pro Display", "Helvetica Neue", sans-serif'>SF Pro</option>
@@ -582,9 +418,8 @@
       </section>
       <section class="panel">
         <button class="phead" aria-expanded="false"><span class="badge">3</span><span>Colour</span></button>
-        <div class="colorrow"><span class="plabel">Text</span><span class="cwrap"><span class="val"></span><label class="well"><span></span><input type="color" id="ink" aria-label="Text colour"></label></span></div>
         <div class="colorrow"><span class="plabel">Canvas</span><span class="cwrap"><span class="val"></span><label class="well"><span></span><input type="color" id="canvas" aria-label="Canvas colour"></label></span></div>
-        <div class="note">Light and dark keep their own colours; these change whichever is showing.</div>
+        <div class="note">Light and dark keep their own canvas colour; this changes whichever is showing.</div>
       </section>
       <section class="panel" id="postsPanel">
         <button class="phead" aria-expanded="false"><span class="badge">4</span><span>Post text</span></button>
@@ -646,7 +481,7 @@ setInterval(setFavicon, 15000);
 
 // ---------- settings
 // settings.json is what dev mode's Save writes; what's left out comes from here.
-const SF = '-apple-system, "SF Pro Display", "Helvetica Neue", sans-serif', HELVETICA = '"Helvetica Neue", Helvetica, Arial, sans-serif';
+const HELVETICA = '"Helvetica Neue", Helvetica, Arial, sans-serif';
 // header padding: one value per side per device, e.g. headerTop, headerLeftTablet, headerBottomMobile
 const SIDES = ['Top', 'Right', 'Bottom', 'Left'], DEVICES = { '': 'desktop', Tablet: 'tablet', Mobile: 'mobile' };
 const headerKeys = f => Object.fromEntries(Object.entries(DEVICES).flatMap(([d, name]) => SIDES.map(side => [`header${side}${d}`, f(side, name)])));
@@ -661,7 +496,7 @@ const DEFAULTS = {
   fonts: [],       // { name, family, src }: fonts opened in dev mode, saved in the project
   overrides: {},   // post id → { title, desc }
 };
-const HOUSE_COLORS = { light: { ink: '#000000', canvas: '#fafafa' }, dark: { ink: '#ffffff', canvas: '#fafafa' } };
+const CANVAS = '#fafafa';   // the page's colour until Colour > Canvas sets one
 const merge = (a, b) => {
   const out = structuredClone(a);
   for (const k in b) out[k] = b[k] && typeof b[k] === 'object' && !Array.isArray(b[k]) && out[k] ? merge(out[k], b[k]) : b[k];
@@ -746,7 +581,7 @@ function retitle() {
   }
 }
 if (!posts.length) board.innerHTML = `<p class="note empty">${data ? 'No posts yet.' : 'Couldn’t load the posts.'}</p>`;
-const links = $$('#extras .link'), about = { id: 'about', post: {}, aspect: 0.8, el: $('#extras .about') };
+const links = $$('#extras .link'), about = { id: 'about', post: {}, el: $('#extras .about') };   // its shape is worked out in layout()
 if (posts.length) board.append(...links, about.el);
 
 // ---------- the bento
@@ -822,7 +657,6 @@ function apply() {
   root.style.setProperty('--round-mobile', `${cfg.roundingMobile}px`);
   for (const [d, name] of Object.entries(DEVICES)) root.style.setProperty(`--head-${name}`, SIDES.map(side => `${cfg[`header${side}${d}`]}px`).join(' '));
   const c = cfg.colors[cfg.theme];
-  c.ink ? root.style.setProperty('--label', c.ink) : root.style.removeProperty('--label');
   c.canvas ? root.style.setProperty('--bg', c.canvas) : root.style.removeProperty('--bg');
   $('#typeStyle').textContent = Object.entries(cfg.type).filter(([k]) => SELECTOR[k]).map(([k, t]) => `${SELECTOR[k]} { font-family: ${t.font}; font-size: ${t.size}px; line-height: ${t.leading}; letter-spacing: ${t.tracking}em; font-weight: ${t.weight}; text-align: ${t.align}; font-style: ${t.italic ? 'italic' : 'normal'}; font-feature-settings: ${features(t.features)}; }`).join('\n');
   root.style.setProperty('--gap', `${cfg.gap}px`);
@@ -875,8 +709,8 @@ $('#refresh').addEventListener('click', () => { seed = crypto.getRandomValues(ne
 new ResizeObserver(() => { $('#refresh').style.width = `${$('.name').offsetHeight}px`; }).observe($('.name'));
 
 
-// type: applies to the chosen piece of text
-const ty = () => cfg.type[$('#tyEl').value];
+// type: one style for all the site's text
+const ty = () => cfg.type.name;
 function showType() {
   const t = ty();
   $('#tyFont').value = t.font; showChoice($('#tyFont'));
@@ -888,7 +722,6 @@ function showType() {
   $('#tyItalic').checked = t.italic;
   $('#tyFeatures').value = t.features;
 }
-$('#tyEl').addEventListener('change', showType);
 $('#tyFont').addEventListener('change', e => { ty().font = e.target.value; touch(); });
 for (const [id, key] of [['#tySize', 'size'], ['#tyLeading', 'leading'], ['#tyTracking', 'tracking'], ['#tyWeight', 'weight']]) {
   $(id).addEventListener('input', e => { ty()[key] = +e.target.value; touch(); });
@@ -913,7 +746,7 @@ fontFile.addEventListener('change', async () => {
 });
 
 // colour: light and dark keep their own
-const wellValue = inp => cfg.colors[cfg.theme][inp.id] ?? HOUSE_COLORS[cfg.theme][inp.id];
+const wellValue = inp => cfg.colors[cfg.theme][inp.id] ?? CANVAS;
 function showWell(inp) {
   const row = inp.closest('.cwrap'), v = row.querySelector('.val');
   row.querySelector('.well span').style.background = inp.value;
@@ -954,11 +787,10 @@ $('#ovReset').addEventListener('click', () => {
 // ---------- the hover card
 const tip = $('#tip');
 let tipTile = null, tipHide = 0;
-// one colour for every hover card, new with each page load and each press of Refresh
+// one colour for the hover card, your name, the buttons and About, new with each page load and each Refresh
 function paintTip() {
   const { bg, ink } = randomColour();
-  tip.style.setProperty('--glass', bg); tip.style.color = ink;
-  root.style.setProperty('--hover-bg', bg); root.style.setProperty('--hover-ink', ink);   // the buttons' hover colour
+  root.style.setProperty('--hover-bg', bg); root.style.setProperty('--hover-ink', ink);
 }
 paintTip();
 function richNodes(text) {
@@ -1254,30 +1086,13 @@ async function saveFile(blob, name) {
 }
 
 // ---------- recording
-// Record captures the canvas as video until it's pressed again, then saves it into mp4/ (or
-// webm/ where the browser can't make mp4). A board drawn in canvases (one, or a WebGL scene with
-// a 2D layer over it) is copied into the recording every frame, so a still canvas still records;
-// any other board is captured from this tab, cropped to the board, which Chrome asks to share
-// first.
+// Record captures the bento as video until it's pressed again, then saves it into mp4/ (or webm/
+// where the browser can't make mp4). It records this tab, cropped to the bento, which Chrome asks
+// to share first.
 const VIDEO = ['video/mp4;codecs=avc1', 'video/mp4', 'video/webm;codecs=vp9', 'video/webm'];
 const rec = { r: null, t0: 0, timer: 0 };
-function compositeStream(layers) {
-  const out = document.createElement('canvas'), g = out.getContext('2d');
-  let on = true;
-  (function draw() {
-    if (!on) return;
-    const { width, height } = layers[0];
-    if (out.width !== width || out.height !== height) { out.width = width; out.height = height; }
-    g.clearRect(0, 0, width, height);
-    for (const c of layers) if (c.width && c.height) g.drawImage(c, 0, 0, width, height);
-    requestAnimationFrame(draw);
-  })();
-  return Object.assign(out.captureStream(60), { done: () => on = false });
-}
 async function boardStream() {
-  const layers = [...board.querySelectorAll('canvas')];
-  if (layers.length) return compositeStream(layers);
-  if (!navigator.mediaDevices?.getDisplayMedia || !window.CropTarget) throw new Error('This browser can only record a <canvas> board');
+  if (!navigator.mediaDevices?.getDisplayMedia || !window.CropTarget) throw new Error('Recording needs Chrome');
   const s = await navigator.mediaDevices.getDisplayMedia({ video: { frameRate: 60 }, audio: false, preferCurrentTab: true });
   await s.getVideoTracks()[0].cropTo(await CropTarget.fromElement(board));
   return s;
@@ -1291,7 +1106,7 @@ async function startRecording(name = slug()) {
   const r = new MediaRecorder(stream, { mimeType: type, videoBitsPerSecond: 16e6 }), parts = [];
   r.ondataavailable = e => e.data.size && parts.push(e.data);
   r.onstop = () => {
-    stream.done?.(); stream.getTracks().forEach(t => t.stop());
+    stream.getTracks().forEach(t => t.stop());
     if (!parts.length) return toast('Nothing was recorded', true);
     saveFile(new Blob(parts, { type: type.split(';')[0] }), `${name}-${stamp()}.${type.startsWith('video/mp4') ? 'mp4' : 'webm'}`);
   };
