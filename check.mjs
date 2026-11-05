@@ -1,12 +1,24 @@
 // node check.mjs — fails loudly if the grid or the caption parsing breaks.
 import assert from 'node:assert/strict';
-import { parseCaption, parseRich, sequence, pack, maxFrameHeight, randomColour, inkOn } from './layout.js';
+import { parseCaption, frameCaptions, parseRich, sequence, pack, maxFrameHeight, randomColour, inkOn } from './layout.js';
 
 // captions: first line is the title, the rest is the description
 assert.deepEqual(parseCaption('Title\nLine one\n\nLine two\n'), { title: 'Title', desc: 'Line one\n\nLine two' });
 assert.deepEqual(parseCaption('Title\n\nBody'), { title: 'Title', desc: 'Body' });
 assert.deepEqual(parseCaption('Only a title'), { title: 'Only a title', desc: '' });
 assert.deepEqual(parseCaption(undefined), { title: '', desc: '' });
+
+// a caption per frame: as many paragraphs as frames, each starting with the same title
+const perFrame = 'Maps\nShown: 9\nAbout.\n\nMaps\nShown: 8\nAbout.\n\nMaps\nShown: 7\nAbout.';
+assert.deepEqual(frameCaptions(perFrame, 3).map(c => c.desc), ['Shown: 9\nAbout.', 'Shown: 8\nAbout.', 'Shown: 7\nAbout.']);
+assert.deepEqual(frameCaptions(perFrame, 3).map(c => c.title), ['Maps', 'Maps', 'Maps']);
+// otherwise every frame gets the whole caption: too few paragraphs, different first lines, or one frame
+const shared = 'Flowers\n\nThis program maps type to a 3D object.\n\nOctober 25, 2026';
+assert.deepEqual(frameCaptions(shared, 10), Array(10).fill(parseCaption(shared)));
+assert.deepEqual(frameCaptions(shared, 3), Array(3).fill(parseCaption(shared)));
+assert.deepEqual(frameCaptions(perFrame, 5), Array(5).fill(parseCaption(perFrame)));
+assert.deepEqual(frameCaptions(perFrame, 1), [parseCaption(perFrame)]);
+assert.deepEqual(frameCaptions(undefined, 2), Array(2).fill({ title: '', desc: '' }));
 
 // hover card: legible ink, and a colour that isn't grey
 assert.equal(inkOn([255, 255, 255]), '#000'); assert.equal(inkOn([0, 0, 0]), '#fff'); assert.equal(inkOn([255, 255, 0]), '#000'); assert.equal(inkOn([0, 0, 255]), '#fff');

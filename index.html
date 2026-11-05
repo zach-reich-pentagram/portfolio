@@ -457,7 +457,7 @@
     </select></span></div>
 </div>
 <script type="module">
-import { parseCaption, parseRich, sequence, pack, maxFrameHeight, randomColour, noise } from './layout.js';
+import { frameCaptions, parseRich, sequence, pack, maxFrameHeight, randomColour, noise } from './layout.js';
 const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
 const clamp = (v, a, b) => v < a ? a : v > b ? b : v;
 const root = document.documentElement;
@@ -579,12 +579,16 @@ for (const p of posts) {
   p.frames = p.media.map(m => ({ id: m.id, post: p, aspect: m.w / m.h || 1, el: makeTile(m) }));
   p.frames.forEach(f => { f.el.frame = f; board.append(f.el); });
 }
-// A post's words: your override where there is one, otherwise from its caption
+// Each frame's words: your override where there is one (for the whole post), otherwise its
+// caption, or its own part of the caption where the caption has one per frame
 function retitle() {
   for (const p of posts) {
-    const o = parseCaption(p.caption), v = cfg.overrides[p.id] ?? {};
-    p.title = v.title ?? o.title; p.desc = v.desc ?? o.desc;
-    p.frames.forEach(f => f.el.setAttribute('aria-label', p.title || 'Post'));
+    const v = cfg.overrides[p.id] ?? {}, own = frameCaptions(p.caption, p.frames.length);
+    p.frames.forEach((f, i) => {
+      f.title = v.title ?? own[i].title; f.desc = v.desc ?? own[i].desc;
+      f.el.setAttribute('aria-label', f.title || 'Post');
+    });
+    p.title = p.frames[0].title; p.desc = p.frames[0].desc;   // the post's, for ordering and the Post text panel
   }
 }
 if (!posts.length) board.innerHTML = `<p class="note empty">${data ? 'No posts yet.' : 'Couldn’t load the posts.'}</p>`;
@@ -809,7 +813,7 @@ function richNodes(text) {
 function showTip(el) {
   clearTimeout(tipHide);
   if (el === tipTile && !tip.hidden) return true;
-  const { title, desc } = el.frame.post;
+  const { title, desc } = el.frame;
   if (!title && !desc) { hideTip(); return false; }
   tipTile = el;
   tip.classList.remove('live');

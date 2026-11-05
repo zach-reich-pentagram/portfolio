@@ -17,6 +17,16 @@ export function parseCaption(caption = '') {
   return { title: title.trim(), desc: rest.join('\n').trim() };
 }
 
+// A carousel's caption can hold one caption per frame: as many paragraphs (split by blank lines)
+// as the post has frames, each starting with the same title line. Then each frame gets its own;
+// otherwise every frame shares the whole caption.
+export function frameCaptions(caption = '', frames = 1) {
+  const blocks = caption.trim().split(/\r?\n\s*\r?\n/).map(b => b.trim()).filter(Boolean);
+  const first = b => b.split(/\r?\n/)[0].trim();
+  const each = frames > 1 && blocks.length === frames && blocks.every(b => first(b) === first(blocks[0]));
+  return Array.from({ length: frames }, (_, i) => parseCaption(each ? blocks[i] : caption));
+}
+
 // Text to pieces of plain text and links: [label](https://…), or a bare URL. Only http(s) and
 // mailto become links, and the page builds them as DOM nodes, so a caption can't inject anything.
 export function parseRich(text = '') {
