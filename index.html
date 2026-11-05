@@ -463,8 +463,8 @@ const clamp = (v, a, b) => v < a ? a : v > b ? b : v;
 const root = document.documentElement;
 const embedded = new URLSearchParams(location.search).has('embed');   // inside the preview frame
 
-// ---------- favicon: a white clock with black hands, showing New York time
-// Its proportions are the drawing's: hands 0.49 and 0.73 of the radius, 0.067 of it thick.
+// ---------- favicon: a clock showing New York time, its face in the site's colour and its hands
+// black or white to suit, the same as the hover card's words. Its proportions are the drawing's: hands 0.49 and 0.73 of the radius, 0.067 of it thick.
 // Checked every second, but replaced only when a hand has turned half a degree, about every five
 // seconds: finer than a 16px icon can show, so nothing is redrawn for nothing. Browsers slow the
 // timer further in tabs that aren't showing.
@@ -473,10 +473,11 @@ const hand = (deg, len) => {
   const a = Math.round(deg * 2) / 2 * Math.PI / 180;
   return `M50 50L${(50 + len * Math.sin(a)).toFixed(2)} ${(50 - len * Math.cos(a)).toFixed(2)}`;
 };
-const clockIcon = (date = new Date()) => {
+let iconPaint = { bg: 'white', ink: 'black' };   // set by paintTip(), with the rest of the site's colour
+const clockIcon = (date = new Date(), { bg, ink } = iconPaint) => {
   const t = Object.fromEntries(NY.formatToParts(date).map(p => [p.type, +p.value]));
   const m = t.minute + t.second / 60, hr = t.hour % 12 + m / 60;
-  return `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='white'/><path d='${hand(hr * 30, 24.3)}${hand(m * 6, 36.7)}' stroke='black' stroke-width='3.4' stroke-linecap='round' fill='none'/></svg>`;
+  return `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='${bg}'/><path d='${hand(hr * 30, 24.3)}${hand(m * 6, 36.7)}' stroke='${ink}' stroke-width='3.4' stroke-linecap='round' fill='none'/></svg>`;
 };
 const favicon = $('link[rel=icon]');
 const setFavicon = () => {
@@ -798,10 +799,11 @@ $('#ovReset').addEventListener('click', () => {
 // ---------- the hover card
 const tip = $('#tip');
 let tipTile = null, tipHide = 0;
-// one colour for the hover card, your name, the buttons and About, new with each page load and each Refresh
+// one colour for the hover card, your name, the buttons, About and the favicon, new with each page load and each Refresh
 function paintTip() {
   const { bg, ink } = randomColour();
   root.style.setProperty('--hover-bg', bg); root.style.setProperty('--hover-ink', ink);
+  iconPaint = { bg, ink }; setFavicon();
 }
 paintTip();
 function richNodes(text) {
