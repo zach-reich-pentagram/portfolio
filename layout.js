@@ -90,7 +90,7 @@ function arrange(frames, { cols, size, irr, group, space = 0, seed, maxRows, min
     // tall frame to one size and leave Irregularity nothing to do.
     const cap = maxRows * f.aspect, centre = Math.min(size, cap * 0.7);
     // Limits apply after the pick: applied to the range, the two ends stop moving and Scale goes dead.
-    const chosen = centre * 10 ** (irr * (2 * noise(seed, 'size' + f.id) ** 1.8 - 1));
+    const chosen = centre * (f.size ?? 10 ** (irr * (2 * noise(seed, 'size' + f.id) ** 1.8 - 1)));   // f.size: a frame that asks for its size
     const want = Math.max(min, Math.min(chosen, Math.max(min, cap * (1 + 0.25 * irr))));
 
     // A big frame needs a wide slot, and exact heights rarely line up to leave one. So the frames

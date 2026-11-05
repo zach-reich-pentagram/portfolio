@@ -24,11 +24,11 @@
   "theme": "dark",
   "type": {
     "name": {
-      "font": "-apple-system, \"SF Pro Display\", \"Helvetica Neue\", sans-serif",
+      "font": "\"Helvetica Neue\", Helvetica, Arial, sans-serif",
       "size": 16,
-      "leading": 1.33,
+      "leading": 1.01,
       "tracking": -0.005,
-      "weight": 500,
+      "weight": 440,
       "align": "left",
       "italic": false,
       "features": ""
@@ -40,8 +40,5 @@
   },
   "fonts": [],
   "overrides": {},
-  "space": 75,
-  "marqueeSpeed": 40,
-  "marqueeStart": 1.5,
-  "marqueeEnd": 1
+  "space": 75
 }

@@ -419,16 +419,20 @@
   .body { height: auto; padding: var(--margin) calc(var(--margin) + var(--side)); }
   a { color: inherit; }
 
-  /* above the grid, in one line on every screen: your name, the marquee, and Refresh, each its own black pill */
+  /* above the grid, in one line on every screen: your name at the left and Refresh at the right, each its own black pill */
   :root { --icon: 32px; }
   .rail { display: flex; flex-direction: column; gap: var(--gap); margin-bottom: var(--gap); }
-  .top { display: flex; align-items: stretch; gap: var(--gap); }
-  .top > .pill { border-radius: 999px; background: #000000 !important; color: #ffffff; padding: var(--head); }
-  .name { flex: none; white-space: nowrap; }
-  .marquee { flex: 1; min-width: 0; }
-  .marquee .window { overflow: hidden; }
-  .marquee .track { display: inline-block; white-space: nowrap; will-change: transform; }
-  @media (prefers-reduced-motion: reduce) { .marquee .window { overflow-x: auto; scrollbar-width: none; } }   /* still, and scrolls by hand */
+  .top { display: flex; align-items: stretch; justify-content: space-between; gap: var(--gap); }
+  .pill, .link { border-radius: 999px; background: #000000 !important; color: #ffffff; padding: var(--head); white-space: nowrap; text-decoration: none; }
+  .name { flex: none; }
+  .top .link { margin-right: auto; }   /* only here when the bento had no gap for it: next to the name */
+  #board .link { position: absolute; }
+  /* the About tile: in the bento like a post, its words scrolling if the tile comes out small */
+  .about { position: absolute; overflow-y: auto; display: flex; flex-direction: column; gap: 0.8em; padding: 12px; border-radius: var(--round); background: #000000; color: #ffffff; }
+  .about h2 { font: inherit; }
+  #tip .info b, .about h2 { font-weight: 530; }   /* a caption's first paragraph and About's heading */
+  /* every button: hovering gives it the hover card's colour */
+  .link:hover, .top #refresh:hover { background: var(--hover-bg) !important; color: var(--hover-ink) !important; }
   /* Refresh: a circle as tall as the pills beside it, with a hit area past its edge for fingers */
   .top #refresh { flex: none; height: auto; padding: 0; border-radius: 50%; color: #ffffff; }   /* its width follows the name's height, in the script */
   .top #refresh::after { content: ""; position: absolute; inset: -8px; }
@@ -492,17 +496,29 @@
     <div class="rail">
       <header class="top">
         <h1 class="name pill">Zach Reich</h1>
-        <div class="marquee pill"><div class="window"><p class="track">
-          <!-- ======================= YOUR MARQUEE TEXT: edit it here ======================= -->
-          I’m a graphic designer currently working at Pentagram on team Andrea Trabucco-Campos. I grew up in Florida, then studied graphic design in college at Yale, and most recently moved to New York City. Although I began my graphic design journey as a calligrapher, I’ve lately been interested in generative design tools. I’m at (813) 417-5275 and zachreichdesign@gmail.com.
-          <!-- ================================================================================ -->
-        </p></div></div>
         <button class="btn icon pill" id="refresh" aria-label="Rearrange the posts" title="Rearrange the posts">
           <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 1 1-1.6-3.9"/><path d="M13.5 1.5v3h-3"/></svg>
         </button>
       </header>
 
     </div>
+
+    <!-- ============================================================
+         YOUR LINKS AND ABOUT: edit the words and addresses here.
+         Each link is a pill placed at random in the bento's empty space;
+         the About tile sits in the bento like a post. Add a <p>…</p> for another paragraph.
+         ============================================================ -->
+    <div id="extras" hidden>
+      <a class="link" href="https://www.instagram.com/zachalligraphy/" target="_blank" rel="noopener">Instagram</a>
+      <a class="link" href="mailto:zachreichdesign@gmail.com">Get in Touch</a>
+      <section class="about" aria-label="About">
+        <h2>About</h2>
+        <p>A first paragraph about you goes here: who you are, and the work you do.</p>
+        <p>A second paragraph: where you’ve worked and studied, and what you’re interested in now.</p>
+        <p>A third paragraph: anything else, like what you’re looking for or how best to reach you.</p>
+      </section>
+    </div>
+    <!-- ============================================================ -->
 
     <main><div id="board" aria-label="Instagram posts"></div></main>
 
@@ -538,7 +554,7 @@
         <button class="phead" aria-expanded="false"><span class="badge">2</span><span>Type</span></button>
         <div class="popup"><span class="plabel">Applies to</span><span class="pwrap"><span class="pvalue"></span>
           <select id="tyEl" aria-label="Text to style">
-            <option value="name">Name, marquee and popups</option>
+            <option value="name">All text</option>
           </select></span></div>
         <div class="popup"><span class="plabel">Typeface</span><span class="pwrap"><span class="pvalue"></span>
           <select id="tyFont" aria-label="Typeface">
@@ -605,7 +621,7 @@
     </select></span></div>
 </div>
 <script type="module">
-import { parseCaption, parseRich, sequence, pack, maxFrameHeight, randomColour } from './layout.js';
+import { parseCaption, parseRich, sequence, pack, maxFrameHeight, randomColour, noise } from './layout.js';
 const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
 const clamp = (v, a, b) => v < a ? a : v > b ? b : v;
 const root = document.documentElement;
@@ -629,16 +645,16 @@ setInterval(setFavicon, 15000);
 
 // ---------- settings
 // settings.json is what dev mode's Save writes; what's left out comes from here.
-const SF = '-apple-system, "SF Pro Display", "Helvetica Neue", sans-serif';
+const SF = '-apple-system, "SF Pro Display", "Helvetica Neue", sans-serif', HELVETICA = '"Helvetica Neue", Helvetica, Arial, sans-serif';
 // header padding: one value per side per device, e.g. headerTop, headerLeftTablet, headerBottomMobile
 const SIDES = ['Top', 'Right', 'Bottom', 'Left'], DEVICES = { '': 'desktop', Tablet: 'tablet', Mobile: 'mobile' };
 const headerKeys = f => Object.fromEntries(Object.entries(DEVICES).flatMap(([d, name]) => SIDES.map(side => [`header${side}${d}`, f(side, name)])));
 const DEFAULTS = {
-  scale: 75, irregularity: 100, grouping: 0, space: 75, gap: 2, rounding: 10, roundingTablet: 8, roundingMobile: 6, side: 0, site: 2, marqueeSpeed: 40, marqueeStart: 1.5, marqueeEnd: 1,
+  scale: 75, irregularity: 100, grouping: 0, space: 75, gap: 2, rounding: 10, roundingTablet: 8, roundingMobile: 6, side: 0, site: 2,
   ...headerKeys((side, name) => name === 'mobile' && (side === 'Top' || side === 'Bottom') ? 8 : 12),
   order: 'random', theme: 'light',
   type: {
-    name: { font: SF, size: 13, leading: 1.33, tracking: -0.005, weight: 400, align: 'left', italic: false, features: '' },
+    name: { font: HELVETICA, size: 16, leading: 1.01, tracking: -0.005, weight: 440, align: 'left', italic: false, features: '' },
   },
   colors: { light: {}, dark: {} },
   fonts: [],       // { name, family, src }: fonts opened in dev mode, saved in the project
@@ -662,7 +678,6 @@ const SLIDERS = {
   roundingTablet: ['Corner rounding: tablet', 0, 60, 1, 'px'], roundingMobile: ['Corner rounding: mobile', 0, 60, 1, 'px'],
   ...headerKeys((side, name) => [`Header ${side.toLowerCase()}: ${name}`, 0, 60, 1, 'px']),
   side: ['Side padding', 0, 480, 1, 'px'], site: ['Site padding', 0, 80, 1, 'px'],
-  marqueeSpeed: ['Marquee speed', 5, 300, 1, 'px/s'], marqueeStart: ['Marquee pause at start', 0, 10, 0.1, 's'], marqueeEnd: ['Marquee pause at end', 0, 10, 0.1, 's'],
 };
 function sliderRow(key) {
   const [label, min, max, step, unit] = SLIDERS[key], d = document.createElement('div');
@@ -730,6 +745,8 @@ function retitle() {
   }
 }
 if (!posts.length) board.innerHTML = `<p class="note empty">${data ? 'No posts yet.' : 'Couldn’t load the posts.'}</p>`;
+const links = $$('#extras .link'), about = { id: 'about', post: {}, aspect: 0.8, size: 2.5, el: $('#extras .about') };   // size: as big as Irregularity makes the largest posts
+if (posts.length) board.append(...links, about.el);
 
 // ---------- the bento
 // px: the smallest a frame can be. Smaller on narrower screens (the same breakpoints as the CSS),
@@ -744,7 +761,9 @@ function layout() {
   const gap = cfg.gap;
   // An average frame's width at 100%: most of the screen on a phone, about a quarter on a desktop
   const base = cfg.scale / 100 * (120 + 0.14 * W);
-  const { tiles, height } = pack(sequence(posts, { order: cfg.order, group: cfg.grouping / 100, seed }), {
+  const frames = sequence(posts, { order: cfg.order, group: cfg.grouping / 100, seed });
+  frames.splice(Math.floor(noise(seed, 'about') * (frames.length + 1)), 0, about);
+  const { tiles, height } = pack(frames, {
     width: W, gap, base, seed, group: cfg.grouping / 100, irr: cfg.irregularity / 100, space: cfg.space / 100, maxH: maxFrameHeight(cfg.scale, innerHeight), min: minFrame(),
   });
   for (const t of tiles) {
@@ -753,6 +772,18 @@ function layout() {
     s.left = `${t.x}px`; s.top = `${t.y}px`; s.width = `${t.w}px`; s.height = `${t.h}px`;
   }
   board.style.height = `${height}px`;
+  // Each link goes at a random spot in a random gap big enough for it, new with every Refresh. With no
+  // such gap (Negative space at 0, say) it waits in the header beside your name instead.
+  const pad = 8, gaps = tiles.filter(t => t.f.blank);
+  links.forEach((el, i) => {
+    if (el.parentNode !== board) board.append(el);
+    const w = el.offsetWidth, h = el.offsetHeight, fits = gaps.filter(t => t.w >= w + 2 * pad && t.h >= h + 2 * pad);
+    if (!fits.length) return $('.top').insertBefore(el, $('#refresh'));
+    const g = fits[Math.floor(noise(seed, 'link' + i) * fits.length)];
+    gaps.splice(gaps.indexOf(g), 1);
+    el.style.left = `${g.x + pad + noise(seed, 'linkX' + i) * (g.w - w - 2 * pad)}px`;
+    el.style.top = `${g.y + pad + noise(seed, 'linkY' + i) * (g.h - h - 2 * pad)}px`;
+  });
 }
 const layoutSoon = () => queued ||= requestAnimationFrame(layout);
 new ResizeObserver(layoutSoon).observe(board);
@@ -760,7 +791,7 @@ new ResizeObserver(layoutSoon).observe(board);
 // ---------- applying the settings
 // "ss01, tnum, liga 0" in the field, with or without quotes, to what CSS wants
 const features = text => text.trim() ? text.replace(/["']/g, '').replace(/\b[a-z0-9]{4}\b/gi, '"$&"') : 'normal';
-const SELECTOR = { name: '.name, .marquee .track, #tip b, #tip .desc' };   // one style for all the site's text
+const SELECTOR = { name: '.name, .link, .about, #tip b, #tip .desc' };   // one style for all the site's text
 function apply() {
   root.dataset.theme = cfg.theme;
   root.style.colorScheme = cfg.theme;
@@ -776,7 +807,6 @@ function apply() {
   $('#typeStyle').textContent = Object.entries(cfg.type).filter(([k]) => SELECTOR[k]).map(([k, t]) => `${SELECTOR[k]} { font-family: ${t.font}; font-size: ${t.size}px; line-height: ${t.leading}; letter-spacing: ${t.tracking}em; font-weight: ${t.weight}; text-align: ${t.align}; font-style: ${t.italic ? 'italic' : 'normal'}; font-feature-settings: ${features(t.features)}; }`).join('\n');
   root.style.setProperty('--gap', `${cfg.gap}px`);
   layoutSoon();
-  startMarquee();
   sendToFrame();
 }
 function touch() {   // something changed that Save would keep
@@ -821,24 +851,9 @@ $$('[data-theme-seg]').forEach(s => s.addEventListener('click', e => {
   cfg.theme = b.dataset.value; showControls(); touch();
 }));
 $('#refresh').addEventListener('click', () => { seed = crypto.getRandomValues(new Uint32Array(1))[0]; hideTip(); paintTip(); apply(); });
-
-// ---------- marquee: rests at the start, scrolls to the end of the text, rests, then starts over
-const marqueeWindow = $('.marquee .window'), track = $('.marquee .track');
-let marqueeRun;
-function startMarquee() {
-  marqueeRun?.cancel();
-  const far = track.offsetWidth - marqueeWindow.clientWidth;
-  if (far <= 0 || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  const start = cfg.marqueeStart * 1000, move = far / cfg.marqueeSpeed * 1000, end = cfg.marqueeEnd * 1000, total = start + move + end;
-  marqueeRun = track.animate([
-    { transform: 'translateX(0)', offset: 0 }, { transform: 'translateX(0)', offset: start / total },
-    { transform: `translateX(${-far}px)`, offset: (start + move) / total }, { transform: `translateX(${-far}px)`, offset: 1 },
-  ], { duration: total, iterations: Infinity });
-}
-new ResizeObserver(() => startMarquee()).observe(marqueeWindow);
 // Refresh is a circle: as wide as the pills are tall
 new ResizeObserver(() => { $('#refresh').style.width = `${$('.name').offsetHeight}px`; }).observe($('.name'));
-document.fonts.ready.then(startMarquee);
+
 
 // type: applies to the chosen piece of text
 const ty = () => cfg.type[$('#tyEl').value];
@@ -923,6 +938,7 @@ let tipTile = null, tipHide = 0;
 function paintTip() {
   const { bg, ink } = randomColour();
   tip.style.setProperty('--glass', bg); tip.style.color = ink;
+  root.style.setProperty('--hover-bg', bg); root.style.setProperty('--hover-ink', ink);   // the buttons' hover colour
 }
 paintTip();
 function richNodes(text) {

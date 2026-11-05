@@ -10,7 +10,8 @@ Until Instagram is connected, the grid shows sample posts in flat colours, one c
 
 ## Edit it
 
-- **Your name and marquee text:** in `index.html`, near the top of the body. The marquee text sits between the `YOUR MARQUEE TEXT` comments.
+- **Your name:** in `index.html`, near the top of the body.
+- **Your links and About text:** in `index.html`, between the `YOUR LINKS AND ABOUT` comments.
 - **Everything else:** type `69420`, then press Enter, anywhere on the page.
   - Change the layout, type and colour, and rewrite any post's text. Click a frame to pick its post.
   - **Preview** shows the real site at tablet or phone width.
