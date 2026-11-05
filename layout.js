@@ -57,7 +57,7 @@ const away = (t, c, r) => Math.hypot(Math.max(t.x - c, 0, c - (t.x + t.w - 1)), 
 // The arrangement: a rough bento on a grid. Each frame goes in the highest, leftmost free cell, so
 // frames interlock with no rows or columns running through. This only decides who touches whom;
 // measure() below works out the true sizes.
-function arrange(frames, { cols, size, irr, group, space = 0, seed, maxRows, min }) {
+function arrange(frames, { cols, size, irr, group, space = 0, seed, maxRows, min, unitPx = 1 }) {
   const sky = new Array(cols).fill(0), left = [...frames], tiles = [], placed = new Map();
   let blanks = 0;
   const chance = 1 - (1 - space) ** 3;   // posts only stand clear near certainty, so the slider's middle reaches there
@@ -73,8 +73,9 @@ function arrange(frames, { cols, size, irr, group, space = 0, seed, maxRows, min
     // of the time. Blanks are packed like frames but never drawn, so posts stand apart.
     const against = tiles.some(t => !t.f.blank && (((t.x + t.w === c || t.x === c + run) && t.y <= r && t.y + t.h > r) || (t.y + t.h === r && t.x < c + run && t.x + t.w > c)));
     let f;
+    const blank = () => ({ id: 'blank' + blanks, post: {}, aspect: 2 ** (2 * noise(seed, 'blank' + blanks++) - 1), blank: true });
     if (against && blanks < 6 * frames.length && noise(seed, 'space' + tiles.length) < chance) {
-      f = { id: 'blank' + blanks, post: {}, aspect: 2 ** (2 * noise(seed, 'blank' + blanks++) - 1), blank: true };
+      f = blank();
     } else {
       let nearest = Infinity, closest = 0, first = -1;
       left.forEach((f, i) => {
@@ -82,7 +83,12 @@ function arrange(frames, { cols, size, irr, group, space = 0, seed, maxRows, min
         if (d < nearest) { nearest = d; closest = i; }
         if (first < 0 && (d === Infinity || d <= hold)) first = i;
       });
-      f = left.splice(nearest <= near ? closest : first >= 0 ? first : closest, 1)[0];
+      let pick = nearest <= near ? closest : first >= 0 ? first : closest;
+      // A frame that asked for a width waits for a slot near that wide: something else goes here, or,
+      // with nothing else left, empty space, until a wide enough slot comes up.
+      const waits = left[pick].width && run * unitPx < left[pick].width * 0.8;
+      if (waits && left.length > 1) pick = pick ? 0 : 1;
+      f = waits && left.length === 1 && blanks < 6 * frames.length ? blank() : left.splice(pick, 1)[0];
     }
 
     // Up to 10× either way, weighted towards small so a few large frames stand among many little ones.
@@ -90,8 +96,8 @@ function arrange(frames, { cols, size, irr, group, space = 0, seed, maxRows, min
     // tall frame to one size and leave Irregularity nothing to do.
     const cap = maxRows * f.aspect, centre = Math.min(size, cap * 0.7);
     // Limits apply after the pick: applied to the range, the two ends stop moving and Scale goes dead.
-    const chosen = centre * (f.size ?? 10 ** (irr * (2 * noise(seed, 'size' + f.id) ** 1.8 - 1)));   // f.size: a frame that asks for its size
-    const want = Math.max(min, Math.min(chosen, Math.max(min, cap * (1 + 0.25 * irr))));
+    const chosen = f.width ? f.width / unitPx : centre * 10 ** (irr * (2 * noise(seed, 'size' + f.id) ** 1.8 - 1));   // f.width: a frame that asks for its width, in px
+    const want = f.width ? Math.max(min, chosen) : Math.max(min, Math.min(chosen, Math.max(min, cap * (1 + 0.25 * irr))));
 
     // A big frame needs a wide slot, and exact heights rarely line up to leave one. So the frames
     // along this slot's top are drawn down to a neighbour close by: only on the grid, as the true
@@ -217,7 +223,7 @@ export function pack(frames, { width, gap = 0, base, irr = 0, group = 0, space =
   const target = 0.6 * frames.reduce((sum, f) => sum + base * base / f.aspect, 0) / width;
   let best = null, score = -Infinity, steer = 1;
   for (let i = 0; i < 24; i++) {
-    const done = measure(arrange(frames, { cols, size: steer * base / u, irr: i ? Math.max(irr, 0.1) : irr, group, space, seed: seed + i, min: cells, maxRows: Math.floor(maxH / u) }), cols, width, gap);
+    const done = measure(arrange(frames, { cols, size: steer * base / u, irr: i ? Math.max(irr, 0.1) : irr, group, space, seed: seed + i, unitPx: u, min: cells, maxRows: Math.floor(maxH / u) }), cols, width, gap);
     const narrow = Math.min(...done.tiles.map(t => t.w));
     const tall = Math.max(...done.tiles.map(t => t.h)) / maxH - 1.25;  // the solve can grow a frame past its limit
     // Four corners meeting at a point can, very rarely, solve to frames that overlap or vanish: never use those
@@ -226,7 +232,9 @@ export function pack(frames, { width, gap = 0, base, irr = 0, group = 0, space =
     const area = ts => ts.reduce((a, t) => a + t.w * t.h, 0);
     const posts = done.height * area(done.tiles.filter(t => !t.f.blank)) / area(done.tiles);
     const off = Math.abs(Math.log(posts / target));
-    const s = (clash ? -1e9 : 0) + (Math.min(narrow, min) - min) * 100 - done.rowed - Math.max(0, tall) * 10 - Math.max(0, off - 0.1) * 50;    // a frame's width comes first
+    // a frame that asked for a width should get close to it
+    const asked = done.tiles.reduce((p, t) => t.f.width ? p + Math.max(0, Math.abs(Math.log(t.w / t.f.width)) - 0.15) * 60 : p, 0);
+    const s = (clash ? -1e9 : 0) + (Math.min(narrow, min) - min) * 100 - done.rowed - Math.max(0, tall) * 10 - Math.max(0, off - 0.1) * 50 - asked;    // a frame's width comes first
     if (s > score) { best = done; score = s; }
     if (s === 0) break;
     steer = Math.min(8, Math.max(1 / 8, steer * Math.sqrt(target / posts)));

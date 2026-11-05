@@ -423,7 +423,8 @@
   :root { --icon: 32px; }
   .rail { display: flex; flex-direction: column; gap: var(--gap); margin-bottom: var(--gap); }
   .top { display: flex; align-items: stretch; justify-content: space-between; gap: var(--gap); }
-  .pill, .link { border-radius: 999px; background: #000000 !important; color: #ffffff; padding: var(--head); white-space: nowrap; text-decoration: none; }
+  /* the name and every button wear the hover card's colour, new with each load and each Refresh */
+  .pill, .link { border-radius: 999px; background: var(--hover-bg) !important; color: var(--hover-ink) !important; padding: var(--head); white-space: nowrap; text-decoration: none; }
   .name { flex: none; }
   .top .link { margin-right: auto; }   /* only here when the bento had no gap for it: next to the name */
   #board .link { position: absolute; }
@@ -431,10 +432,10 @@
   .about { position: absolute; overflow-y: auto; display: flex; flex-direction: column; gap: 0.8em; padding: 12px; border-radius: var(--round); background: #000000; color: #ffffff; }
   .about h2 { font: inherit; }
   #tip .info b, .about h2 { font-weight: 530; }   /* a caption's first paragraph and About's heading */
-  /* every button: hovering gives it the hover card's colour */
-  .link:hover, .top #refresh:hover { background: var(--hover-bg) !important; color: var(--hover-ink) !important; }
+  /* hovering a button turns it black */
+  .link:hover, .top #refresh:hover { background: #000000 !important; color: #ffffff !important; }
   /* Refresh: a circle as tall as the pills beside it, with a hit area past its edge for fingers */
-  .top #refresh { flex: none; height: auto; padding: 0; border-radius: 50%; color: #ffffff; }   /* its width follows the name's height, in the script */
+  .top #refresh { flex: none; height: auto; padding: 0; border-radius: 50%; background: var(--hover-bg) !important; color: var(--hover-ink) !important; }   /* its width follows the name's height, in the script */
   .top #refresh::after { content: ""; position: absolute; inset: -8px; }
   .icon { display: inline-flex; align-items: center; justify-content: center; position: relative; width: var(--icon); height: var(--icon); min-height: 0; padding: 0;
           background: none !important; color: var(--label); transition: color .15s ease; }
@@ -745,7 +746,7 @@ function retitle() {
   }
 }
 if (!posts.length) board.innerHTML = `<p class="note empty">${data ? 'No posts yet.' : 'Couldn’t load the posts.'}</p>`;
-const links = $$('#extras .link'), about = { id: 'about', post: {}, aspect: 0.8, size: 2.5, el: $('#extras .about') };   // size: as big as Irregularity makes the largest posts
+const links = $$('#extras .link'), about = { id: 'about', post: {}, aspect: 0.8, el: $('#extras .about') };
 if (posts.length) board.append(...links, about.el);
 
 // ---------- the bento
@@ -763,9 +764,29 @@ function layout() {
   const base = cfg.scale / 100 * (120 + 0.14 * W);
   const frames = sequence(posts, { order: cfg.order, group: cfg.grouping / 100, seed });
   frames.splice(Math.floor(noise(seed, 'about') * (frames.length + 1)), 0, about);
-  const { tiles, height } = pack(frames, {
-    width: W, gap, base, seed, group: cfg.grouping / 100, irr: cfg.irregularity / 100, space: cfg.space / 100, maxH: maxFrameHeight(cfg.scale, innerHeight), min: minFrame(),
+  // About: a random width, 22–38% of the page (but never under 260px), and as tall as its words
+  // need at that width. The bento's solve shifts the width, so the shape is measured again at the
+  // width it got and the bento packed again. Of the tries, the one where the words fit with the
+  // least room to spare is kept; About only scrolls if none of them fit.
+  about.width = Math.min(W, Math.max(260, W * (0.22 + 0.16 * noise(seed, 'aboutW'))));
+  const fit = w => { about.el.style.width = `${w}px`; about.el.style.height = 'auto'; return about.el.offsetHeight; };
+  let alt = 0;   // a fresh arrangement, for when no shape lets the words fit in this one
+  const packed = () => pack(frames, {
+    width: W, gap, base, seed: seed + alt * 7919, group: cfg.grouping / 100, irr: cfg.irregularity / 100, space: cfg.space / 100, maxH: maxFrameHeight(cfg.scale, innerHeight), min: minFrame(),
   });
+  // The shape comes from the words' height at a reference width, nudged 15% narrower (taller) when
+  // they don't fit and 15% wider when there's too much room, within half to 1.5× the width asked for.
+  let tiles, height, best = null, ref = about.width;
+  for (let tries = 0; tries < 24 && !(best && tries % 6 === 0); tries++) {
+    if (tries && tries % 6 === 0) { alt++; ref = about.width; }
+    about.aspect = ref / fit(ref);
+    ({ tiles, height } = packed());
+    const t = tiles.find(t => t.f === about), need = fit(t.w), spare = t.h - need;
+    if (spare >= -0.5 && spare < Math.max(200, need) && (!best || spare < best.spare)) best = { spare, aspect: about.aspect, alt };
+    if (spare >= -0.5 && spare < 48) break;   // fits, without much room to spare
+    ref = Math.min(1.5 * about.width, Math.max(0.5 * about.width, ref * (spare < 0 ? 0.85 : 1.15)));
+  }
+  if (best && (best.aspect !== about.aspect || best.alt !== alt)) { about.aspect = best.aspect; alt = best.alt; ({ tiles, height } = packed()); }
   for (const t of tiles) {
     if (t.f.blank) continue;
     const s = t.f.el.style;
