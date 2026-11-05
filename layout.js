@@ -232,8 +232,8 @@ export function pack(frames, { width, gap = 0, base, irr = 0, group = 0, space =
     const area = ts => ts.reduce((a, t) => a + t.w * t.h, 0);
     const posts = done.height * area(done.tiles.filter(t => !t.f.blank)) / area(done.tiles);
     const off = Math.abs(Math.log(posts / target));
-    // a frame that asked for a width should get close to it
-    const asked = done.tiles.reduce((p, t) => t.f.width ? p + Math.max(0, Math.abs(Math.log(t.w / t.f.width)) - 0.15) * 60 : p, 0);
+    // a frame that asked for a width should get at least that, and not far more
+    const asked = done.tiles.reduce((p, t) => t.f.width ? p + Math.max(0, Math.log(t.f.width / t.w)) * 100 + Math.max(0, Math.log(t.w / t.f.width) - 0.7) * 10 : p, 0);   // narrower hurts; much wider, a little
     const s = (clash ? -1e9 : 0) + (Math.min(narrow, min) - min) * 100 - done.rowed - Math.max(0, tall) * 10 - Math.max(0, off - 0.1) * 50 - asked;    // a frame's width comes first
     if (s > score) { best = done; score = s; }
     if (s === 0) break;

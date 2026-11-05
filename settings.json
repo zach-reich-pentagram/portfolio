@@ -2,6 +2,7 @@
   "scale": 75,
   "irregularity": 100,
   "grouping": 0,
+  "space": 50,
   "gap": 1.5,
   "rounding": 8,
   "roundingTablet": 6,
@@ -16,10 +17,10 @@
   "headerRightTablet": 10,
   "headerBottomTablet": 4,
   "headerLeftTablet": 10,
-  "headerTopMobile": 2,
-  "headerRightMobile": 8,
-  "headerBottomMobile": 2,
-  "headerLeftMobile": 8,
+  "headerTopMobile": 4,
+  "headerRightMobile": 10,
+  "headerBottomMobile": 4,
+  "headerLeftMobile": 10,
   "order": "random",
   "theme": "dark",
   "type": {
@@ -39,6 +40,5 @@
     "dark": {}
   },
   "fonts": [],
-  "overrides": {},
-  "space": 50
+  "overrides": {}
 }

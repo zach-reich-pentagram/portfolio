@@ -429,9 +429,9 @@
   .top .link { margin-right: auto; }   /* only here when the bento had no gap for it: next to the name */
   #board .link { position: absolute; }
   /* the About tile: in the bento like a post, its words scrolling if the tile comes out small */
-  .about { position: absolute; overflow-y: auto; display: flex; flex-direction: column; gap: 0.8em; padding: 12px; border-radius: var(--round); background: #000000; color: #ffffff; }
+  .about { position: absolute; overflow-y: auto; display: flex; flex-direction: column; gap: 4px; padding: 10px 14px 12px; border-radius: var(--radius-glass); background: var(--hover-bg); color: var(--hover-ink); }   /* the buttons' colour */
   .about h2 { font: inherit; }
-  #tip .info b, .about h2 { font-weight: 530; }   /* a caption's first paragraph and About's heading */
+  #tip .info b, .about h2, .top .name { font-weight: 530; }   /* a caption's first paragraph, About's heading and your name */
   /* hovering a button turns it black */
   .link:hover, .top #refresh:hover { background: #000000 !important; color: #ffffff !important; }
   /* Refresh: a circle as tall as the pills beside it, with a hit area past its edge for fingers */
@@ -764,34 +764,33 @@ function layout() {
   const base = cfg.scale / 100 * (120 + 0.14 * W);
   const frames = sequence(posts, { order: cfg.order, group: cfg.grouping / 100, seed });
   frames.splice(Math.floor(noise(seed, 'about') * (frames.length + 1)), 0, about);
-  // About: a random width, 22–38% of the page (but never under 260px), and as tall as its words
-  // need at that width. The bento's solve shifts the width, so the shape is measured again at the
-  // width it got and the bento packed again. Of the tries, the one where the words fit with the
-  // least room to spare is kept; About only scrolls if none of them fit.
-  about.width = Math.min(W, Math.max(260, W * (0.22 + 0.16 * noise(seed, 'aboutW'))));
-  const fit = w => { about.el.style.width = `${w}px`; about.el.style.height = 'auto'; return about.el.offsetHeight; };
-  let alt = 0;   // a fresh arrangement, for when no shape lets the words fit in this one
-  const packed = () => pack(frames, {
-    width: W, gap, base, seed: seed + alt * 7919, group: cfg.grouping / 100, irr: cfg.irregularity / 100, space: cfg.space / 100, maxH: maxFrameHeight(cfg.scale, innerHeight), min: minFrame(),
-  });
-  // The shape comes from the words' height at a reference width, nudged 15% narrower (taller) when
-  // they don't fit and 15% wider when there's too much room, within half to 1.5× the width asked for.
-  let tiles, height, best = null, ref = about.width;
-  for (let tries = 0; tries < 24 && !(best && tries % 6 === 0); tries++) {
-    if (tries && tries % 6 === 0) { alt++; ref = about.width; }
-    about.aspect = ref / fit(ref);
-    ({ tiles, height } = packed());
-    const t = tiles.find(t => t.f === about), need = fit(t.w), spare = t.h - need;
-    if (spare >= -0.5 && spare < Math.max(200, need) && (!best || spare < best.spare)) best = { spare, aspect: about.aspect, alt };
-    if (spare >= -0.5 && spare < 48) break;   // fits, without much room to spare
-    ref = Math.min(1.5 * about.width, Math.max(0.5 * about.width, ref * (spare < 0 ? 0.85 : 1.15)));
+  // About: the hover card's width, as tall as its words. The bento can't make a tile an exact width,
+  // so it's asked for a slot at least that wide whose shape leaves room for the words, and About sits
+  // at a random spot inside it, the rest of the slot left empty. Should no arrangement give a slot
+  // that wide, a fresh one is tried; failing all of them, About takes the widest it got and scrolls.
+  const aboutW = Math.min(W, 280);
+  about.el.style.width = `${aboutW}px`; about.el.style.height = 'auto';
+  const aboutH = about.el.offsetHeight;
+  about.aspect = aboutW / aboutH;   // so a slot at least aboutW wide is at least aboutH tall
+  about.width = Math.min(W, aboutW * 1.1);
+  let tiles, height, slot, widest = null;
+  for (let alt = 0; alt < 12; alt++) {
+    ({ tiles, height } = pack(frames, {
+      width: W, gap, base, seed: seed + alt * 7919, group: cfg.grouping / 100, irr: cfg.irregularity / 100, space: cfg.space / 100, maxH: maxFrameHeight(cfg.scale, innerHeight), min: minFrame(),
+    }));
+    slot = tiles.find(t => t.f === about);
+    if (!widest || slot.w > widest.slot.w) widest = { tiles, height, slot };
+    if (slot.w >= aboutW - 0.5) break;
   }
-  if (best && (best.aspect !== about.aspect || best.alt !== alt)) { about.aspect = best.aspect; alt = best.alt; ({ tiles, height } = packed()); }
+  if (slot.w < aboutW - 0.5) ({ tiles, height, slot } = widest);
   for (const t of tiles) {
-    if (t.f.blank) continue;
+    if (t.f.blank || t.f === about) continue;
     const s = t.f.el.style;
     s.left = `${t.x}px`; s.top = `${t.y}px`; s.width = `${t.w}px`; s.height = `${t.h}px`;
   }
+  const aw = Math.min(aboutW, slot.w), ah = Math.min(aboutH, slot.h), as = about.el.style;
+  as.width = `${aw}px`; as.height = `${ah}px`;
+  as.left = `${slot.x + noise(seed, 'aboutX') * (slot.w - aw)}px`; as.top = `${slot.y + noise(seed, 'aboutY') * (slot.h - ah)}px`;
   board.style.height = `${height}px`;
   // Each link goes at a random spot in a random gap big enough for it, new with every Refresh. With no
   // such gap (Negative space at 0, say) it waits in the header beside your name instead.
