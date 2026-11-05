@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Zach Reich</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🍱%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='white'/%3E%3Cpath d='M50 50L41.41 27.27M50 50L76.13 75.77' stroke='black' stroke-width='3.4' stroke-linecap='round' fill='none'/%3E%3C/svg%3E">
 <style>
   /* ------------------------------------------------------------------ colours
      For the dev panels mostly: labels, fills and separators, the accent that marks what's chosen.
@@ -463,21 +463,28 @@ const clamp = (v, a, b) => v < a ? a : v > b ? b : v;
 const root = document.documentElement;
 const embedded = new URLSearchParams(location.search).has('embed');   // inside the preview frame
 
-// ---------- favicon: the clock face nearest New York time, rechecked every 15 seconds
-const NY = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', hour: 'numeric', minute: 'numeric', hourCycle: 'h23' });
-const clockEmoji = (date = new Date()) => {
-  const [h, m] = NY.formatToParts(date).filter(p => p.type === 'hour' || p.type === 'minute').map(p => +p.value);
-  const slot = Math.round((h * 60 + m) / 30) % 24;            // half hours past 12, on a 12-hour face
-  const hour = Math.floor(slot / 2) || 12;
-  return String.fromCodePoint((slot % 2 ? 0x1F55B : 0x1F54F) + hour);   // 🕐–🕛 on the hour, 🕜–🕧 at half past
+// ---------- favicon: a white clock with black hands, showing New York time
+// Its proportions are the drawing's: hands 0.49 and 0.73 of the radius, 0.067 of it thick.
+// Checked every second, but replaced only when a hand has turned half a degree, about every five
+// seconds: finer than a 16px icon can show, so nothing is redrawn for nothing. Browsers slow the
+// timer further in tabs that aren't showing.
+const NY = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', hour: 'numeric', minute: 'numeric', second: 'numeric', hourCycle: 'h23' });
+const hand = (deg, len) => {
+  const a = Math.round(deg * 2) / 2 * Math.PI / 180;
+  return `M50 50L${(50 + len * Math.sin(a)).toFixed(2)} ${(50 - len * Math.cos(a)).toFixed(2)}`;
+};
+const clockIcon = (date = new Date()) => {
+  const t = Object.fromEntries(NY.formatToParts(date).map(p => [p.type, +p.value]));
+  const m = t.minute + t.second / 60, hr = t.hour % 12 + m / 60;
+  return `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='white'/><path d='${hand(hr * 30, 24.3)}${hand(m * 6, 36.7)}' stroke='black' stroke-width='3.4' stroke-linecap='round' fill='none'/></svg>`;
 };
 const favicon = $('link[rel=icon]');
 const setFavicon = () => {
-  const href = `data:image/svg+xml,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>${clockEmoji()}</text></svg>`)}`;
-  if (favicon.href !== href) favicon.href = href;   // only when the face changes
+  const href = `data:image/svg+xml,${encodeURIComponent(clockIcon())}`;
+  if (favicon.getAttribute('href') !== href) favicon.setAttribute('href', href);
 };
 setFavicon();
-setInterval(setFavicon, 15000);
+setInterval(setFavicon, 1000);
 
 // ---------- settings
 // settings.json is what dev mode's Save writes; what's left out comes from here.
