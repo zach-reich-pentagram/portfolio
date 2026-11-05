@@ -42,19 +42,20 @@ export function parseRich(text = '') {
   return out;
 }
 
-// The order frames are offered to the grid. Posts are ranked by the chosen order, then each frame
-// drifts from its post's place by up to `spread` posts: the whole list when grouping is 0 and order
-// is random, none at 1. For newest and A–Z a post's first frame stays put, so those read strictly
-// from the top, and only its other frames drift, by up to a quarter of the list.
+// The order frames are offered to the grid. Posts are ranked by the chosen order. In random order
+// each frame's place blends its post's rank with a place of its own: all its own at grouping 0, so
+// frames of one post land no nearer each other than any two frames, all the post's at 1. For newest
+// and A–Z a post's first frame stays put, so those read strictly from the top, and only its other
+// frames drift, by up to a quarter of the list.
 export function sequence(posts, { order = 'random', group = 0, seed = 1 }) {
   const ranked = [...posts];
   if (order === 'chronological') ranked.sort((a, b) => String(b.timestamp).localeCompare(String(a.timestamp)));
   else if (order === 'alphabetical') ranked.sort((a, b) => (a.title || '￿').localeCompare(b.title || '￿'));
   else ranked.sort((a, b) => noise(seed, 'post' + a.id) - noise(seed, 'post' + b.id));
-  const ordered = order !== 'random';
-  const spread = (1 - group) * (ordered ? Math.max(1, ranked.length / 4) : ranked.length);
+  const ordered = order !== 'random', n = ranked.length;
+  const place = (rank, j, u) => ordered ? rank + (j ? (1 - group) * Math.max(1, n / 4) * u : 0) : group * rank + (1 - group) * n * u;
   return ranked
-    .flatMap((p, rank) => p.frames.map((f, j) => ({ f, key: rank + (ordered && !j ? 0 : spread * noise(seed, 'order' + f.id)) + j * 1e-4 })))
+    .flatMap((p, rank) => p.frames.map((f, j) => ({ f, key: place(rank, j, noise(seed, 'order' + f.id)) + j * 1e-4 })))
     .sort((a, b) => a.key - b.key)
     .map(x => x.f);
 }

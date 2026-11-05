@@ -96,6 +96,18 @@ const [g0, g5, g1] = [0, 0.5, 1].map(spreadAt);
 // half and full grouping can both already place a post's frames side by side, so they may tie
 assert.ok(g0 > g5 && g5 > g1 * 0.95, `grouping should tighten: ${g0.toFixed(1)}, ${g5.toFixed(1)}, ${g1.toFixed(1)}`);
 
+// grouping 0 in random order: a post's frames sit as far apart in line as a shuffle would put
+// them, a third of the list on average
+{
+  let sum = 0, pairs = 0;
+  for (let seed = 1; seed <= 200; seed++) {
+    const at = new Map(sequence(posts, { group: 0, seed }).map((f, i) => [f, i]));
+    for (const p of posts) p.frames.forEach((a, i) => p.frames.slice(i + 1).forEach(b => { sum += Math.abs(at.get(a) - at.get(b)); pairs++; }));
+  }
+  const ratio = sum / pairs / ((all.length + 1) / 3);
+  assert.ok(Math.abs(ratio - 1) < 0.05, `grouping 0 should scatter a post's frames like a shuffle: ${ratio.toFixed(3)}× a shuffle's distance`);
+}
+
 // order: newest and A–Z come first, reading from the top
 for (const group of [0, 0.7, 1]) for (let seed = 1; seed <= 20; seed++) {
   const firstOf = order => pack(sequence(posts, { order, group, seed }), { width: 1400, gap: 5, base: 300, irr: 0.6, group, seed, maxH: 800, min: 76 }).tiles.toSorted((a, b) => a.y - b.y || a.x - b.x)[0].f.post;
@@ -108,11 +120,17 @@ const ids = seed => sequence(posts, { seed }).map(f => f.id).join();
 assert.equal(ids(5), ids(5));
 assert.notEqual(ids(5), ids(6));
 
-// Scale does what it says: each step along the slider makes the same seed's frames bigger, and so the page taller
-for (let seed = 1; seed <= 20; seed++) {
-  const heightAt = scale => pack(sequence(tall, { seed }), { width: 1400, gap: 2, base: scale / 100 * (120 + 0.14 * 1400), irr: 1, seed, maxH: maxFrameHeight(scale, 900), min: 76 }).height;
-  const hs = [60, 100, 150, 200, 300].map(heightAt);
-  hs.forEach((h, i) => { if (i) assert.ok(h > hs[i - 1] * 1.2, `Scale barely changes the frames, seed ${seed}: ${hs.map(Math.round)}`); });
+// Scale does what it says: each step along the slider makes the same seed's frames bigger, and so the
+// page taller. Past 200% on this width no arrangement reaches the height asked for, so the last step
+// only has to grow, and grow well on average.
+{
+  const scales = [60, 100, 150, 200, 300], sums = scales.map(() => 0);
+  for (let seed = 1; seed <= 20; seed++) {
+    const heightAt = scale => pack(sequence(tall, { seed }), { width: 1400, gap: 2, base: scale / 100 * (120 + 0.14 * 1400), irr: 1, seed, maxH: maxFrameHeight(scale, 900), min: 76 }).height;
+    const hs = scales.map(heightAt);
+    hs.forEach((h, i) => { sums[i] += h; if (i) assert.ok(h > hs[i - 1] * (i < 4 ? 1.2 : 1), `Scale barely changes the frames, seed ${seed}: ${hs.map(Math.round)}`); });
+  }
+  sums.forEach((h, i) => { if (i) assert.ok(h > sums[i - 1] * 1.2, `Scale barely changes the page on average: ${sums.map(h => Math.round(h / 20))}`); });
 }
 
 // Negative space: every post still placed, and at full most posts stand clear of the others
