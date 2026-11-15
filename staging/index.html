@@ -459,7 +459,7 @@
   .numbered .prompts li > p:first-child::before, .numbered .prompts li:not(:has(p))::before { content: counter(p) ". "; }
   .prompts img { display: block; max-width: var(--img-w); max-height: calc(var(--img-h) * var(--k) * 1px); margin-top: calc(var(--prompt-gap) * var(--k) * 0.5px);
                  border-radius: calc(var(--img-r) * var(--k) * 1px); }
-  .gallery { display: grid; grid-template-columns: repeat(var(--g-cols), 1fr); gap: calc(var(--g-gap) * var(--k) * 1px); margin-top: calc(var(--pad-top) * var(--k) * 1px); }
+  .gallery { display: grid; grid-template-columns: repeat(var(--g-cols), 1fr); gap: calc(var(--g-gap) * var(--k) * 1px); margin-bottom: calc(var(--pad-top) * var(--k) * 1px); }
   .gallery > * { display: block; width: 100%; aspect-ratio: 1; object-fit: var(--g-fit); border-radius: calc(var(--g-r) * var(--k) * 1px); }
   #repoList .kv span:first-child { color: var(--label); }
   /* Hide UI: the site full screen, at the window's own size */
@@ -725,9 +725,9 @@ function render() {
       for (const src of p.images) li.append(el('img', { src, loading: 'lazy', alt: '' }));
       ol.append(li);
     }
-    a.append(ol);
     const g = el('div', { className: 'gallery' });
     if (r.gallery.length) a.append(g);
+    a.append(ol);
     for (const m of r.gallery) g.append(m.type === 'video'
       ? el('video', { src: m.src, muted: true, loop: true, autoplay: true, playsInline: true })
       : el('img', { src: m.src, loading: 'lazy', alt: '' }));
