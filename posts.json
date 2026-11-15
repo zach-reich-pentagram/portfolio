@@ -1,6 +1,90 @@
 {
  "posts": [
   {
+   "id": "18131669266853499",
+   "caption": "Kinetic space-filling typographic posters 💭\n“MO/ON/ROCK” with stone texturing (1/10)\nSee later slides for process\nI saw a RISD pencil pouch design (slide 3) somewhere online and liked it enough to save a screenshot to my camera roll. I felt inspired to turn its design into an interactive typographic tool where letterforms fill space organically and respond to cursor input. \nThe tool started as an attempt with Opus 5.5 to replicate that effect for the entire alphabet and with random compositions. After some back and forth with the bot I tried incorporating 3D, texturing, and cursor responsiveness/motion, which collectively made the tool even more fun.\nI looked around for the creator behind that pencil pouch but so far I’ve come up dry. If anyone knows who it is, please let me know so I can credit them!\n\nKinetic space-filling typographic posters 💭\n“FAH/RE/NH/EIT” with cursor-responsive heatmap effect (2/10)\nSee later slides for process\nI saw a RISD pencil pouch design somewhere online and liked it enough to save a screenshot to my camera roll. I felt inspired to turn its design into an interactive typographic tool where letterforms fill space organically and respond to cursor input. \nThe tool started as an attempt with Opus 5.5 to replicate that effect for the entire alphabet and with random compositions. After some back and forth with the bot I tried incorporating 3D, texturing, and cursor responsiveness/motion, which collectively made the tool even more fun.\nI looked around for the creator behind that pencil pouch but so far I’ve come up dry. If anyone knows who it is, please let me know so I can credit them!\n\nKinetic space-filling typographic posters 💭\nProcess (1/4)\nI saw a RISD pencil pouch design somewhere online and liked it enough to save a screenshot to my camera roll. I felt inspired to turn its design into an interactive typographic tool where letterforms fill space organically and respond to cursor input. \nThe tool started as an attempt with Opus 5.5 to replicate that effect for the entire alphabet and with random compositions. After some back and forth with the bot I tried incorporating 3D, texturing, and cursor responsiveness/motion, which collecti",
+   "timestamp": "2026-11-15T20:50:16+0000",
+   "permalink": "https://www.instagram.com/p/DfxrcDpG_YD/",
+   "media": [
+    {
+     "id": "17876352882649535",
+     "type": "video",
+     "src": "media/17876352882649535.mp4",
+     "poster": "media/17876352882649535-cover.jpg",
+     "w": 720,
+     "h": 900
+    },
+    {
+     "id": "18094629458502105",
+     "type": "video",
+     "src": "media/18094629458502105.mp4",
+     "poster": "media/18094629458502105-cover.jpg",
+     "w": 720,
+     "h": 900
+    },
+    {
+     "id": "18122666827971367",
+     "type": "image",
+     "src": "media/18122666827971367.jpg",
+     "w": 1080,
+     "h": 1350
+    },
+    {
+     "id": "18119771717007426",
+     "type": "image",
+     "src": "media/18119771717007426.jpg",
+     "w": 1080,
+     "h": 1350
+    },
+    {
+     "id": "17974035918188825",
+     "type": "image",
+     "src": "media/17974035918188825.jpg",
+     "w": 1080,
+     "h": 1350
+    },
+    {
+     "id": "18090772646294654",
+     "type": "image",
+     "src": "media/18090772646294654.jpg",
+     "w": 1080,
+     "h": 1350
+    },
+    {
+     "id": "18104115257178465",
+     "type": "video",
+     "src": "media/18104115257178465.mp4",
+     "poster": "media/18104115257178465-cover.jpg",
+     "w": 720,
+     "h": 900
+    },
+    {
+     "id": "18121287490959560",
+     "type": "video",
+     "src": "media/18121287490959560.mp4",
+     "poster": "media/18121287490959560-cover.jpg",
+     "w": 720,
+     "h": 900
+    },
+    {
+     "id": "18127382197703886",
+     "type": "video",
+     "src": "media/18127382197703886.mp4",
+     "poster": "media/18127382197703886-cover.jpg",
+     "w": 720,
+     "h": 900
+    },
+    {
+     "id": "18057095990802677",
+     "type": "video",
+     "src": "media/18057095990802677.mp4",
+     "poster": "media/18057095990802677-cover.jpg",
+     "w": 720,
+     "h": 900
+    }
+   ]
+  },
+  {
    "id": "18113975234142615",
    "caption": "3D Maps as Letterforms 🗺️\nShown: “9” with Chrysler Building, New York\nUsing OpenStreetMap and Lucas Markes’s Hairline skill, this program builds letterforms from 3D maps featuring your favorite addresses.\n\n3D Maps as Letterforms 🗺️\nShown: “8” with Empire State Building, New York\nUsing OpenStreetMap and Lucas Markes’s Hairline skill, this program builds letterforms from 3D maps featuring your favorite addresses.\n\n3D Maps as Letterforms 🗺️\nShown: “7” with Rockefeller Center, New York\nUsing OpenStreetMap and Lucas Markes’s Hairline skill, this program builds letterforms from 3D maps featuring your favorite addresses.\n\n3D Maps as Letterforms 🗺️\nShown: “6” with Willis Tower, Chicago\nUsing OpenStreetMap and Lucas Markes’s Hairline skill, this program builds letterforms from 3D maps featuring your favorite addresses.\n\n3D Maps as Letterforms 🗺️\nShown: “5” with Tokyo Skytree, Tokyo\nUsing OpenStreetMap and Lucas Markes’s Hairline skill, this program builds letterforms from 3D maps featuring your favorite addresses.",
    "timestamp": "2026-11-05T14:06:11+0000",
