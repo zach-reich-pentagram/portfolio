@@ -1,0 +1,444 @@
+[
+ {
+  "name": "crowded-type",
+  "date": "2026-11-15T14:56:30-05:00",
+  "prompts": [
+   {
+    "text": "build a web app that randomly generates the space-filling typographic designs shown in the image in the repo with cobntrols for the irregularity, corner rounding, complexity, etc. as well as padding around the canvas and between letterforms, as well as aspect ratio of the canvas. subtle adjustable animations as the text reshuffles into random but legible layouts upon each refresh",
+    "images": []
+   },
+   {
+    "text": "[Image #2] not crowding as well as I'd like. in the original image, pretty much all of the negative space (other than the empty spots within closed letters) is filled by a letterform. as you can see, the space between L and O is wide open, which shouldn't be happening. also, add a slider for how simple the letterforms are / how many vertices they have. also add a stroke option to the letters with color and weight controls",
+    "images": [
+     "media/21c419b16c57fb3288a437aa07248407a73db23f.png"
+    ]
+   },
+   {
+    "text": "also add an option to prevent letters from moving across rows[Image #3]. and there are very weird artifacts on certain letters like the \"A\" here, and the weird artifact on the bottom left of the \"O\", and the \"M\" which should have a much smaller incision on top of it. make sure that the letters retain their geometries while the program finds out how to fill the space as tightly as possble.",
+    "images": [
+     "media/ccae44176b6947fb6b8591ae408a2d1429372bc9.png"
+    ]
+   },
+   {
+    "text": "[Image #4] better but there's a weird artifact on the left side of \"N\" upon reshuffle here, make sure that doesnt happen anymore. also keep to rows doesn't keep the letters to their rows. move stroke to the colour section",
+    "images": [
+     "media/6e31acccd14527605be66b9e6c849bf3236cdb16.png"
+    ]
+   },
+   {
+    "text": "[Image #5] G looks really weird here",
+    "images": [
+     "media/96e177bc0e0359bb317b84c121de4658ecad6dd3.png"
+    ]
+   },
+   {
+    "text": "[Image #6] L looks too much like an upside down T, and I shouldn't have anything that makes it look like [Image #7] a J. remove all the [Image #8] strange additions to letters like the thing on the left side of A here, and instead fill space by modifying the proportions of letters (for instance make L narrower and A wider to fill the space, or make the angles of the humps on the right side of the B taller so that more space is taken up.",
+    "images": [
+     "media/64273afb22af6a30643200a49e320a2e11bc4cc6.png",
+     "media/40cf66f2c7e3aef4193337e682cd94981d9a9bea.png",
+     "media/2fcee98c9ac3382b87e3b1a83058364b8e28fb55.png"
+    ]
+   },
+   {
+    "text": "make these settings the default[Image #9]",
+    "images": [
+     "media/99d3c21bb116603c2fffd7a08339c9009b839c85.png"
+    ]
+   },
+   {
+    "text": "set crowding to 0 by default",
+    "images": []
+   },
+   {
+    "text": "i need the shapes more irregular and variable while still reading as letters, like in the original image. in the orignal, they're much more angular and extreme, not so blocky, which i want. the shapes should be more random and irregular. make sure to get the same effect as the original image[Image #10]",
+    "images": [
+     "media/4dc3a7a13d967c02cbc2413aca851ebe3dd1ef18.jpg"
+    ]
+   },
+   {
+    "text": "[Image #11] refine the filling logic even more, i see an opportunity here to fill the space to the right of the \"n\" by stretching the N horizontally, and for the R's arm to stretch down further. also, make the letters more polished (the \"a\" has a slight crease on the right side, for instance, where that vertex can be deleted for a clean line, same with a few vertices on M and E that could just be straight lines.) re-run your code to make sure that the results are professional yet legible and that all possible space is being filled, and that the letterforms are polished.",
+    "images": [
+     "media/2a3aad6429e56e90660c0784e9b24fc13c578631.png"
+    ]
+   },
+   {
+    "text": "continue",
+    "images": []
+   },
+   {
+    "text": "add a feature where I can texture the letters to look like 3d mylar balloon objects, shiny and reflective silver, with adjustments for the properties of the pleating along the edges (to get the balloon effect)[Image #12] also crowding is still not good enough, look how much space is to the left and right of \"v\". make absolutely sure that no matter what the leter combinations are the program gives perfectly crowded designs",
+    "images": [
+     "media/1431cc0368b6807efc6903bfbfd765e2364da7da.png"
+    ]
+   },
+   {
+    "text": "remove the mylar effect, it's not working, instead add inner and drop shadowing effects, as well as simple pinch lines around points of inflection to give the impression of mylar/balloons being stretched, as well as simple texturing for shininess. also add a gradient fill feature for each letter",
+    "images": []
+   },
+   {
+    "text": "remove all effects but the pinch lines, and i wnat them to be simple, monolinear, straight, like the expressive lines in this design[Image #14]",
+    "images": [
+     "media/3d9a39e633bdf64cc2e96c9b3c0e678c79c836a8.png"
+    ]
+   },
+   {
+    "text": "[Image #15] continue, but also remove the little bulges on the sides of letters, like here in the two U's and the E",
+    "images": [
+     "media/c5de9a8d3dca121ac4555c987a4a8f963666511c.jpg"
+    ]
+   },
+   {
+    "text": "make it so that [Image #16] these are the default settings, and that the pinch lines adjust to be on the corners\neven after rounding (right now they stay put where they would be at 0% rounding and aren't on the curved corners),\nalso at 100% they're not on every corner like they should be. also, when i tick \"keep to rows\" that should keep all\nthe letters on their current rows, not just reverting to two rows.",
+    "images": []
+   },
+   {
+    "text": "also keep the pinch lines within the letters, not extending onto the canvas, and make sure that increasing crowding doens't confine the text to just two rows. in fact, make it so that I can specify the number of rows for the design and force the deisgn to keep to that amount of rows",
+    "images": []
+   },
+   {
+    "text": "[Image #18] the letters should fill the canvas with even spacing on each side so that the total shape is square, right now the edges of the design are slanted and don't give perfectly flat padding around the canvas",
+    "images": [
+     "media/61f94e6fd5b9611d7b2e0353bf434ef28f5eb2e5.jpg"
+    ]
+   },
+   {
+    "text": "refine the pinch lines to look more like realistic pinch lines rather than random stars, and add a feature where i\ncan connect it to the audio output of my computer and see the deisgn \"dance\" in real time to the beat. add\nmultiple\nmodes so i can experiment wtih how the deisgn responds to the music being played.",
+    "images": []
+   },
+   {
+    "text": "good but for equalizer i want to be able to control whether the bass, mids, or highs control the motion, and i want the motion to be less jittery. add settings that can make the motion smoother while following the beat and responding to the notes being played. i also want some kind of mode where the note being played in one part of the eq influences where the design consolidates/how the deisgn moves and reshuffles",
+    "images": []
+   },
+   {
+    "text": "now can you add a 3d/shadowing effect where the larger/more prominent/more bulbous parts of letters are more in the light while the smaller/more pinched/more subdued parts are more in the shadows? also add a concrete/rock texture settings panel where i can control color, number of holes, depth of holes, etc to make the concrete realistic",
+    "images": []
+   },
+   {
+    "text": "[Image #22] remove the concrete panel, make these the default settings, make it possible to add a background gradient, and allow the user to map specific controls to respond to the eq, like having the crowding controlled by the mids and the reshuffle connected to the bass/number of beats/etc",
+    "images": [
+     "media/3a0f18434a6c65760dfbb8941230a6388c66102c.png"
+    ]
+   },
+   {
+    "text": "good but it's laggy with the shading on and i can't control the speed/snappiness of the motion. fix that while retaining the 3d shading's look",
+    "images": []
+   },
+   {
+    "text": "ignore the latest message i sent. good but it's laggy with the shading on. make it perfectly smooth while preserving the shading look",
+    "images": []
+   },
+   {
+    "text": "[Image #23] remove all of these settings and make it just mapping (e.g. reshuffle on every bass hit, irregularity mapped to note, etc). also add a control for the shininess of the letters (right now it's just matte)",
+    "images": [
+     "media/7db7b7e73a80d430f917191cf3be8169f35808ef.png"
+    ]
+   },
+   {
+    "text": "[Image #24] reduce the staircase / pixelated outline around the letters that have the shading",
+    "images": [
+     "media/d5aec25e733c67e048e33ddae99f0a0ff7734d00.png"
+    ]
+   },
+   {
+    "text": "occasionally the transitions have choppy/glitchy frames where the letters may flash a bit. fix that so all movements are slow, and make sure no letters overlap when they settle after shuffling.[Image #25] make these the default settings",
+    "images": [
+     "media/6b144650f3d9a953c6cf3c3e7d2611b6585cf465.png"
+    ]
+   },
+   {
+    "text": "add overshoot as a motion option",
+    "images": []
+   },
+   {
+    "text": "great, and can you add a feature where the arrangement/shuffling responds to where the cursor is on the cnavas",
+    "images": []
+   },
+   {
+    "text": "it's going super slowly even when i turn down the duration. make sure the cursor reaction speed is proportionate to the duration",
+    "images": []
+   },
+   {
+    "text": "[Image #26] add a mode where I can get this kind of texture effects",
+    "images": [
+     "media/3628e75a1fc081e9dd46e7674b6259bd2fbe4ede.jpg"
+    ]
+   },
+   {
+    "text": "[Image #27] here the \"o\" should grow both horizontally and vertically (and the row should slant toward the \"o\" for the growth effect) but it isn't. set default speed to .15s duration. also the carved texture shouldn't just be an overlay, the texture should move as the letters move",
+    "images": [
+     "media/875219b97c6be98a6fc0037e59bb9f3b1074d51a.jpg"
+    ]
+   },
+   {
+    "text": "[Image #27] here the \"o\" should grow both horizontally and vertically (and the row should slant toward the \"o\" for the growth effect) but it isn't. set default speed to .15s duration. also don't turn the cursor into an i beam upon hover of text",
+    "images": [
+     "media/875219b97c6be98a6fc0037e59bb9f3b1074d51a.jpg"
+    ]
+   },
+   {
+    "text": "[Image #1] as the letters shuffle, parallel lines appear on the edges of letters as if the screen is glitching, make sure that doesn't happen and that the texture changes shape / adapts smoothly and cleanly",
+    "images": [
+     "media/596c92ca5f101991b36b61759798359cc7d010d0.jpg"
+    ]
+   },
+   {
+    "text": "also make these the default settings[Image #2]",
+    "images": [
+     "media/13035486056c6eee6c37de8e3f67d6c71598622c.jpg"
+    ]
+   },
+   {
+    "text": "[Image #3] you can really see the parallel lines here, by the way. continue",
+    "images": [
+     "media/07e56f85d2b9a6473013088735820ac2a596d545.png"
+    ]
+   },
+   {
+    "text": "commit and push",
+    "images": []
+   },
+   {
+    "text": "great, now also make it possible to add shadows that the 3d letters cast onto the canvas, as well as ability to manually edit the canvas gradient",
+    "images": []
+   },
+   {
+    "text": "add a heatmap effect option to the texturing section where the heatmap responds to the cursor. see attached references for the style: [Image #1] [Image #2]  [Image #4]",
+    "images": [
+     "media/2894c0bb5de9b8dcacb1b39daf3ce1cf415f998c.jpg",
+     "media/13b6b0850aa329a356f3899376842786a86af796.png",
+     "media/316e2d6308696ea4d27466e43a7287019474dd29.png"
+    ]
+   },
+   {
+    "text": "[Image #5] not at all what i wanted, that's just a heatmap overlaid onto the letters, i want the lettes themselves to become heatmaps, where their \"heat\" is structural and responsive like the 3d effects are. add a few heatmap structural options to choose from that determine how the heatmap is built and behaves. it shouldn't just be a circle around the cursor",
+    "images": []
+   },
+   {
+    "text": "[Image #6] make these the default settings for the heatmap. this is the closest to what i want but especially around the cutouts in the letters the resolution seems choppy/low poly / not smooth enough / not following the perceived contours in a satisfying, clean way. also make the heatmap colors more saturated.[Image #7]",
+    "images": [
+     "media/ed3fbb2d28e2057fef3c991c6573e998a97c5f4f.jpg",
+     "media/bd2899773d5ad9f5f3b6b188f440d220b2f0a121.jpg"
+    ]
+   },
+   {
+    "text": "[Image #8] make these settings the default for the heatmap but make it so i can manually edit the stops of the heatmap to change the colors directly",
+    "images": [
+     "media/ac4b46a9b817c00d24eeb0b107ddbbbb3c6eeb55.jpg"
+    ]
+   },
+   {
+    "text": "[Image #9] adjust so that the default heatmap is closer to this, and make it so that only the hovered / grown part of the text has the inner colors of the heatmap showing, right now the greens and blues appear in letters that aren't hovered and its killing the hover heat effect",
+    "images": [
+     "media/c932c8640b8b80971af854f5b6384a2738ba97e7.jpg"
+    ]
+   },
+   {
+    "text": "[Image #10] make this the default heatmap gradient",
+    "images": [
+     "media/63a80e25d20e38d844be15177df4dac34821c993.png"
+    ]
+   },
+   {
+    "text": "fix so that the letters don't jitter as much by default as i move the cursor across the letters. right now they have a slight jigggle that ruins the motion",
+    "images": []
+   },
+   {
+    "text": "[Image #11] bring back the inner shadow feature, i want to be able to get a result like this again from the balloon fill",
+    "images": [
+     "media/b041b7fd59dfe788ca3d3f894006e94647c1886b.jpg"
+    ]
+   },
+   {
+    "text": "the light that's hitting the balloon letters isn't creating an inner shadow on the other side which is killing the effect. i either need an inner shadow slider or i need the [Image #12] light to automatically create one when the balloon is inflated",
+    "images": [
+     "media/0daf0758481fbdc147a8241ecc6b8013aeba1bf3.jpg"
+    ]
+   },
+   {
+    "text": "add a 3d texture/design to the list, this time with randomly generated but geometric and sensible rubber shoe treads like the ones in the attached image. include appropriate sliders to get the pattern just right but try to make sure that it looks great by default[Image #13]. also add five other options of your choosing for new 3d textures inspired by nature, industry, etc... whatever looks most graphically conviincing and like the risd gd graphic design page on instagram",
+    "images": [
+     "media/ab28c99e2ac72f1b7fba40607326ded44dd5df9d.jpg"
+    ]
+   },
+   {
+    "text": "give me all of my previous prompts in this repo as plain text, not just the ones in this session, i've terminated and restarted and i want all my prompts before then",
+    "images": []
+   },
+   {
+    "text": "can you give me a series of 1080x1350, instagram post-style jpg images listing the full set of prompts and associated images?",
+    "images": []
+   },
+   {
+    "text": "no, not 46 slides (remove those), consolidate as many prompts and images as you can into single slides so that there's as few as possible. 9px helvetica neue regular in plain black on white canvas.",
+    "images": []
+   },
+   {
+    "text": "perfect, but increase the resolution (right now it's way too blurry) and provide 3 larger scales (2 columns and 1 column) of the slides so i can optimize legibility. 100px padding around the canvas.",
+    "images": []
+   },
+   {
+    "text": "[Image #14] reduce the padding in option 3 to match the padding around the design in this image",
+    "images": [
+     "media/58c721fb43d0b2426e7d84ee0e61eee661c09bfc.jpg"
+    ]
+   },
+   {
+    "text": "make it so that i can set the canvas to exact dimensions (1080 x 1350 by default)",
+    "images": []
+   },
+   {
+    "text": "how come when i record using the built in record function the output is 1600 x 2000? i'm worried this will get downsized and make my instagram posts look bad",
+    "images": []
+   },
+   {
+    "text": "re-render the 3 column process jpg slides as 1080 x 1350, but ensure text is large enough to be easily red from an instagram post.",
+    "images": []
+   },
+   {
+    "text": "reduce the scale a bit more (somewhere between the original and what you just sent, and reduce the line height to 100%",
+    "images": []
+   }
+  ]
+ },
+ {
+  "name": "maps-render",
+  "date": "2026-11-03T08:05:57-05:00",
+  "prompts": [
+   {
+    "text": "in github/maps-render, create a web app that renders text or uploaded svgs as sections of the apple maps 3d map of a specific location that the user inputs. so if i input an address in nyc, the program will render the text i type where each letterform is built from buildings, tress, roads, etc in the location i specify. don't repeat any buildings throughout the canvas. make it possible to pan around for the exact angle, as well as the amount of zoom into the 3d space. make sure the environmental features selected are cleanly inserted into the design",
+    "images": []
+   },
+   {
+    "text": "make it possible to hide the base letters. also make the default texturing of the buildings the same as the /hairline skill i've previously installed so that the edges of buildings are the same stroke weight and the buildings are a solid color. also make it isometric view like the /hairline skill, but still possible to change the isometric view angle",
+    "images": []
+   },
+   {
+    "text": "also darker canvases should automatically have a bright/inverse outline around them so that you can see them in dark mode (do the same for light canvases in light mode). update my typographic-flowers and maps-render projects accordingly",
+    "images": []
+   },
+   {
+    "text": "Yes, bring typographic-flowers and maps-render up to the current house style: replace keyframes and the timeline with per-slider bounce/loop, make the panels collapsible and closed by default, and make values typeable.",
+    "images": []
+   },
+   {
+    "text": "make it possible to have text automatically wrap in isometric view so text doesn't go off the canvas, and  don't cut buildings off at the edges of letterforms so aggressively [Image #2] the full buildings should show in each letterform without being trimmed. also add an option to have addresses/names of buildings listed alongside each building on the map,",
+    "images": [
+     "media/2bc1f649f7388463adb0313eea023c83fcbf6a56.png"
+    ]
+   },
+   {
+    "text": "Yes, update the typographic-flowers README to describe bounce/loop and typed values once its other session is idle.",
+    "images": []
+   },
+   {
+    "text": "also add a feature to record canvas. also make each image export go to a dedicated \"jpg\" folder in the project (or png if it's png), not just a download. same for video recordings, svgs, etc",
+    "images": []
+   },
+   {
+    "text": "make a slider for the scale (so more buldings can fit into the same typography). also make sure the original address building is included, right now i'm not seeing the flatiron building at all by default",
+    "images": []
+   },
+   {
+    "text": "No, keep exports trackable in git.",
+    "images": []
+   },
+   {
+    "text": "commit these changes to the two most recent proejcts so in typographic flowers and maps render i can export images directly to this folder",
+    "images": []
+   },
+   {
+    "text": "Push both commits to GitHub.",
+    "images": []
+   },
+   {
+    "text": "add a file within the project folders that, when clicked, automatically runs the servers so i don't have to manually input those codes every time. make sure this happens with each new project as well",
+    "images": []
+   },
+   {
+    "text": "Commit the Start.command and README changes in typographic-flowers and maps-render.",
+    "images": []
+   },
+   {
+    "text": "make it so that i can pick whehter parks, trees, streets, water, etc get cut off at the edges of the text being rendered or if they continue past the text to the edges of the canvas without being trimmed/cut off",
+    "images": []
+   },
+   {
+    "text": "make it so that only the buildings i click have addresses attached to them, and make [Image #1] these the default [Image #2] [Image #3] [Image #4] [Image #5] [Image #6]settings",
+    "images": [
+     "media/e71209ddaab5ab310f51e8287385dd13a5def2aa.png",
+     "media/f01fe684c3cc1e8bf8ea20fab99a0d9b41a32cfa.png",
+     "media/35a17fe4ffac60ca4a4f84b58b8b2abcaa1c4828.png",
+     "media/15874bf02b253aa1b67832eefc98ce9ab539641b.png",
+     "media/5f6d77990969c7ff464c3e0696e997653e0cd5a7.png",
+     "media/1a24db24118eedebf47fe77e8148e52b791926ae.png"
+    ]
+   },
+   {
+    "text": "make it so that a building label only appears when i click that respective building or address on the map, and add an option to have a highlight behind the text that shows up for the addresses",
+    "images": []
+   },
+   {
+    "text": "[Image #1] how come the tops of the buildings aren't appearing perfectly white here?",
+    "images": [
+     "media/24cf504f0e890a2014d71cd154cbb4312fdc0a4e.jpg"
+    ]
+   },
+   {
+    "text": "actuallly bring back the deeper shadows on building sides while keeping the tops of buildings the exact color set in the settings",
+    "images": []
+   },
+   {
+    "text": "[Image #1] why is grand central terminal so large?",
+    "images": [
+     "media/0ebc80d4ab5a33a4134b4064f9a6f3da1e5b43f5.jpg"
+    ]
+   },
+   {
+    "text": "[Image #1] why am i not seeing the chrysler building at all here?",
+    "images": [
+     "media/cf865df15fc65ba3808d455429f0ab656337135f.jpg"
+    ]
+   },
+   {
+    "text": "make it so that the only label that appears by default is the name of the building /area inputted by the user",
+    "images": []
+   },
+   {
+    "text": "[Image #2] /effort",
+    "images": [
+     "media/45409373f5d7bea85eeaa448394d453378059717.jpg"
+    ]
+   },
+   {
+    "text": "[Image #3] not seeing the world trade center at all anymore. can you comrehensively refine the mapping system / library so that all buildings render with the shapes and positions shown in apple maps, without these glitches?",
+    "images": [
+     "media/0383151d6dcf27ddb7ee5f777f8502ef5b3d3381.jpg"
+    ]
+   },
+   {
+    "text": "find ten locations in the world that have an iconic landmark surrounded by dense buildings to create more of these typographic city selections, i keep searching locations that aren't dense enough[Image #1]",
+    "images": [
+     "media/70454f0ce078de55a884048f02c54705947f8139.jpg"
+    ]
+   },
+   {
+    "text": "make these the default settings and add the iconic landmarks as presets to pick from[Image #3]  [Image #5] [Image #6]",
+    "images": [
+     "media/798cd7dff3237ac74f7e39aae1559daa8c64a4fb.png",
+     "media/7c2a97d18bd1c35de753cdf12537ad45170ad48c.png",
+     "media/0b21dc1ef66ee5abe8ebf0b292bc622a8204f28a.png"
+    ]
+   },
+   {
+    "text": "[Image #2] something is wrong with the map, saint peter's basilica is hollow. find the issue, fix it globally, test to make sure the core issue is resolved",
+    "images": [
+     "media/d4828623dbbf0355fcead3893ec915583bd14560.png"
+    ]
+   },
+   {
+    "text": "resume, i accidentally closed the terminal",
+    "images": []
+   }
+  ]
+ }
+]

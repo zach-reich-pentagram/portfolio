@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Zach Reich — Staging</title>
+<style>
+  /* the portfolio's house style: tokens, pills and segmented controls as in ../index.html */
+  :root {
+    color-scheme: light;
+    --label: #000; --label-2: rgba(60, 60, 67, 0.60); --fill-3: rgba(118, 118, 128, 0.12);
+    --separator: rgba(60, 60, 67, 0.29); --blue-ring: rgba(0, 136, 255, 0.35);
+    --bg: #fff; --seg-on: #FFFFFF;
+    --seg-shadow: 0 3px 8px rgba(0, 0, 0, 0.12), 0 3px 1px rgba(0, 0, 0, 0.04), 0 0 0 0.5px rgba(0, 0, 0, 0.04);
+    --radius-control: 10px; --head: 12px; --gap: 12px;
+    --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro", "Helvetica Neue", Helvetica, sans-serif;
+    --hover-bg: #000; --hover-ink: #fff;
+    /* the slides as conversation-summary last set them, on a 1920-wide canvas, scaled to the window */
+    --u: calc(100vw / 1920);
+    --pad: calc(67 * var(--u)); --cols: 3; --col-gap: calc(125 * var(--u)); --prompt-gap: calc(21 * var(--u));
+    --t-size: max(13px, calc(22 * var(--u)));
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--label); font-family: var(--font); font-size: 13px; line-height: 16px; letter-spacing: -0.08px; -webkit-font-smoothing: antialiased; }
+  button, input { font: inherit; color: inherit; letter-spacing: inherit; }
+  :focus-visible { outline: 3px solid var(--blue-ring); outline-offset: 1px; border-radius: var(--radius-control); }
+  .pill { border-radius: 999px; background: var(--hover-bg); color: var(--hover-ink); padding: var(--head); white-space: nowrap; font: inherit; font-weight: 530; }
+  .seg { display: flex; gap: 2px; padding: 2px; min-height: 32px; background: var(--fill-3); border-radius: calc(var(--radius-control) + 2px); }
+  .seg button { flex: 1 1 0; border: 0; background: transparent; border-radius: var(--radius-control); padding: 0 10px; cursor: pointer; white-space: nowrap; font-size: 12px; font-weight: 500; transition: background-color .15s, box-shadow .15s; }
+  .seg button:hover:not(.on) { background: var(--fill-3); }
+  .seg button.on { background: var(--seg-on); box-shadow: var(--seg-shadow); font-weight: 600; }
+
+  .top { position: sticky; top: 0; z-index: 2; display: flex; align-items: center; gap: var(--gap); padding: var(--gap) var(--pad); background: var(--bg); }
+  .top label { margin-left: auto; display: flex; gap: 8px; align-items: center; color: var(--label-2); }
+  .top input[type=range] { width: 160px; accent-color: var(--label); }
+
+  /* each repo: its name top left, its prompts flowed down the columns, a line between repos */
+  article { padding: var(--gap) var(--pad) calc(var(--pad) * 2); }
+  article + article { border-top: 1px solid var(--separator); padding-top: var(--pad); }
+  article h2 { display: inline-block; margin-bottom: var(--pad); }
+  ol { list-style: none; columns: var(--cols); column-gap: var(--col-gap);
+       font: 400 var(--t-size)/1 "Helvetica Neue", Helvetica, Arial, sans-serif; letter-spacing: 0; }
+  li { margin-bottom: var(--prompt-gap); overflow-wrap: break-word; }
+  li img { display: block; max-width: 100%; max-height: 60vh; margin-top: var(--prompt-gap); }
+  @media (max-width: 900px) { :root { --cols: 2; --u: calc(100vw / 1200); } }
+  @media (max-width: 600px) { :root { --cols: 1; --pad: 16px; --prompt-gap: 16px; } .top label { display: none; } }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="seg" role="group" aria-label="Order">
+    <button data-sort="date" class="on">Newest</button>
+    <button data-sort="name">A–Z</button>
+  </div>
+  <label>Padding <input type="range" id="pad" min="0" max="400" value="67" aria-label="Side padding"></label>
+</header>
+<main></main>
+<script type="module">
+import { randomColour } from '../layout.js';
+const { bg, ink } = randomColour();   // the portfolio's colour for its pills, new each load
+document.documentElement.style.setProperty('--hover-bg', bg);
+document.documentElement.style.setProperty('--hover-ink', ink);
+
+const main = document.querySelector('main'), el = (t, c) => Object.assign(document.createElement(t), c);
+const sorts = { date: (a, b) => b.date.localeCompare(a.date), name: (a, b) => a.name.localeCompare(b.name) };
+const repos = await (await fetch('repos.json')).json();
+function render(by) {
+  document.querySelectorAll('[data-sort]').forEach(b => b.classList.toggle('on', b.dataset.sort === by));
+  main.replaceChildren(...[...repos].sort(sorts[by]).map(r => {
+    const a = el('article'), ol = el('ol');
+    a.append(el('h2', { className: 'pill', textContent: r.name }), ol);
+    r.prompts.forEach((p, i) => {
+      const li = el('li', { textContent: p.text ? `${i + 1}. ${p.text}` : `${i + 1}.` });
+      p.images.forEach(src => li.append(el('img', { src: src, loading: 'lazy', alt: '' })));
+      ol.append(li);
+    });
+    return a;
+  }));
+}
+document.querySelectorAll('[data-sort]').forEach(b => b.onclick = () => render(b.dataset.sort));
+const pad = document.getElementById('pad');
+pad.oninput = () => document.documentElement.style.setProperty('--pad', `calc(${pad.value} * var(--u))`);
+render('date');
+</script>
+</body>
+</html>
