@@ -2,7 +2,7 @@
 """Writes repos.json and media/: every repo beside this one tagged Green in the Finder, with the
 Claude Code prompts sent about it and the images attached to them, read the way
 conversation-summary reads them (its serve.py does the reading)."""
-import importlib.util, json, mimetypes, plistlib, re, subprocess
+import importlib.util, json, mimetypes, plistlib, re, shutil, subprocess
 from datetime import datetime
 from pathlib import Path
 
@@ -45,7 +45,16 @@ for d in sorted(ROOT.iterdir()):
             names.append('media/' + f.name)
         p['images'] = names
     date = subprocess.run(['git', '-C', d, 'log', '-1', '--format=%cI'], capture_output=True, text=True).stdout.strip()
-    repos.append({'name': d.name, 'date': date, 'prompts': prompts})
-    print(d.name, len(prompts), 'prompts', sum(len(p['images']) for p in prompts), 'images')
+    # the repo's portfolio/ folder: its images and videos, copied in so the site can be published
+    gallery = []
+    for f in sorted((d / 'portfolio').glob('*')) if (d / 'portfolio').is_dir() else []:
+        kind = (mimetypes.guess_type(f.name)[0] or '').split('/')[0]
+        if kind not in ('image', 'video'): continue
+        out = media / d.name / f.name
+        out.parent.mkdir(exist_ok=True)
+        if not out.exists() or out.stat().st_mtime < f.stat().st_mtime: shutil.copy2(f, out)
+        gallery.append({'type': kind, 'src': f'media/{d.name}/{f.name}'})
+    repos.append({'name': d.name, 'date': date, 'prompts': prompts, 'gallery': gallery})
+    print(d.name, len(prompts), 'prompts', sum(len(p['images']) for p in prompts), 'images', len(gallery), 'in portfolio')
 
 (HERE / 'repos.json').write_text(json.dumps(repos, indent=1, ensure_ascii=False))

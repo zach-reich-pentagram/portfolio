@@ -1,86 +1,1212 @@
 <!doctype html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Zach Reich — Staging</title>
+<title>Zach Reich Staging</title>
+<!-- favicon: the Apple emoji closest to what the app is; swap 🎨 for it -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E📁%3C/text%3E%3C/svg%3E">
+<!-- House style: extracted from sweat-type and image-experiments. The design rules are in the house-style skill (~/.claude/skills/house-style/SKILL.md). -->
 <style>
-  /* the portfolio's house style: tokens, pills and segmented controls as in ../index.html */
+  /* ------------------------------------------------------------------ tokens
+     Apple's semantic colours: labels, fills and separators by vibrancy tier,
+     the grouped backgrounds, and the system accent — light, dark, and high
+     contrast. Colour is used sparingly: the accent marks only what is chosen
+     and the one primary action. */
   :root {
-    color-scheme: light;
-    --label: #000; --label-2: rgba(60, 60, 67, 0.60); --fill-3: rgba(118, 118, 128, 0.12);
-    --separator: rgba(60, 60, 67, 0.29); --blue-ring: rgba(0, 136, 255, 0.35);
-    --bg: #fff; --seg-on: #FFFFFF;
+    color-scheme: light dark;
+    --blue: rgb(0, 136, 255);
+    --blue-soft: rgba(0, 136, 255, 0.14);
+    --blue-ring: rgba(0, 136, 255, 0.35);
+    --green: rgb(52, 199, 89);
+    --red: rgb(255, 59, 48);
+    --label: #000;
+    --label-2: rgba(60, 60, 67, 0.60);
+    --label-3: rgba(60, 60, 67, 0.30);
+    --label-4: rgba(60, 60, 67, 0.18);
+    --fill: rgba(120, 120, 128, 0.20);
+    --fill-2: rgba(120, 120, 128, 0.16);
+    --fill-3: rgba(118, 118, 128, 0.12);
+    --separator: rgba(60, 60, 67, 0.29);
+    --separator-opaque: rgb(198, 198, 200);
+    --bg: #F2F2F7;                           /* systemGroupedBackground */
+    --bg-2: #FFFFFF;                         /* secondarySystemGroupedBackground */
+    --bg-3: #F2F2F7;                         /* tertiarySystemGroupedBackground */
+    --card: rgba(255, 255, 255, 0.78);       /* regular standard material, inside the glass */
+    --glass: rgba(255, 255, 255, 0.72);      /* Liquid Glass, regular */
+    --sidebar: #FBFBFD;                      /* that glass over the plain light page */
+    --glass-edge: inset 0 0 0 0.5px rgba(255, 255, 255, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.06);
+    --glass-sheen: rgba(255, 255, 255, 0.35);  /* the light caught along the top of the glass */
+    --card-glass: rgba(118, 118, 128, 0.07);   /* a grouped section inside floating glass */
+    --seg-on: #FFFFFF;
     --seg-shadow: 0 3px 8px rgba(0, 0, 0, 0.12), 0 3px 1px rgba(0, 0, 0, 0.04), 0 0 0 0.5px rgba(0, 0, 0, 0.04);
-    --radius-control: 10px; --head: 12px; --gap: 12px;
-    --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro", "Helvetica Neue", Helvetica, sans-serif;
-    --hover-bg: #000; --hover-ink: #fff;
-    /* the slides as conversation-summary last set them, on a 1920-wide canvas, scaled to the window */
-    --u: calc(100vw / 1920);
-    --pad: calc(67 * var(--u)); --cols: 3; --col-gap: calc(125 * var(--u)); --prompt-gap: calc(21 * var(--u));
-    --t-size: max(13px, calc(22 * var(--u)));
+    --knob: #FFFFFF;
+    --knob-shadow: 0 1px 3px rgba(0, 0, 0, 0.22), 0 0 0 0.5px rgba(0, 0, 0, 0.06);
+    --gray: rgb(142, 142, 147);
+    --gray-4: rgb(209, 209, 214);
+    --gray-6: rgb(242, 242, 247);
+    --target: 44px;                          /* the smallest thing anyone has to hit */
+    --margin: 20px;                          /* regular width */
+    --gutter: 12px;
+    --radius-glass: 22px;
+    --radius-card: 14px;
+    --radius-control: 10px;
+    --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "SF Pro", "Helvetica Neue", Helvetica, sans-serif;
   }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --blue: rgb(0, 145, 255);
+      --blue-soft: rgba(0, 145, 255, 0.22);
+      --blue-ring: rgba(0, 145, 255, 0.45);
+      --green: rgb(48, 209, 88);
+      --red: rgb(255, 69, 58);
+      --label: #FFF;
+      --label-2: rgba(235, 235, 245, 0.60);
+      --label-3: rgba(235, 235, 245, 0.30);
+      --label-4: rgba(235, 235, 245, 0.16);
+      --fill: rgba(120, 120, 128, 0.36);
+      --fill-2: rgba(120, 120, 128, 0.32);
+      --fill-3: rgba(118, 118, 128, 0.24);
+      --separator: rgba(84, 84, 88, 0.65);
+      --separator-opaque: rgb(56, 56, 58);
+      --bg: #000000;
+      --bg-2: #1C1C1E;
+      --bg-3: #2C2C2E;
+      --card: rgba(44, 44, 46, 0.62);
+      --glass: rgba(28, 28, 30, 0.75);
+      --sidebar: #151517;                    /* that glass over the plain dark page */
+      --glass-edge: inset 0 0 0 0.5px rgba(255, 255, 255, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.45), 0 1px 3px rgba(0, 0, 0, 0.3);
+      --glass-sheen: rgba(255, 255, 255, 0.07);
+      --card-glass: rgba(255, 255, 255, 0.06);
+      --seg-on: rgb(99, 99, 102);
+      --seg-shadow: 0 3px 8px rgba(0, 0, 0, 0.3), 0 0 0 0.5px rgba(255, 255, 255, 0.06);
+      --knob: rgb(229, 229, 234);
+      --knob-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+      --gray-4: rgb(58, 58, 60);
+      --gray-6: rgb(28, 28, 30);
+    }
+  }
+  @media (prefers-contrast: more) {
+    :root { --blue: rgb(30, 110, 244); --label-2: rgba(60, 60, 67, 0.80); --label-3: rgba(60, 60, 67, 0.55); --separator: rgba(60, 60, 67, 0.55); --gray: rgb(108, 108, 112); }
+  }
+  @media (prefers-contrast: more) and (prefers-color-scheme: dark) {
+    :root { --blue: rgb(92, 184, 255); --label-2: rgba(235, 235, 245, 0.80); --label-3: rgba(235, 235, 245, 0.55); --separator: rgba(160, 160, 168, 0.8); --gray: rgb(174, 174, 178); }
+  }
+
+  /* ------------------------------------------------------------- type
+     The macOS desktop scale, tracked per size the way SF Pro is:
+     Title 3 15/20, Headline/Body 13/16, Subheadline 11/14 for notes,
+     Footnote 10/13 for the smallest marks. */
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: var(--bg); color: var(--label); font-family: var(--font); font-size: 13px; line-height: 16px; letter-spacing: -0.08px; -webkit-font-smoothing: antialiased; }
-  button, input { font: inherit; color: inherit; letter-spacing: inherit; }
+  [hidden] { display: none !important; }
+  html, body { height: 100%; }
+  body {
+    background: var(--bg); color: var(--label); font-family: var(--font);
+    font-size: 13px; line-height: 16px; letter-spacing: -0.08px; font-weight: 400;
+    -webkit-font-smoothing: antialiased; overflow: hidden;
+  }
+  button, input, textarea, select { font: inherit; color: inherit; letter-spacing: inherit; }
+  ::selection { background: var(--blue-ring); }
   :focus-visible { outline: 3px solid var(--blue-ring); outline-offset: 1px; border-radius: var(--radius-control); }
-  .pill { border-radius: 999px; background: var(--hover-bg); color: var(--hover-ink); padding: var(--head); white-space: nowrap; font: inherit; font-weight: 530; }
-  .seg { display: flex; gap: 2px; padding: 2px; min-height: 32px; background: var(--fill-3); border-radius: calc(var(--radius-control) + 2px); }
-  .seg button { flex: 1 1 0; border: 0; background: transparent; border-radius: var(--radius-control); padding: 0 10px; cursor: pointer; white-space: nowrap; font-size: 12px; font-weight: 500; transition: background-color .15s, box-shadow .15s; }
+
+  /* ------------------------------------------------------------ shell
+     The canvas is the content and runs edge to edge; the two sidebars are the
+     controls layer, floating over it in Liquid Glass, as tall as what they hold. */
+  .app { height: 100vh; }
+  .body { position: relative; height: 100%; }
+  .col {
+    position: absolute; top: max(var(--margin), env(safe-area-inset-top)); max-height: calc(100% - var(--margin) * 2);
+    z-index: 4; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 10px; color: var(--label);
+    background: linear-gradient(180deg, var(--glass-sheen), transparent 120px), var(--glass);
+    -webkit-backdrop-filter: blur(24px) saturate(180%); backdrop-filter: blur(24px) saturate(180%);
+    border-radius: var(--radius-glass); box-shadow: var(--glass-edge), var(--glass-shadow);
+    transform: translateZ(0);   /* its own layer, so the blur is redrawn cleanly on resize */
+  }
+  .col.left { left: max(var(--margin), env(safe-area-inset-left)); width: 320px; }
+  .col.right { right: max(var(--margin), env(safe-area-inset-right)); width: 300px; }
+  .col .panel { background: var(--card-glass); }
+  .col > *, .panel > * { flex-shrink: 0; }
+  .col { scrollbar-width: thin; scrollbar-color: var(--fill) transparent; }
+  .col::-webkit-scrollbar { width: 14px; }
+  .col::-webkit-scrollbar-track { background: transparent; margin: var(--radius-glass) 0; }
+  .col::-webkit-scrollbar-thumb { background: var(--fill); border-radius: 999px; border: 4px solid transparent; background-clip: padding-box; }
+  .col::-webkit-scrollbar-corner { background: transparent; }
+
+  /* ----------------------------------------------------------- sections
+     Every panel collapses: its whole head is the button, a chevron at the end turns
+     down when open, and everything below the head shows only while open. All start closed. */
+  .panel { background: var(--card); border-radius: var(--radius-card); padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+  .panel.off { opacity: 0.45; }
+  .panel:not(.open) > :not(.phead) { display: none; }
+  .phead {
+    display: flex; align-items: center; gap: 8px; width: calc(100% + 28px); margin: -14px; padding: 14px;
+    border: 0; background: transparent; color: var(--label); text-align: left; cursor: pointer; border-radius: var(--radius-card);
+  }
+  .phead::after {
+    content: ""; margin-left: auto; width: 7px; height: 12px; background: var(--label-3); transition: transform .2s ease, background-color .15s ease;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 12'%3E%3Cpath d='M1.2 1.2 5.8 6l-4.6 4.8' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 12'%3E%3Cpath d='M1.2 1.2 5.8 6l-4.6 4.8' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+  }
+  .phead:hover::after { background: var(--label-2); }
+  .panel.open > .phead::after { transform: rotate(90deg); }
+  .badge {
+    width: 20px; height: 20px; min-width: 20px; border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center;
+    background: var(--fill-3); color: var(--label-2);
+    font-size: 10px; line-height: 13px; font-weight: 600; letter-spacing: 0.12px; font-variant-numeric: tabular-nums;
+  }
+  .note { color: var(--label-2); font-size: 11px; line-height: 14px; letter-spacing: 0.06px; }
+  .grouphead {
+    border-top: 0.5px solid var(--separator); padding-top: 12px;
+    font-size: 11px; line-height: 14px; font-weight: 600; letter-spacing: 0.06px; text-transform: uppercase; color: var(--label-2);
+  }
+
+  /* ---------------------------------------------------------- controls */
+  /* push buttons: sized to their label, a quiet fill; the accent only for the one primary action */
+  .btn {
+    height: 30px; padding: 0 14px; border: 0; border-radius: 9px;
+    background: var(--fill-2); color: var(--label);
+    font-weight: 500; cursor: pointer; text-align: center; white-space: nowrap;
+    transition: background-color .15s ease;
+  }
+  .btn:hover, .btn:active { background: var(--fill); }
+  .btn.primary, .btn.on { background: var(--blue); color: #fff; font-weight: 600; }
+  .btn.primary:hover { filter: brightness(1.08); }
+  .btn[disabled] { color: var(--label-3); background: var(--fill-3); cursor: default; }
+  .btnrow { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+
+  /* segmented controls: a sunken track, the chosen segment raised in the material */
+  .seg { display: flex; gap: 2px; padding: 2px; min-height: var(--target); background: var(--fill-3); border-radius: calc(var(--radius-control) + 2px); }
+  .seg button {
+    flex: 1 1 0; min-width: 60px; border: 0; background: transparent; border-radius: var(--radius-control);
+    padding: 0 8px; cursor: pointer; white-space: nowrap; font-weight: 500; color: var(--label);
+    transition: background-color .15s ease, box-shadow .15s ease;
+  }
   .seg button:hover:not(.on) { background: var(--fill-3); }
   .seg button.on { background: var(--seg-on); box-shadow: var(--seg-shadow); font-weight: 600; }
+  .seg.small { min-height: 32px; }
+  .seg.small button { min-width: 0; font-size: 12px; }
 
-  .top { position: sticky; top: 0; z-index: 2; display: flex; align-items: center; gap: var(--gap); padding: var(--gap) var(--pad); background: var(--bg); }
-  .top label { margin-left: auto; display: flex; gap: 8px; align-items: center; color: var(--label-2); }
-  .top input[type=range] { width: 160px; accent-color: var(--label); }
+  /* choice chips: capsules, the chosen one in the accent */
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    min-height: var(--target); min-width: 60px; padding: 0 16px; border: 0; border-radius: 999px;
+    background: var(--fill-3); color: var(--label); font-weight: 500; cursor: pointer; transition: background-color .15s ease;
+  }
+  .chip:hover:not(.on) { background: var(--fill-2); }
+  .chip.on { background: var(--blue); color: #fff; font-weight: 600; }
 
-  /* each repo: its name top left, its prompts flowed down the columns, a line between repos */
-  article { padding: var(--gap) var(--pad) calc(var(--pad) * 2); }
-  article + article { border-top: 1px solid var(--separator); padding-top: var(--pad); }
-  article h2 { display: inline-block; margin-bottom: var(--pad); }
-  ol { list-style: none; columns: var(--cols); column-gap: var(--col-gap);
-       font: 400 var(--t-size)/1 "Helvetica Neue", Helvetica, Arial, sans-serif; letter-spacing: 0; }
-  li { margin-bottom: var(--prompt-gap); overflow-wrap: break-word; }
-  li img { display: block; max-width: 100%; max-height: 60vh; margin-top: var(--prompt-gap); }
-  @media (max-width: 900px) { :root { --cols: 2; --u: calc(100vw / 1200); } }
-  @media (max-width: 600px) { :root { --cols: 1; --pad: 16px; --prompt-gap: 16px; } .top label { display: none; } }
+  /* pop-up menus: label left, choice right beside chevrons in a small round well, rows split by a hairline */
+  .rows { display: flex; flex-direction: column; gap: 10px; }
+  .popup { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: var(--target); }
+  .popup + .popup { border-top: 0.5px solid var(--separator); }
+  .popup.off { opacity: 0.4; pointer-events: none; }
+  /* canvas size: two typed pixel fields, label left, split from the pop-ups by the same hairline */
+  .dims { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: var(--target); }
+  .dims + .popup, .popup + .dims { border-top: 0.5px solid var(--separator); }
+  .dwrap { display: flex; align-items: center; gap: 6px; color: var(--label-2); font-variant-numeric: tabular-nums; }
+  .dwrap .field { width: 64px; padding: 6px 8px; color: var(--label); text-align: right; font-variant-numeric: tabular-nums; }
+  .plabel { color: var(--label); white-space: nowrap; }
+  .pwrap { position: relative; display: inline-flex; align-items: center; min-width: 0; min-height: var(--target); padding: 0 32px 0 8px; border-radius: var(--radius-control); }
+  .pvalue { color: var(--label); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .pwrap select {
+    position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; z-index: 3;
+    -webkit-appearance: none; appearance: none; border: 0; background: transparent; opacity: 0; cursor: pointer; font-size: 16px;
+  }
+  .pwrap:has(select:focus-visible) { outline: 3px solid var(--blue-ring); outline-offset: -2px; }
+  .pwrap::after { content: ""; position: absolute; right: 0; top: 50%; width: 22px; height: 22px; margin-top: -11px; border-radius: 50%; background: var(--fill-2); pointer-events: none; z-index: 0; }
+  .pwrap::before {
+    content: ""; position: absolute; right: 7px; top: 50%; width: 8px; height: 12px; margin-top: -6px; z-index: 2;
+    background: var(--label-2); pointer-events: none;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 12'%3E%3Cpath d='M1 4.3 4 1.3 7 4.3M1 7.7 4 10.7 7 7.7' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 12'%3E%3Cpath d='M1 4.3 4 1.3 7 4.3M1 7.7 4 10.7 7 7.7' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+  }
+  .pwrap:hover::after { background: var(--fill); }
+
+  /* text fields: a sunken fill, no border, a focus ring in the accent */
+  .field { border: 0; border-radius: var(--radius-control); padding: 10px 12px; width: 100%; background: var(--fill-3); outline: none; resize: vertical; transition: box-shadow .15s ease; }
+  .field::placeholder { color: var(--label-3); }
+  .field:focus { box-shadow: 0 0 0 3px var(--blue-ring); }
+  textarea.field { min-height: 88px; }
+
+  /* drop zones */
+  .drop {
+    min-height: 72px; border: 1.5px dashed var(--label-3); border-radius: var(--radius-card); padding: 18px 12px; text-align: center; cursor: pointer;
+    background: var(--fill-3); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+    transition: background-color .15s ease, border-color .15s ease;
+  }
+  .drop:hover { border-color: var(--label-2); }
+  .drop.hot, body.dragging .drop { background: var(--blue-soft); border-color: var(--blue); }
+
+  /* labelled sliders: name left, value right in label-2 tabular figures */
+  .row { display: flex; flex-direction: column; gap: 2px; }
+  .rowhead { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+  .rowhead .val { color: var(--label-2); font-variant-numeric: tabular-nums; }
+  .rowhead .lab { display: inline-flex; align-items: center; gap: 6px; min-width: 0; }
+  .rowhead:has(.lab) { align-items: center; }
+  input[type=range] {
+    --p: 50%;
+    -webkit-appearance: none; appearance: none; width: 100%; height: var(--target); margin: -6px 0; background: transparent; cursor: pointer;
+  }
+  input[type=range]::-webkit-slider-runnable-track { height: 8px; border-radius: 4px; background: linear-gradient(to right, var(--blue) 0 var(--p), var(--fill) var(--p) 100%); }
+  input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 28px; height: 20px; margin-top: -6px; border-radius: 10px; border: 0; background: var(--knob); box-shadow: var(--knob-shadow); }
+  input[type=range]::-moz-range-track { height: 8px; border-radius: 4px; background: var(--fill); }
+  input[type=range]::-moz-range-progress { height: 8px; border-radius: 4px; background: var(--blue); }
+  input[type=range]::-moz-range-thumb { width: 28px; height: 20px; border-radius: 10px; border: 0; background: var(--knob); box-shadow: var(--knob-shadow); }
+  input[type=range]:active::-webkit-slider-thumb { transform: scale(1.04); }
+  input[type=range]:focus-visible { outline: none; }
+  input[type=range]:focus-visible::-webkit-slider-thumb { box-shadow: var(--knob-shadow), 0 0 0 3px var(--blue-ring); }
+  input[type=range]:disabled { cursor: default; opacity: 0.5; }
+
+  /* a value you can type into: nothing until you go near it, a field while you do */
+  .val.typein { cursor: text; padding: 1px 6px; margin: -1px -6px; border-radius: 6px; transition: background-color .15s ease; }
+  .val.typein:hover { background: var(--fill-3); }
+  .val.typein.editing { background: var(--bg-2); color: var(--label); box-shadow: 0 0 0 3px var(--blue-ring); outline: none; min-width: 36px; text-align: right; }
+
+  /* sweep: a small round button beside every slider's name. Grey while still; in the accent
+     while the slider runs, its wave showing how: a triangle to bounce, a sawtooth to loop. */
+  .osc { width: 22px; height: 22px; min-width: 22px; margin: -3px 0; border: 0; border-radius: 50%; padding: 0; cursor: pointer;
+         display: inline-flex; align-items: center; justify-content: center; background: var(--fill-3); color: var(--label-2); transition: background-color .15s ease; }
+  .osc:hover { background: var(--fill-2); color: var(--label); }
+  .osc.on { background: var(--blue); color: #fff; }
+  .osc svg { width: 13px; height: 8px; display: block; }
+
+  /* on/off is a switch (a real checkbox underneath), green when on */
+  .check { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: var(--target); cursor: pointer; }
+  .check input { position: absolute; opacity: 0; pointer-events: none; }
+  .check + .check { border-top: 0.5px solid var(--separator); }
+  .box { width: 42px; min-width: 42px; height: 26px; border-radius: 13px; background: var(--fill); position: relative; transition: background-color .2s ease; }
+  .box::after { content: ""; position: absolute; top: 2px; left: 2px; width: 22px; height: 22px; border-radius: 50%; background: #fff;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15), 0 3px 1px rgba(0, 0, 0, 0.06); transition: transform .2s ease; }
+  .check:has(input:checked) .box { background: var(--green); }
+  .check:has(input:checked) .box::after { transform: translateX(16px); }
+  .check:has(input:focus-visible) .box { box-shadow: 0 0 0 3px var(--blue-ring); }
+
+  /* read-outs: key left, value right, hairline between */
+  .kv { display: flex; justify-content: space-between; gap: 8px; min-height: 24px; align-items: center; }
+  .kv + .kv { border-top: 0.5px solid var(--separator); }
+  .kv .val { color: var(--label-2); font-variant-numeric: tabular-nums; }
+
+  /* colour: a round well (a real colour input underneath), the hex beside it */
+  .colorrow { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: var(--target); }
+  .colorrow + .colorrow, .popup + .colorrow, .colorrow + .popup { border-top: 0.5px solid var(--separator); }
+  .cwrap { display: flex; align-items: center; gap: 8px; min-width: 0; }
+  .cwrap .val { color: var(--label-2); font-variant-numeric: tabular-nums; font-size: 11px; min-width: 52px; text-align: right; text-transform: lowercase; }
+  .well { position: relative; width: 26px; height: 26px; min-width: 26px; border-radius: 50%; overflow: hidden; cursor: pointer;
+          box-shadow: inset 0 0 0 0.5px rgba(0, 0, 0, 0.2), 0 0 0 2px var(--fill-3); }
+  .well input { position: absolute; inset: -8px; width: calc(100% + 16px); height: calc(100% + 16px); border: 0; padding: 0; cursor: pointer; opacity: 0; }
+  .well span { position: absolute; inset: 0; border-radius: 50%; }
+  .well:has(input:focus-visible) { box-shadow: inset 0 0 0 0.5px rgba(0, 0, 0, 0.2), 0 0 0 3px var(--blue-ring); }
+
+  /* menus that open from a button: glass, beside the button that opened them */
+  .menu { position: fixed; inset: auto; margin: 0; border: 0; width: 248px; padding: 12px; color: var(--label);
+          background: linear-gradient(180deg, var(--glass-sheen), transparent 80px), var(--glass);
+          -webkit-backdrop-filter: blur(24px) saturate(180%); backdrop-filter: blur(24px) saturate(180%);
+          border-radius: var(--radius-card); box-shadow: var(--glass-edge), var(--glass-shadow); }
+  .menu:popover-open { display: flex; flex-direction: column; gap: 6px; }
+  .menu .popup { min-height: 36px; }
+  .menu .pwrap { min-height: 32px; }
+  .menuhead { font-size: 11px; line-height: 14px; font-weight: 600; letter-spacing: 0.06px; text-transform: uppercase; color: var(--label-2); padding: 0 2px 4px; }
+
+  /* ------------------------------------------------------------- stage */
+  .stagewrap { position: absolute; inset: 0; overflow: hidden; }
+  /* The top bar: a floating glass capsule centred over the open canvas.
+     It has the glass rim ONLY — never --glass-shadow or any drop shadow underneath. */
+  .stagebar {
+    position: absolute; top: max(var(--margin), env(safe-area-inset-top)); left: calc(50% + 10px); transform: translateX(-50%); z-index: 3;
+    display: flex; align-items: center; gap: 10px; padding: 5px 5px 5px 14px; color: var(--label);
+    background: linear-gradient(180deg, var(--glass-sheen), transparent), var(--glass);
+    -webkit-backdrop-filter: blur(20px) saturate(180%); backdrop-filter: blur(20px) saturate(180%);
+    border-radius: 999px; box-shadow: var(--glass-edge);
+    max-width: calc(100% - 720px); white-space: nowrap;
+  }
+  .stagebar .note { font-variant-numeric: tabular-nums; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+  .stagebar .note b { color: var(--label); font-weight: 600; }
+  .stagebar .btn { height: 28px; border-radius: 999px; padding: 0 12px; }
+  /* recording: the one place red means something other than an error */
+  .btn.rec { background: var(--red); color: #fff; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .btn.rec::before { content: ""; display: inline-block; width: 7px; height: 7px; margin: 0 6px 1px 0; border-radius: 50%; background: #fff; animation: blink 1s steps(2, jump-none) infinite; }
+  @keyframes blink { 50% { opacity: 0.3; } }
+  .stage { position: absolute; inset: 0; overflow: hidden; display: flex; align-items: center; justify-content: center; background: var(--bg);
+           padding: 68px calc(var(--margin) * 2 + 300px + 24px) 40px calc(var(--margin) * 2 + 320px + 24px); }
+  .hint { position: absolute; bottom: 18px; left: calc(var(--margin) * 2 + 320px + 8px); right: calc(var(--margin) * 2 + 300px + 8px);
+          color: var(--label-2); font-size: 11px; line-height: 14px; letter-spacing: 0.06px; pointer-events: none; text-align: center; }
+  /* the content, as large as the open canvas lets its proportions be */
+  .fit { width: 100%; height: 100%; container-type: size; display: flex; align-items: center; justify-content: center; }
+  #board { --r: 1; position: relative; width: min(100cqw, calc(100cqh * var(--r))); aspect-ratio: var(--r); background: var(--canvas, var(--bg-2)); color: var(--ink, var(--label)); box-shadow: var(--glass-shadow); overflow: hidden; }
+  /* a canvas too close to the page to see (dark in dark mode, light in light mode) gets a
+     hairline in the inverse: bright round a dark canvas, dark round a light one. Set by canvasEdge(). */
+  #board[data-edge="bright"] { outline: 1px solid rgba(255, 255, 255, 0.4); }
+  #board[data-edge="dark"] { outline: 1px solid rgba(0, 0, 0, 0.2); }
+  /* the text on the canvas, set entirely by the Type and Colour controls; empty to begin with */
+  /* sizes are in canvas pixels: --k scales them to the board as shown, so the board looks like the export */
+  .specimen { position: absolute; inset: 8%; outline: none; overflow: hidden; overflow-wrap: break-word; white-space: pre-wrap;
+              font-family: var(--t-font); font-size: calc(var(--t-size) * var(--k, 1)); line-height: var(--t-leading); letter-spacing: var(--t-tracking); text-align: var(--t-align); }
+
+  /* floating glass bits: tooltip, toast, show-UI button */
+  .float {
+    position: absolute; z-index: 6; pointer-events: none;
+    background: linear-gradient(180deg, var(--glass-sheen), transparent), var(--glass);
+    -webkit-backdrop-filter: blur(20px) saturate(180%); backdrop-filter: blur(20px) saturate(180%);
+    box-shadow: var(--glass-edge), var(--glass-shadow);
+  }
+  #toast { left: 50%; bottom: 44px; transform: translate(-50%, 8px); padding: 8px 16px; border-radius: 999px; opacity: 0; transition: opacity .2s, transform .2s; max-width: calc(100% - 32px); }
+  #toast.show { opacity: 1; transform: translate(-50%, 0); }
+  #toast.err { color: var(--red); }
+  #showUi { position: fixed; top: 12px; right: 12px; z-index: 7; display: none; opacity: 0; transition: opacity .2s; border-radius: 999px; pointer-events: auto; }
+  #showUi:hover, #showUi:focus-visible { opacity: 1; }
+
+  /* ------------------------------------------------------------ rearranging
+     Panels drag by their heads, controls by a grip that shows in the gutter at their left edge.
+     The one being moved leaves a gap where it will land and travels as a glass copy; dropped
+     outside the columns, it's removed until the top bar's button or ⌘Z brings it back. */
+  .movable, .panel > .phead { position: relative; }
+  .phead { -webkit-user-select: none; user-select: none; }
+  .grip {
+    position: absolute; top: 50%; left: -13px; width: 12px; height: 22px; transform: translateY(-50%);
+    cursor: grab; touch-action: none; opacity: 0; background: var(--label-3); transition: opacity .15s ease;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 6 10'%3E%3Cg fill='black'%3E%3Ccircle cx='1' cy='1' r='1'/%3E%3Ccircle cx='5' cy='1' r='1'/%3E%3Ccircle cx='1' cy='5' r='1'/%3E%3Ccircle cx='5' cy='5' r='1'/%3E%3Ccircle cx='1' cy='9' r='1'/%3E%3Ccircle cx='5' cy='9' r='1'/%3E%3C/g%3E%3C/svg%3E") center / 6px 10px no-repeat;
+            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 6 10'%3E%3Cg fill='black'%3E%3Ccircle cx='1' cy='1' r='1'/%3E%3Ccircle cx='5' cy='1' r='1'/%3E%3Ccircle cx='1' cy='5' r='1'/%3E%3Ccircle cx='5' cy='5' r='1'/%3E%3Ccircle cx='1' cy='9' r='1'/%3E%3Ccircle cx='5' cy='9' r='1'/%3E%3C/g%3E%3C/svg%3E") center / 6px 10px no-repeat;
+  }
+  .phead > .grip { left: 1px; }
+  .movable:hover > .grip, .phead:hover > .grip { opacity: 1; }
+  .grip:hover { background: var(--label-2); }
+  @media (hover: none) { .grip { opacity: 1; } }
+  /* emptied by moving: a group of sliders with none left, a column with no panels */
+  .rows:not(:has(> *)) { display: none; }
+  .col:not(:has(> .panel)) { display: none; }
+  html.moving .col { display: flex; min-height: 72px; }
+  html.moving { -webkit-user-select: none; user-select: none; }
+  html.moving, html.moving * { cursor: grabbing !important; }
+  .lifted { opacity: 0; }
+  .lifted.gone { display: none; }
+  .ghost {
+    position: fixed; left: 0; top: 0; z-index: 20; padding: 8px 14px; pointer-events: none; color: var(--label);
+    background: linear-gradient(180deg, var(--glass-sheen), transparent 80px), var(--glass);
+    -webkit-backdrop-filter: blur(24px) saturate(180%); backdrop-filter: blur(24px) saturate(180%);
+    border-radius: var(--radius-card); box-shadow: var(--glass-edge), var(--glass-shadow);
+  }
+  .ghost.gpanel { padding: 0; }
+  .ghost .panel { background: var(--card-glass); }
+  .ghost .grip { display: none; }
+  .ghost > * { transition: opacity .15s ease; }
+  .ghost.out > * { opacity: 0.5; }
+  .ghost.out::after {
+    content: "Remove"; position: absolute; top: -10px; right: -8px; padding: 2px 8px; border-radius: 999px;
+    background: var(--glass); box-shadow: var(--glass-edge), var(--glass-shadow);
+    font-size: 11px; line-height: 14px; font-weight: 600; letter-spacing: 0.06px;
+  }
+  /* the removed list in the top bar's menu */
+  .mitem {
+    display: flex; align-items: center; justify-content: space-between; gap: 8px; width: 100%; min-height: 32px; padding: 0 8px;
+    border: 0; border-radius: 7px; background: transparent; color: var(--label); text-align: left; cursor: pointer; transition: background-color .15s ease;
+  }
+  .mitem:hover { background: var(--fill-3); }
+  #removedList { display: flex; flex-direction: column; }
+  #layoutMenu .btnrow { padding-top: 6px; }
+
+  /* ------------------------------------------------------------ hidden UI: the content alone, edge to edge */
+  html[data-ui="off"] .col, html[data-ui="off"] .stagebar, html[data-ui="off"] .hint { display: none; }
+  html[data-ui="off"] .stage { padding: 0; }
+  html[data-ui="off"] .stagewrap { position: fixed; inset: 0; height: auto; border-radius: 0; z-index: 5; }
+  html[data-ui="off"] #board { box-shadow: none; outline: none; }
+  html[data-ui="off"] #showUi { display: block; }
+
+  /* ------------------------------------------------------------ size classes
+     Regular width: a sidebar floating either side of the canvas. Narrower:
+     both float stacked down the left. Compact: one column, canvas first, the
+     sections below it in the page, solid rather than floating. */
+  @media (max-width: 1179px) {
+    .col.left, .col.right { left: max(var(--margin), env(safe-area-inset-left)); right: auto; width: 330px; }
+    .col.left { max-height: calc(68% - var(--margin) - var(--gutter) / 2); }
+    .col.right { top: auto; bottom: max(var(--margin), env(safe-area-inset-bottom)); max-height: calc(32% - var(--margin) - var(--gutter) / 2); }
+    .stage { padding: 68px 32px 40px calc(var(--margin) * 2 + 330px + 24px); }
+    .stagebar { left: calc(50% + 185px); max-width: calc(100% - 420px); }
+    .hint { left: calc(var(--margin) * 2 + 330px + 8px); right: 24px; }
+  }
+  @media (max-width: 759px) {
+    :root { --margin: 16px; }
+    body { overflow: auto; }
+    .app { height: auto; min-height: 100vh; }
+    .body { height: auto; display: flex; flex-direction: column; gap: var(--gutter); padding: var(--margin); padding-top: max(var(--margin), env(safe-area-inset-top)); }
+    .stagewrap { position: relative; inset: auto; order: -1; flex-shrink: 0; height: 62vh; border-radius: var(--radius-glass); box-shadow: 0 0 0 0.5px var(--separator); }
+    .stage { padding: 56px 16px 32px; }
+    .stagebar { left: 50%; max-width: calc(100% - 24px); }
+    .hint { left: 16px; right: 16px; bottom: 10px; }
+    /* in the page rather than over the canvas: nothing to see through, so solid */
+    .col.left, .col.right { position: static; width: auto; height: auto; max-height: none; overflow: visible;
+      background: var(--sidebar); -webkit-backdrop-filter: none; backdrop-filter: none; transform: none; }
+    .col .panel { background: var(--card); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #toast, #showUi, .btn, .seg button, .chip, .box, .box::after, .phead::after, .osc, .val.typein, .grip, .ghost > *, .mitem { transition: none; }
+    .btn.rec::before { animation: none; }
+  }
+  /* ------------------------------------------------------------ this app
+     The board is the site, seen in a window of the set size and scrolled inside it. Sizes are
+     canvas px, scaled by --k, so it looks the same at any zoom. */
+  #board { overflow-y: auto; overscroll-behavior: contain; }
+  .site { min-height: 100%; font-family: var(--t-font); font-weight: var(--t-weight); font-size: calc(var(--t-size) * var(--k) * 1px);
+          line-height: var(--t-leading); letter-spacing: var(--t-tracking); text-align: var(--t-align); }
+  .site article { padding: calc(var(--pad-top) * var(--k) * 1px) calc(var(--pad) * var(--k) * 1px); }
+  .site article + article { border-top: 1px solid var(--rule); }
+  .site h2 { font: inherit; margin-bottom: calc(var(--pad-top) * var(--k) * 1px); }
+  .prompts { list-style: none; counter-reset: p; columns: var(--cols); column-gap: calc(var(--col-gap) * var(--k) * 1px); }
+  .prompts li { counter-increment: p; margin-bottom: calc(var(--prompt-gap) * var(--k) * 1px); overflow-wrap: break-word; white-space: pre-wrap; }
+  .whole .prompts li { break-inside: avoid; }
+  .numbered .prompts li > p:first-child::before, .numbered .prompts li:not(:has(p))::before { content: counter(p) ". "; }
+  .prompts img { display: block; max-width: var(--img-w); max-height: calc(var(--img-h) * var(--k) * 1px); margin-top: calc(var(--prompt-gap) * var(--k) * 0.5px);
+                 border-radius: calc(var(--img-r) * var(--k) * 1px); }
+  .gallery { display: grid; grid-template-columns: repeat(var(--g-cols), 1fr); gap: calc(var(--g-gap) * var(--k) * 1px); margin-top: calc(var(--pad-top) * var(--k) * 1px); }
+  .gallery > * { display: block; width: 100%; aspect-ratio: 1; object-fit: var(--g-fit); border-radius: calc(var(--g-r) * var(--k) * 1px); }
+  #repoList .kv span:first-child { color: var(--label); }
+  /* Hide UI: the site full screen, at the window's own size */
+  html[data-ui="off"] #board { width: 100%; height: 100%; aspect-ratio: auto; }
 </style>
 </head>
 <body>
-<header class="top">
-  <div class="seg" role="group" aria-label="Order">
-    <button data-sort="date" class="on">Newest</button>
-    <button data-sort="name">A–Z</button>
+<div class="app">
+  <div class="body">
+    <aside class="col left" aria-label="Controls">
+      <section class="panel">
+        <button class="phead" aria-expanded="false"><span class="badge">1</span><span>Order</span></button>
+        <div class="seg" id="order" role="group" aria-label="Order"><button class="on" data-value="date">Newest</button><button data-value="name">A–Z</button></div>
+        <div class="note">Newest goes by each repo’s last commit.</div>
+      </section>
+      <section class="panel">
+        <button class="phead" aria-expanded="false"><span class="badge">2</span><span>Canvas</span></button>
+        <div class="dims"><span class="plabel">Size</span><span class="dwrap">
+          <input class="field" id="cw" value="1920" inputmode="numeric" autocomplete="off" aria-label="Canvas width"><span>×</span>
+          <input class="field" id="ch" value="1080" inputmode="numeric" autocomplete="off" aria-label="Canvas height"><span>px</span></span></div>
+        <div class="popup"><span class="plabel">Aspect ratio</span><span class="pwrap"><span class="pvalue"></span>
+          <select id="aspect" aria-label="Aspect ratio">
+            <option value="custom" hidden>Custom</option><option value="0">Original</option><option value="1">1:1</option><option value="0.8">4:5</option><option value="0.75">3:4</option>
+            <option value="0.6667">2:3</option><option value="0.5625">9:16</option><option value="1.25">5:4</option><option value="1.3333">4:3</option>
+            <option value="1.5">3:2</option><option value="1.7778" selected>16:9</option><option value="2">2:1</option><option value="2.3333">21:9</option>
+            <option value="0.7071">A-series portrait (1:√2)</option><option value="1.4142">A-series landscape (√2:1)</option>
+          </select></span></div>
+        <div class="rows">
+          <div class="row"><div class="rowhead"><span>Side padding</span><span class="val" data-unit="px"></span></div><input type="range" id="pad" min="0" max="600" step="1" value="67" aria-label="Side padding"></div>
+          <div class="row"><div class="rowhead"><span>Top padding</span><span class="val" data-unit="px"></span></div><input type="range" id="padTop" min="0" max="300" step="1" value="67" aria-label="Top padding"></div>
+        </div>
+        <div class="note">The page as seen in a window this size: every px below is a px of it. Hide UI shows it full screen.</div>
+      </section>
+      <section class="panel">
+        <button class="phead" aria-expanded="false"><span class="badge">3</span><span>Columns</span></button>
+        <div class="rows">
+          <div class="row"><div class="rowhead"><span>Columns</span><span class="val" data-unit=""></span></div><input type="range" id="cols" min="1" max="6" step="1" value="3" aria-label="Columns"></div>
+          <div class="row"><div class="rowhead"><span>Column gap</span><span class="val" data-unit="px"></span></div><input type="range" id="colGap" min="0" max="300" step="1" value="125" aria-label="Column gap"></div>
+          <div class="row"><div class="rowhead"><span>Prompt gap</span><span class="val" data-unit="px"></span></div><input type="range" id="promptGap" min="0" max="120" step="1" value="21" aria-label="Prompt gap"></div>
+        </div>
+        <label class="check"><span>Number the prompts</span><input type="checkbox" role="switch" id="numbers" checked><span class="box"></span></label>
+        <label class="check"><span>Keep each prompt in one column</span><input type="checkbox" role="switch" id="whole"><span class="box"></span></label>
+      </section>
+      <section class="panel">
+        <button class="phead" aria-expanded="false"><span class="badge">4</span><span>Type</span></button>
+        <div class="popup"><span class="plabel">Typeface</span><span class="pwrap"><span class="pvalue"></span>
+          <select id="font" aria-label="Typeface">
+            <option value='-apple-system, "SF Pro Display", "Helvetica Neue", sans-serif'>SF Pro</option>
+            <option value='"Helvetica Neue", Helvetica, Arial, sans-serif' selected>Helvetica Neue</option>
+            <option value='ui-serif, "New York", Georgia, serif'>New York</option>
+            <option value='Georgia, serif'>Georgia</option>
+            <option value='"Times New Roman", Times, serif'>Times</option>
+            <option value='ui-monospace, "SF Mono", Menlo, monospace'>SF Mono</option>
+          </select></span></div>
+        <div class="popup"><span class="plabel">Weight</span><span class="pwrap"><span class="pvalue"></span>
+          <select id="weight" aria-label="Weight">
+            <option value="300">Light</option><option value="400" selected>Regular</option><option value="500">Medium</option><option value="700">Bold</option>
+          </select></span></div>
+        <div class="btnrow"><button class="btn" id="openFont">Open font…</button></div>
+        <div class="rows">
+          <div class="row"><div class="rowhead"><span>Size</span><span class="val" data-unit="px"></span></div><input type="range" id="size" min="6" max="120" step="0.5" value="22" aria-label="Size"></div>
+          <div class="row"><div class="rowhead"><span>Leading</span><span class="val" data-unit="×"></span></div><input type="range" id="leading" min="0.8" max="2.5" step="0.01" value="1" aria-label="Leading"></div>
+          <div class="row"><div class="rowhead"><span>Tracking</span><span class="val" data-unit="em"></span></div><input type="range" id="tracking" min="-0.1" max="0.3" step="0.005" value="0" aria-label="Tracking"></div>
+        </div>
+        <div class="seg" id="align" role="group" aria-label="Alignment">
+          <button class="on" data-value="left">Left</button><button data-value="center">Centre</button><button data-value="right">Right</button><button data-value="justify">Justify</button>
+        </div>
+      </section>
+      <section class="panel">
+        <button class="phead" aria-expanded="false"><span class="badge">5</span><span>Images</span></button>
+        <div class="rows">
+          <div class="row"><div class="rowhead"><span>Max width</span><span class="val" data-unit="%"></span></div><input type="range" id="imgW" min="10" max="100" step="1" value="100" aria-label="Image max width"></div>
+          <div class="row"><div class="rowhead"><span>Max height</span><span class="val" data-unit="px"></span></div><input type="range" id="imgH" min="40" max="1200" step="1" value="500" aria-label="Image max height"></div>
+          <div class="row"><div class="rowhead"><span>Corners</span><span class="val" data-unit="px"></span></div><input type="range" id="imgR" min="0" max="60" step="1" value="0" aria-label="Image corners"></div>
+        </div>
+      </section>
+      <section class="panel">
+        <button class="phead" aria-expanded="false"><span class="badge">6</span><span>Gallery</span></button>
+        <div class="rows">
+          <div class="row"><div class="rowhead"><span>Columns</span><span class="val" data-unit=""></span></div><input type="range" id="gCols" min="1" max="8" step="1" value="4" aria-label="Gallery columns"></div>
+          <div class="row"><div class="rowhead"><span>Gap</span><span class="val" data-unit="px"></span></div><input type="range" id="gGap" min="0" max="120" step="1" value="12" aria-label="Gallery gap"></div>
+          <div class="row"><div class="rowhead"><span>Corners</span><span class="val" data-unit="px"></span></div><input type="range" id="gR" min="0" max="60" step="1" value="0" aria-label="Gallery corners"></div>
+        </div>
+        <div class="seg" id="gFit" role="group" aria-label="Fit"><button class="on" data-value="cover">Square</button><button data-value="contain">Whole</button></div>
+        <div class="note">The images and videos in each repo’s portfolio/ folder.</div>
+      </section>
+      <section class="panel">
+        <button class="phead" aria-expanded="false"><span class="badge">7</span><span>Colour</span></button>
+        <div class="colorrow"><span class="plabel">Text</span><span class="cwrap"><span class="val"></span><label class="well"><span></span><input type="color" id="ink" value="#000000" aria-label="Text colour"></label></span></div>
+        <div class="colorrow"><span class="plabel">Canvas</span><span class="cwrap"><span class="val"></span><label class="well"><span></span><input type="color" id="canvas" value="#ffffff" aria-label="Canvas colour"></label></span></div>
+        <div class="colorrow"><span class="plabel">Dividers</span><span class="cwrap"><span class="val"></span><label class="well"><span></span><input type="color" id="rule" value="#000000" aria-label="Divider colour"></label></span></div>
+      </section>
+    </aside>
+    <main class="stagewrap">
+      <div class="stagebar">
+        <div class="note" aria-live="polite" id="status"><b>Loading</b></div>
+        <button class="btn" id="record" title="Record the canvas as video; press again to stop and save">Record</button>
+        <button class="btn" id="layout" hidden title="Bring back removed panels and controls, or put everything back where it started">Reset layout</button>
+        <button class="btn" data-hide-ui title="Hide the controls (H)">Hide UI</button>
+      </div>
+      <div class="stage">
+        <div class="fit"><div id="board"><div class="site" id="site"></div></div></div>
+        <div class="hint">Scroll the canvas to read the site · click any value to type it · drag panels and controls to rearrange · H hides the controls</div>
+      </div>
+      <div class="float" id="toast" role="status"></div>
+      <button class="btn float" id="showUi" title="Show the controls (H or Esc)">Show UI</button>
+    </main>
+    <aside class="col right" aria-label="Repos">
+      <section class="panel">
+        <button class="phead" aria-expanded="false"><span class="badge">≡</span><span>Repos</span></button>
+        <div id="repoList"></div>
+        <div class="note">Repos with a green tag in the Finder. Run <b>python3 staging/build.py</b> after tagging one or adding to its portfolio/ folder.</div>
+      </section>
+    </aside>
   </div>
-  <label>Padding <input type="range" id="pad" min="0" max="400" value="67" aria-label="Side padding"></label>
-</header>
-<main></main>
+</div>
+<!-- the one sweep menu, opened beside whichever slider's button was pressed -->
+<div class="menu" id="sweep" popover>
+  <div class="menuhead" id="sweepName"></div>
+  <div class="seg small" id="sweepMode" role="group" aria-label="Sweep">
+    <button data-mode="off">Off</button><button data-mode="bounce">Bounce</button><button data-mode="loop">Loop</button>
+  </div>
+  <div class="popup"><span class="plabel">Interpolation</span><span class="pwrap"><span class="pvalue"></span>
+    <select id="sweepEase" aria-label="Interpolation">
+      <option value="linear">Linear</option><option value="inout" selected>Ease in-out</option><option value="in">Ease in</option>
+      <option value="out">Ease out</option><option value="sine">Sine</option>
+    </select></span></div>
+  <div class="popup"><span class="plabel">Duration</span><span class="pwrap"><span class="pvalue"></span>
+    <select id="sweepDur" aria-label="Duration of one sweep">
+      <option value="0.5">0.5 s</option><option value="1">1 s</option><option value="2" selected>2 s</option><option value="4">4 s</option>
+      <option value="8">8 s</option><option value="16">16 s</option><option value="30">30 s</option>
+    </select></span></div>
+</div>
+<!-- what's been dragged out of the columns, to bring back one at a time or all at once -->
+<div class="menu" id="layoutMenu" popover>
+  <div class="menuhead">Removed</div>
+  <div id="removedList"></div>
+  <div class="btnrow"><button class="btn" id="restoreAll">Restore all</button><button class="btn" id="resetLayout">Reset layout</button></div>
+</div>
+<!-- removed panels and controls wait here: hidden, still wired up, keeping their values -->
+<div id="removed" hidden></div>
 <script type="module">
-import { randomColour } from '../layout.js';
-const { bg, ink } = randomColour();   // the portfolio's colour for its pills, new each load
-document.documentElement.style.setProperty('--hover-bg', bg);
-document.documentElement.style.setProperty('--hover-ink', ink);
+const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+const clamp = (v, a, b) => v < a ? a : v > b ? b : v;
+// slider fill and read-out follow the value (not while the read-out is being typed into)
+const fill = r => {
+  r.style.setProperty('--p', `${(r.value - r.min) / (r.max - r.min) * 100}%`);
+  const v = r.closest('.row')?.querySelector('.val');
+  if (!v || v.classList.contains('editing')) return;
+  const n = +(+r.value).toFixed(3), u = v.dataset.unit;
+  v.textContent = !u ? n : u === '×' ? `${n}×` : `${n} ${u}`;
+};
+$$('input[type=range]').forEach(r => { fill(r); r.addEventListener('input', () => fill(r)); });
+// segmented controls: one on at a time
+$$('.seg').forEach(s => s.addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; s.querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b)); }));
+// pop-up menus show their choice
+const showChoice = sel => sel.parentElement.querySelector('.pvalue').textContent = sel.selectedOptions[0]?.text ?? '';
+$$('.pwrap select').forEach(sel => { showChoice(sel); sel.addEventListener('change', () => showChoice(sel)); });
+// panels open and close from their heads; all start closed
+$$('.panel > .phead').forEach(h => h.addEventListener('click', () => h.setAttribute('aria-expanded', h.closest('.panel').classList.toggle('open'))));
 
-const main = document.querySelector('main'), el = (t, c) => Object.assign(document.createElement(t), c);
+// canvas size, typed in px: the window the site is seen in (1920 × 1080 to begin with, the size
+// the conversation-summary settings were made for). The board shows it scaled to fit; every px
+// setting is a px of it, scaled by --k. Hide UI shows the site full screen at the window's own size.
+const board = $('#board'), aspect = $('#aspect'), cw = $('#cw'), ch = $('#ch'), size = { w: 1920, h: 1080 };
+let source = null;
+const fitType = () => board.style.setProperty('--k', board.clientWidth / size.w);
+function setSize(w, h) {
+  size.w = clamp(Math.round(w) || size.w, 16, 8192); size.h = clamp(Math.round(h) || size.h, 16, 8192);
+  cw.value = size.w; ch.value = size.h;
+  board.style.setProperty('--r', size.w / size.h);
+  const preset = [...aspect.options].find(o => +o.value && Math.abs(o.value - size.w / size.h) < 0.005);
+  aspect.value = preset?.value ?? 'custom'; showChoice(aspect);
+  fitType();
+}
+aspect.addEventListener('change', () => +aspect.value ? setSize(size.w, size.w / aspect.value) : setSize(size.w, size.w));
+for (const f of [cw, ch]) {
+  const was = () => size[f === cw ? 'w' : 'h'];
+  f.addEventListener('focus', () => f.select());
+  f.addEventListener('change', () => setSize(parseFloat(cw.value), parseFloat(ch.value)));
+  f.addEventListener('keydown', e => {
+    if (e.key === 'Enter') f.blur();
+    else if (e.key === 'Escape') { f.value = was(); f.blur(); }
+    else if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+      e.preventDefault();
+      f.value = (parseFloat(f.value) || was()) + (e.key === 'ArrowUp' ? 1 : -1) * (e.shiftKey ? 10 : 1);
+      setSize(parseFloat(cw.value), parseFloat(ch.value));
+    }
+  });
+}
+new ResizeObserver(fitType).observe(board);
+setSize(size.w, size.h);
+
+// every slider, switch and popup writes one custom property on the board
+const PX = { pad: 'pad', padTop: 'pad-top', colGap: 'col-gap', promptGap: 'prompt-gap', size: 't-size', imgH: 'img-h', imgR: 'img-r', gGap: 'g-gap', gR: 'g-r' };
+const setVars = () => {
+  for (const [id, v] of Object.entries(PX)) board.style.setProperty(`--${v}`, $('#' + id).value);
+  board.style.setProperty('--cols', $('#cols').value);
+  board.style.setProperty('--g-cols', $('#gCols').value);
+  board.style.setProperty('--img-w', $('#imgW').value + '%');
+  board.style.setProperty('--t-font', $('#font').value);
+  board.style.setProperty('--t-weight', $('#weight').value);
+  board.style.setProperty('--t-leading', $('#leading').value);
+  board.style.setProperty('--t-tracking', `${$('#tracking').value}em`);
+  board.style.setProperty('--t-align', $('#align .on').dataset.value);
+  board.style.setProperty('--g-fit', $('#gFit .on').dataset.value);
+  board.classList.toggle('numbered', $('#numbers').checked);
+  board.classList.toggle('whole', $('#whole').checked);
+};
+$$('.col input, .col select').forEach(i => { i.addEventListener('input', setVars); i.addEventListener('change', setVars); });
+$$('#align, #gFit').forEach(s => s.addEventListener('click', () => setTimeout(setVars)));
+setVars();
+// a local font file joins the typeface list
+const fontFile = Object.assign(document.createElement('input'), { type: 'file', accept: '.otf,.ttf,.woff,.woff2' });
+$('#openFont').addEventListener('click', () => fontFile.click());
+fontFile.addEventListener('change', async () => {
+  const f = fontFile.files[0]; if (!f) return;
+  const name = f.name.replace(/\.[^.]+$/, ''), family = `user-${Date.now()}`;
+  try {
+    document.fonts.add(await new FontFace(family, await f.arrayBuffer()).load());
+    const sel = $('#font');
+    sel.add(new Option(name, `"${family}", sans-serif`, true, true));
+    sel.dispatchEvent(new Event('change'));
+  } catch { toast(`Couldn't read ${f.name}`, true); }
+});
+// canvas edge
+function rgbOf(c) { return c.startsWith('#') ? c.slice(1).match(/../g).map(h => parseInt(h, 16)) : c.match(/[\d.]+/g).slice(0, 3).map(Number); }
+function lum(c) {
+  const [r, g, b] = rgbOf(c).map(v => (v /= 255) <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4);
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+}
+function canvasEdge() {
+  const c = lum($('#canvas').value), page = lum(getComputedStyle($('.stage')).backgroundColor);
+  const close = (Math.max(c, page) + 0.05) / (Math.min(c, page) + 0.05) < 3;
+  board.dataset.edge = close ? (c < 0.18 ? 'bright' : 'dark') : '';
+}
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change', canvasEdge);
+$$('.well input').forEach(inp => {
+  const row = inp.closest('.cwrap'), show = () => {
+    row.querySelector('.well span').style.background = inp.value;
+    const v = row.querySelector('.val');
+    if (!v.classList.contains('editing')) v.textContent = inp.value;
+    board.style.setProperty(`--${inp.id}`, inp.value);
+    if (inp.id === 'canvas') canvasEdge();
+  };
+  show(); inp.addEventListener('input', show);
+});
+
+// ---------- the site: each green-tagged repo, its name top left, its prompts down the columns,
+// then the gallery of its portfolio/ folder, with a line between repos. Data from build.py.
+const el = (t, props) => Object.assign(document.createElement(t), props);
 const sorts = { date: (a, b) => b.date.localeCompare(a.date), name: (a, b) => a.name.localeCompare(b.name) };
-const repos = await (await fetch('repos.json')).json();
-function render(by) {
-  document.querySelectorAll('[data-sort]').forEach(b => b.classList.toggle('on', b.dataset.sort === by));
-  main.replaceChildren(...[...repos].sort(sorts[by]).map(r => {
-    const a = el('article'), ol = el('ol');
-    a.append(el('h2', { className: 'pill', textContent: r.name }), ol);
-    r.prompts.forEach((p, i) => {
-      const li = el('li', { textContent: p.text ? `${i + 1}. ${p.text}` : `${i + 1}.` });
-      p.images.forEach(src => li.append(el('img', { src: src, loading: 'lazy', alt: '' })));
+let repos = [];
+function render() {
+  const by = $('#order .on').dataset.value;
+  $('#site').replaceChildren(...[...repos].sort(sorts[by]).map(r => {
+    const a = el('article');
+    a.append(el('h2', { textContent: r.name }));
+    const ol = el('ol', { className: 'prompts' });
+    for (const p of r.prompts) {
+      const li = el('li');
+      if (p.text) li.append(el('p', { textContent: p.text }));
+      for (const src of p.images) li.append(el('img', { src, loading: 'lazy', alt: '' }));
       ol.append(li);
-    });
+    }
+    a.append(ol);
+    const g = el('div', { className: 'gallery' });
+    if (r.gallery.length) a.append(g);
+    for (const m of r.gallery) g.append(m.type === 'video'
+      ? el('video', { src: m.src, muted: true, loop: true, autoplay: true, playsInline: true })
+      : el('img', { src: m.src, loading: 'lazy', alt: '' }));
     return a;
   }));
 }
-document.querySelectorAll('[data-sort]').forEach(b => b.onclick = () => render(b.dataset.sort));
-const pad = document.getElementById('pad');
-pad.oninput = () => document.documentElement.style.setProperty('--pad', `calc(${pad.value} * var(--u))`);
-render('date');
+$('#order').addEventListener('click', () => setTimeout(render));
+try {
+  repos = await (await fetch('repos.json')).json();
+  render();
+  $('#status').innerHTML = `<b>${repos.length} repos</b> · ${repos.reduce((n, r) => n + r.prompts.length, 0)} prompts`;
+  $('#repoList').replaceChildren(...repos.map(r => el('div', { className: 'kv', innerHTML: '<span></span><span class="val"></span>' })));
+  $$('#repoList .kv').forEach((k, i) => { const r = repos[i]; k.children[0].textContent = r.name; k.children[1].textContent = `${r.prompts.length} prompts · ${r.gallery.length} in portfolio`; });
+} catch { $('#status').innerHTML = '<b>No repos.json</b> · run build.py'; }
+
+// ---------- typed values
+// Every value beside a slider or colour can be clicked (or tabbed to) and typed into. Enter or
+// leaving it sets the value, Esc puts it back, ↑/↓ nudge by a step (⇧ by ten). A number past
+// either end of the slider widens the slider to reach it.
+function typein(el, { get, set, nudge }) {
+  el.classList.add('typein'); el.tabIndex = 0; el.setAttribute('role', 'textbox');
+  let before = null;
+  const begin = () => {
+    if (before !== null) return;
+    before = el.textContent; el.textContent = get();
+    el.contentEditable = 'plaintext-only'; el.classList.add('editing'); el.focus();
+    getSelection().selectAllChildren(el);
+  };
+  const end = commit => {
+    if (before === null) return;
+    const text = el.textContent.trim();
+    el.contentEditable = 'false'; el.classList.remove('editing'); el.textContent = before; before = null;
+    if (commit) set(text);
+  };
+  el.addEventListener('focus', begin);
+  el.addEventListener('click', begin);
+  el.addEventListener('blur', () => end(true));
+  el.addEventListener('keydown', e => {
+    if (e.key === 'Enter') { e.preventDefault(); el.blur(); }
+    else if (e.key === 'Escape') { e.stopPropagation(); end(false); el.blur(); }
+    else if (nudge && (e.key === 'ArrowUp' || e.key === 'ArrowDown')) {
+      e.preventDefault(); nudge((e.key === 'ArrowUp' ? 1 : -1) * (e.shiftKey ? 10 : 1));
+      el.textContent = get(); getSelection().selectAllChildren(el);
+    }
+  });
+}
+const setRange = (r, n) => {
+  if (!isFinite(n)) return;
+  stopSweep(r);
+  if (n < +r.min) r.min = n;
+  if (n > +r.max) r.max = n;
+  const step = +r.step || 0;
+  if (step && Math.abs((n - r.min) / step - Math.round((n - r.min) / step)) > 1e-6) r.step = 'any';
+  r.value = n; r.dispatchEvent(new Event('input'));
+};
+$$('.row').forEach(row => {
+  const r = row.querySelector('input[type=range]'), v = row.querySelector('.rowhead .val');
+  if (!r || !v) return;
+  typein(v, {
+    get: () => String(+(+r.value).toFixed(3)),
+    set: text => setRange(r, parseFloat(text.replace(',', '.'))),
+    nudge: k => setRange(r, +(+r.value + k * (+r.step || (r.max - r.min) / 100)).toFixed(6)),
+  });
+});
+$$('.well input').forEach(inp => typein(inp.closest('.cwrap').querySelector('.val'), {
+  get: () => inp.value,
+  set: text => {
+    let h = text.trim().toLowerCase().replace(/^#?/, '#');
+    if (/^#[0-9a-f]{3}$/.test(h)) h = '#' + [...h.slice(1)].map(c => c + c).join('');
+    if (/^#[0-9a-f]{6}$/.test(h)) { inp.value = h; inp.dispatchEvent(new Event('input')); }
+  },
+}));
+
+// ---------- sweeps
+// Every slider can run on its own: the round button beside its name opens a menu to bounce it
+// from one end to the other and back, or loop it from start to end, through the chosen
+// interpolation, with the chosen duration per sweep. It starts from where the slider is.
+// Moving the slider by hand or typing its value stops it.
+const EASE = {
+  linear: x => x,
+  inout: x => x < 0.5 ? 4 * x ** 3 : 1 - (-2 * x + 2) ** 3 / 2,
+  in: x => x ** 3,
+  out: x => 1 - (1 - x) ** 3,
+  sine: x => (1 - Math.cos(Math.PI * x)) / 2,
+};
+const WAVE = {
+  bounce: '<svg viewBox="0 0 13 8" aria-hidden="true"><path d="M1 6.5 4 1.5 7 6.5 10 1.5 12 4.8" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  loop: '<svg viewBox="0 0 13 8" aria-hidden="true"><path d="M1 6.5 6 1.5V6.5L11 1.5V6.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+};
+const sweeps = new Map();   // range → { mode: off | bounce | loop, ease, dur, p, btn }
+const menu = $('#sweep');
+let current = null, raf = 0, last = 0;
+// where in the sweep the slider is now: invert the easing at its position, by halving
+function phaseOf(r, s) {
+  const x = clamp((r.value - r.min) / (r.max - r.min), 0, 1), f = EASE[s.ease];
+  let lo = 0, hi = 1;
+  for (let i = 0; i < 30; i++) { const m = (lo + hi) / 2; if (f(m) < x) lo = m; else hi = m; }
+  return (lo + hi) / 2;
+}
+function showSweep(r) {
+  const s = sweeps.get(r);
+  s.btn.classList.toggle('on', s.mode !== 'off');
+  s.btn.innerHTML = WAVE[s.mode === 'loop' ? 'loop' : 'bounce'];
+  s.btn.setAttribute('aria-label', `${r.getAttribute('aria-label')}: ${s.mode === 'off' ? 'still' : s.mode}`);
+  if (menu.matches(':popover-open') && current === r) $$('#sweepMode button').forEach(b => b.classList.toggle('on', b.dataset.mode === s.mode));
+}
+function setSweep(r, mode) {
+  const s = sweeps.get(r);
+  s.mode = mode;
+  if (mode !== 'off') s.p = phaseOf(r, s);
+  showSweep(r); run();
+}
+function stopSweep(r) { if (sweeps.get(r)?.mode !== 'off') setSweep(r, 'off'); }
+function run() {
+  if (raf || ![...sweeps.values()].some(s => s.mode !== 'off')) return;
+  last = performance.now(); raf = requestAnimationFrame(tick);
+}
+function tick(now) {
+  const dt = clamp((now - last) / 1000, 0, 0.1); last = now;   // a frame's time can predate the start
+  let any = false;
+  for (const [r, s] of sweeps) {
+    if (s.mode === 'off') continue;
+    any = true;
+    s.p += dt / s.dur;
+    let u;
+    if (s.mode === 'bounce') { s.p %= 2; u = s.p < 1 ? s.p : 2 - s.p; } else { s.p %= 1; u = s.p; }
+    r.value = +r.min + (r.max - r.min) * EASE[s.ease](u);
+    r.dispatchEvent(new Event('input'));
+  }
+  raf = any ? requestAnimationFrame(tick) : 0;
+}
+function openSweep(r) {
+  const s = sweeps.get(r);
+  current = r;
+  $('#sweepName').textContent = r.getAttribute('aria-label');
+  $('#sweepEase').value = s.ease; $('#sweepDur').value = s.dur;
+  showChoice($('#sweepEase')); showChoice($('#sweepDur'));
+  menu.showPopover(); showSweep(r);
+  const b = s.btn.getBoundingClientRect(), m = menu.getBoundingClientRect();
+  menu.style.left = `${clamp(b.left - 12, 8, innerWidth - m.width - 8)}px`;
+  menu.style.top = `${b.bottom + 8 + m.height > innerHeight - 8 ? b.top - 8 - m.height : b.bottom + 8}px`;
+}
+$$('.row').forEach(row => {
+  const r = row.querySelector('input[type=range]'), lab = row.querySelector('.rowhead > span:first-child');
+  if (!r || !lab) return;
+  const btn = document.createElement('button');
+  btn.className = 'osc'; btn.title = 'Bounce or loop this slider';
+  lab.classList.add('lab'); lab.append(btn);
+  sweeps.set(r, { mode: 'off', ease: 'inout', dur: 2, p: 0, btn });
+  showSweep(r);
+  // a press on the button while its menu is open closes the menu (light dismiss); don't reopen it
+  btn.addEventListener('pointerdown', () => btn.wasOpen = menu.matches(':popover-open') && current === r);
+  btn.addEventListener('click', () => { if (!btn.wasOpen) openSweep(r); btn.wasOpen = false; });
+  r.addEventListener('input', e => { if (e.isTrusted) stopSweep(r); });
+});
+$('#sweepMode').addEventListener('click', e => { const b = e.target.closest('button'); if (b && current) setSweep(current, b.dataset.mode); });
+$('#sweepEase').addEventListener('change', e => {
+  const s = sweeps.get(current); s.ease = e.target.value;
+  if (s.mode !== 'off') s.p = s.mode === 'bounce' && s.p >= 1 ? 2 - phaseOf(current, s) : phaseOf(current, s);
+});
+$('#sweepDur').addEventListener('change', e => { sweeps.get(current).dur = +e.target.value; });
+
+// ---------- saving
+// Every export lands in the project, in a folder named for its type (png/, jpg/, svg/, mp4/ …),
+// through serve.py's save endpoint, named for the app and the moment so nothing is overwritten.
+// Opened any other way (a plain server, the file system), it falls back to a download.
+const slug = () => (document.title || 'export').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+const stamp = () => { const d = new Date(), p = n => String(n).padStart(2, '0'); return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}-${p(d.getHours())}${p(d.getMinutes())}${p(d.getSeconds())}`; };
+async function saveFile(blob, name) {
+  if (location.protocol.startsWith('http')) {
+    try {
+      const r = await fetch(`/__save/${encodeURIComponent(name)}`, { method: 'POST', headers: { 'X-Save': '1' }, body: blob });
+      if (r.ok) { const { path } = await r.json(); toast(`Saved ${path}`); return path; }
+    } catch {}
+  }
+  const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(blob), download: name });
+  a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+  toast(`Downloaded ${name} (run serve.py to save into the project)`);
+}
+// the board's canvases, stacked in one canvas at the set size
+function flatten(layers, w = size.w, h = size.h) {
+  const out = Object.assign(document.createElement('canvas'), { width: w, height: h }), g = out.getContext('2d');
+  for (const c of layers) if (c.width && c.height) g.drawImage(c, 0, 0, w, h);
+  return out;
+}
+// ---------- recording
+// Record captures the canvas as video until it's pressed again, then saves it into mp4/ (or
+// webm/ where the browser can't make mp4). A board drawn in canvases (one, or a WebGL scene with
+// a 2D layer over it) is copied into the recording every frame, so a still canvas still records;
+// any other board is captured from this tab, cropped to the board, which Chrome asks to share
+// first. Either way the video is the set canvas size: every frame is drawn into a canvas that
+// size on the canvas colour (a tab capture is scaled up from the screen, so it's only as sharp as
+// the board is on screen: draw the board in a canvas for crisp video).
+const VIDEO = ['video/mp4;codecs=avc1', 'video/mp4', 'video/webm;codecs=vp9', 'video/webm'];
+const rec = { r: null, t0: 0, timer: 0 };
+function sizedStream(paint, stop) {
+  const out = Object.assign(document.createElement('canvas'), { width: size.w, height: size.h }), g = out.getContext('2d');
+  let on = true;
+  (function draw() {
+    if (!on) return;
+    g.fillStyle = getComputedStyle(board).backgroundColor; g.fillRect(0, 0, out.width, out.height);
+    paint(g, out.width, out.height);
+    requestAnimationFrame(draw);
+  })();
+  return Object.assign(out.captureStream(60), { done: () => { on = false; stop?.(); } });
+}
+async function boardStream() {
+  const layers = [...board.querySelectorAll('canvas')];
+  if (layers.length) return sizedStream((g, w, h) => { for (const c of layers) if (c.width && c.height) g.drawImage(c, 0, 0, w, h); });
+  if (!navigator.mediaDevices?.getDisplayMedia || !window.CropTarget) throw new Error('This browser can only record a <canvas> board');
+  const s = await navigator.mediaDevices.getDisplayMedia({ video: { frameRate: 60 }, audio: false, preferCurrentTab: true });
+  await s.getVideoTracks()[0].cropTo(await CropTarget.fromElement(board));
+  s.getVideoTracks()[0].addEventListener('ended', stopRecording);   // sharing stopped from the browser's own bar
+  const v = Object.assign(document.createElement('video'), { muted: true, srcObject: s });
+  await v.play();
+  return sizedStream((g, w, h) => { if (v.videoWidth) g.drawImage(v, 0, 0, w, h); }, () => s.getTracks().forEach(t => t.stop()));
+}
+async function startRecording(name = slug()) {
+  if (rec.r) return;
+  if (!window.MediaRecorder) return toast('This browser can’t record', true);
+  let stream;
+  try { stream = await boardStream(); } catch (e) { return toast(e.message, true); }
+  // H.264 can't make an odd width or height, so an odd size records as WebM to stay exact
+  const odd = size.w % 2 || size.h % 2;
+  const type = VIDEO.find(t => !(odd && t.startsWith('video/mp4')) && MediaRecorder.isTypeSupported(t));
+  const r = new MediaRecorder(stream, { mimeType: type, videoBitsPerSecond: 16e6 }), parts = [];
+  r.ondataavailable = e => e.data.size && parts.push(e.data);
+  r.onerror = e => { toast(`Recording stopped: ${e.error?.message || 'the browser couldn’t encode this size'}`, true); stopRecording(); };
+  r.onstop = () => {
+    stream.done?.(); stream.getTracks().forEach(t => t.stop());
+    if (!parts.length) return toast('Nothing was recorded', true);
+    saveFile(new Blob(parts, { type: type.split(';')[0] }), `${name}-${stamp()}.${type.startsWith('video/mp4') ? 'mp4' : 'webm'}`);
+  };
+  rec.r = r; rec.t0 = performance.now(); r.start(1000);
+  showRec(); rec.timer = setInterval(showRec, 250);
+}
+function stopRecording() { if (!rec.r) return; if (rec.r.state !== 'inactive') rec.r.stop(); rec.r = null; clearInterval(rec.timer); showRec(); }
+function showRec() {
+  const b = $('#record'), s = Math.floor((performance.now() - rec.t0) / 1000);
+  b.classList.toggle('rec', !!rec.r);
+  b.textContent = rec.r ? `Stop ${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}` : 'Record';
+}
+$('#record').addEventListener('click', () => rec.r ? stopRecording() : startRecording());
+
+// ---------- rearranging
+// Panels move by their heads, controls by the grip at their left edge: within a column, between
+// the columns, and between panels. Dropped outside the columns, either is removed, which only
+// hides it in #removed (still wired up, keeping its value) until ⌘Z or the top bar's button brings
+// it back. The layout is remembered for this page in this browser.
+const html = document.documentElement, removedBox = $('#removed'), layoutKey = `layout:${location.pathname}`;
+const grip = () => { const g = document.createElement('span'); g.className = 'grip'; g.setAttribute('aria-hidden', 'true'); return g; };
+// what a panel or control is called: its title, its label, or what it says
+const label = el => {
+  if (el.matches('.panel')) return el.querySelector(':scope > .phead > span:not(.badge, .grip)')?.textContent.trim() ?? '';
+  const n = el.hasAttribute('aria-label') ? el : el.querySelector('.plabel, .rowhead > span, .check > span, .kv > span, .drop > span, [aria-label]') ?? el;
+  return (n.getAttribute('aria-label') || n.textContent).trim().slice(0, 32);
+};
+// every column, panel and group of sliders, and everything in them, gets a key that stays the same
+// from one load to the next, so a saved layout can be put back
+const byKey = new Map(), homeOf = new Map(), containers = [];
+const keep = (el, k) => { let key = k, i = 2; while (byKey.has(key)) key = `${k}~${i++}`; el.dataset.k = key; byKey.set(key, el); };
+$$('.col').forEach((c, i) => { keep(c, `col:${c.classList[1] ?? i}`); containers.push(c); });
+$$('.col .panel').forEach(p => { keep(p, `panel:${label(p)}`); containers.push(p); });
+$$('.col .panel > .rows').forEach(r => { keep(r, `rows:${r.parentElement.dataset.k}`); containers.push(r); });
+containers.forEach(c => [...c.children].forEach(el => {
+  // a bare field can't hold a grip, so it moves in a wrapper
+  if (el.matches('input, select, textarea, canvas, img, video')) { const u = document.createElement('div'); u.className = 'unit'; el.before(u); u.append(el); el = u; }
+  homeOf.set(el, c);
+  const id = el.id || el.querySelector('[id]')?.id;
+  if (!el.dataset.k) keep(el, id ? `#${id}` : `${el.classList[0] ?? el.localName}:${label(el)}`);
+  if (c.matches('.rows') || !el.matches('.phead, .note, .rows, .grouphead, .panel')) { el.classList.add('movable'); el.append(grip()); }
+}));
+$$('.col .panel').forEach(p => {
+  const h = p.querySelector(':scope > .phead'), g = grip();
+  h.append(g);
+  // on a touchscreen the head scrolls the page; the grip moves the panel
+  h.addEventListener('pointerdown', e => e.pointerType !== 'touch' && grab(e, p, h));
+  g.addEventListener('pointerdown', e => { e.stopPropagation(); e.preventDefault(); grab(e, p, g); });
+});
+$$('.movable').forEach(u => { const g = u.querySelector(':scope > .grip'); g.addEventListener('pointerdown', e => { e.preventDefault(); grab(e, u, g); }); });
+// a grip is only a handle: pressing it doesn't open the panel, flip the switch or open the file chooser
+$$('.grip').forEach(g => g.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); }));
+
+// a press becomes a drag once it has moved 4px; Esc puts it back where it was
+function grab(e, el, handle) {
+  if (e.button !== 0) return;
+  const x0 = e.clientX, y0 = e.clientY;
+  let d = null;
+  // listened for on the window: moving the handle in the page loses its pointer capture
+  const move = ev => {
+    if (ev.pointerId !== e.pointerId || !d && Math.hypot(ev.clientX - x0, ev.clientY - y0) < 4) return;
+    d ??= lift(el, x0, y0);
+    d.x = ev.clientX; d.y = ev.clientY;
+    follow(d);
+  };
+  const end = cancel => {
+    removeEventListener('pointermove', move); removeEventListener('pointerup', up); removeEventListener('pointercancel', up);
+    removeEventListener('keydown', esc, true);
+    if (!d) return;
+    settle(d, cancel);
+    // the press that ended a drag isn't also a click on the panel's head
+    const swallow = ev => { ev.stopPropagation(); ev.preventDefault(); };
+    addEventListener('click', swallow, true); setTimeout(() => removeEventListener('click', swallow, true));
+  };
+  const up = ev => ev.pointerId === e.pointerId && end(ev.type === 'pointercancel');
+  const esc = ev => { if (ev.key === 'Escape' && d) { ev.stopPropagation(); end(true); } };
+  try { handle.setPointerCapture(e.pointerId); } catch {}
+  addEventListener('pointermove', move); addEventListener('pointerup', up); addEventListener('pointercancel', up);
+  addEventListener('keydown', esc, true);
+}
+// the one being moved stays in the column as the gap where it will land; a glass copy follows the pointer
+function lift(el, x0, y0) {
+  const r = el.getBoundingClientRect(), panel = el.matches('.panel'), pad = panel ? 0 : 14;
+  const copy = el.cloneNode(true);
+  [copy, ...copy.querySelectorAll('[id]')].forEach(n => n.removeAttribute('id'));
+  const a = el.querySelectorAll('input, select, textarea'), b = copy.querySelectorAll('input, select, textarea');
+  a.forEach((f, i) => { if (f.type !== 'file') { b[i].value = f.value; b[i].checked = f.checked; } });
+  const ghost = document.createElement('div');
+  ghost.className = panel ? 'ghost gpanel' : 'ghost'; ghost.inert = true; ghost.style.width = `${r.width + pad * 2}px`;
+  ghost.append(copy); document.body.append(ghost);
+  el.classList.add('lifted'); html.classList.add('moving');
+  const d = { el, panel, ghost, ox: x0 - r.left + pad, oy: y0 - r.top + (panel ? 0 : 8), gy: y0 - r.top, x: x0, y: y0, h: r.height + 10,
+              start: { parent: el.parentElement, next: el.nextElementSibling }, out: false, spring: null, springT: 0 };
+  // also every frame while the pointer rests: to scroll a column, or spring a closed panel open
+  const frame = () => { follow(d); d.raf = requestAnimationFrame(frame); };
+  frame();
+  return d;
+}
+function follow(d) {
+  d.ghost.style.transform = `translate(${d.x - d.ox}px, ${d.y - d.oy}px)`;
+  // a column reaches 32px past its edges, so a drop just below a short column still lands in it;
+  // only one taken clearly away is removed
+  const over = m => $$('.col').find(c => { const r = c.getBoundingClientRect(); return r.width && d.x >= r.left - m && d.x <= r.right + m && d.y >= r.top - m && d.y <= r.bottom + m; });
+  const col = over(0) ?? over(32);
+  d.out = !col;
+  d.el.classList.toggle('gone', d.out); d.ghost.classList.toggle('out', d.out);
+  if (!col) return;
+  // near the top or bottom of a column that scrolls, scroll it
+  const r = col.getBoundingClientRect();
+  if (d.y < r.top + 32) col.scrollTop -= 8; else if (d.y > r.bottom - 32) col.scrollTop += 8;
+  d.panel ? placePanel(d, col) : placeControl(d, col);
+}
+// where something sits as if the one being moved weren't in the column, so the gap doesn't flicker back and forth
+function span(d, n, col) {
+  const r = n.getBoundingClientRect();
+  const s = d.el.closest('.col') === col && d.el.compareDocumentPosition(n) & Node.DOCUMENT_POSITION_FOLLOWING ? d.h : 0;
+  return { top: r.top - s, bottom: r.bottom - s, mid: r.top - s + r.height / 2 };
+}
+// the slot nearest the top of the copy: before one of these, or (null) after the last
+function nearest(d, items, col) {
+  const g = d.y - d.gy, s = items.map(n => span(d, n, col));
+  const i = s.reduce((b, x, j) => Math.abs(x.top - g) < Math.abs(s[b].top - g) ? j : b, 0);
+  return Math.abs(s.at(-1).bottom + 10 - g) < Math.abs(s[i].top - g) ? null : items[i];
+}
+const put = (el, parent, next) => { if (el.parentElement !== parent || el.nextElementSibling !== next) parent.insertBefore(el, next); };
+const putAfter = (el, last) => { let n = last.nextElementSibling; if (n === el) n = el.nextElementSibling; put(el, last.parentElement, n); };
+function placePanel(d, col) {
+  const ps = [...col.children].filter(p => p.matches('.panel') && p !== d.el);
+  if (!ps.length) return put(d.el, col, null);
+  const next = nearest(d, ps, col);
+  next ? put(d.el, col, next) : putAfter(d.el, ps.at(-1));
+}
+function placeControl(d, col) {
+  const ps = [...col.children].filter(p => p.matches('.panel'));
+  if (!ps.length) return;
+  const boxes = ps.map(p => span(d, p, col));
+  let i = boxes.findIndex(b => d.y >= b.top - 5 && d.y <= b.bottom + 5);
+  if (i < 0) i = boxes.reduce((best, b, j) => Math.abs(b.mid - d.y) < Math.abs(boxes[best].mid - d.y) ? j : best, 0);
+  const p = ps[i];
+  if (!p.classList.contains('open')) {
+    // a closed panel springs open after a moment's hover, like a folder in the Finder
+    if (d.spring !== p) { d.spring = p; d.springT = performance.now(); }
+    else if (performance.now() - d.springT > 500) { p.classList.add('open'); p.querySelector(':scope > .phead').setAttribute('aria-expanded', true); }
+    return;
+  }
+  d.spring = null;
+  const us = [...p.querySelectorAll(':scope > .movable, :scope > .rows > .movable')].filter(u => u !== d.el);
+  if (!us.length) return put(d.el, p, p.querySelector(':scope > .note'));
+  const next = nearest(d, us, col);
+  next ? put(d.el, next.parentElement, next) : putAfter(d.el, us.at(-1));
+}
+function settle(d, cancel) {
+  if (!cancel) follow(d);   // where the pointer let go, even if no frame has drawn since it last moved
+  cancelAnimationFrame(d.raf); d.ghost.remove(); html.classList.remove('moving');
+  d.el.classList.remove('lifted', 'gone');
+  const { parent, next } = d.start;
+  if (cancel) put(d.el, parent, next?.parentElement === parent ? next : null);
+  else if (d.out) remove(d.el, d.start);
+  save(); sync();
+}
+
+// removing and bringing back
+const undo = [];
+function remove(el, from) {
+  el._from = from; removedBox.append(el); undo.push(el);
+  toast(`Removed ${label(el)} · ⌘Z brings it back`);
+}
+// back where it was removed from, or else where it started; a control from a removed panel brings the panel back too
+function restore(el) {
+  const f = el._from;
+  if (f?.parent.isConnected && (!f.next || f.next.parentElement === f.parent)) f.parent.insertBefore(el, f.next);
+  else {
+    const c = homeOf.get(el), list = home.layout[c.dataset.k];
+    c.insertBefore(el, list.slice(list.indexOf(el.dataset.k) + 1).map(k => byKey.get(k)).find(n => n?.parentElement === c) ?? null);
+  }
+  el._from = null;
+  const outer = el.parentElement.closest('#removed > *');
+  if (outer) restore(outer);
+}
+addEventListener('keydown', e => {
+  if (!(e.metaKey || e.ctrlKey) || e.shiftKey || e.key.toLowerCase() !== 'z') return;
+  if (e.target.closest('input:not([type=range]), textarea, select, [contenteditable]:not([contenteditable="false"])')) return;
+  for (let el; (el = undo.pop());) if (el.parentElement === removedBox) { e.preventDefault(); restore(el); save(); sync(); toast(`Restored ${label(el)}`); return; }
+});
+
+// the layout as keys: what's in each column, panel and group of sliders, and what's removed
+const snapshot = () => ({
+  layout: Object.fromEntries(containers.map(c => [c.dataset.k, [...c.children].map(n => n.dataset.k).filter(Boolean)])),
+  removed: [...removedBox.children].map(n => n.dataset.k)
+});
+function apply(s) {
+  for (const [k, kids] of Object.entries(s.layout ?? {})) byKey.get(k)?.append(...kids.map(n => byKey.get(n)).filter(Boolean));
+  removedBox.append(...(s.removed ?? []).map(n => byKey.get(n)).filter(Boolean));
+}
+const home = snapshot(), homeJSON = JSON.stringify(home);
+const save = () => { try { localStorage.setItem(layoutKey, JSON.stringify(snapshot())); } catch {} };
+try { const s = JSON.parse(localStorage.getItem(layoutKey)); if (s) apply(s); } catch { apply(home); }
+function reset() {
+  apply(home); undo.length = 0;
+  try { localStorage.removeItem(layoutKey); } catch {}
+  sync();
+}
+
+// the top bar's button shows only once the layout has changed: it resets it, or lists what's removed
+const layoutBtn = $('#layout'), layoutMenu = $('#layoutMenu');
+function sync() {
+  const n = removedBox.children.length;
+  layoutBtn.hidden = JSON.stringify(snapshot()) === homeJSON;
+  layoutBtn.textContent = n ? `${n} removed` : 'Reset layout';
+}
+const from = el => { const p = (el._from?.parent ?? homeOf.get(el))?.closest('.panel, .col'); return p?.matches('.panel') ? label(p) : p?.getAttribute('aria-label') ?? ''; };
+function openLayout() {
+  $('#removedList').replaceChildren(...[...removedBox.children].map(el => {
+    const b = document.createElement('button'), name = document.createElement('span'), where = document.createElement('span');
+    b.className = 'mitem'; name.textContent = label(el); where.className = 'note'; where.textContent = from(el);
+    b.append(name, where);
+    b.addEventListener('click', () => { restore(el); save(); sync(); removedBox.children.length ? openLayout() : layoutMenu.hidePopover(); });
+    return b;
+  }));
+  if (!layoutMenu.matches(':popover-open')) layoutMenu.showPopover();
+  const b = layoutBtn.getBoundingClientRect(), m = layoutMenu.getBoundingClientRect();
+  layoutMenu.style.left = `${clamp(b.left - 12, 8, innerWidth - m.width - 8)}px`;
+  layoutMenu.style.top = `${b.bottom + 8}px`;
+}
+// a press on the button while its menu is open closes the menu (light dismiss); don't reopen it
+layoutBtn.addEventListener('pointerdown', () => layoutBtn.wasOpen = layoutMenu.matches(':popover-open'));
+layoutBtn.addEventListener('click', () => {
+  if (layoutBtn.wasOpen) return layoutBtn.wasOpen = false;
+  removedBox.children.length ? openLayout() : reset();
+});
+$('#restoreAll').addEventListener('click', () => { [...removedBox.children].forEach(restore); save(); sync(); layoutMenu.hidePopover(); });
+$('#resetLayout').addEventListener('click', () => { reset(); layoutMenu.hidePopover(); });
+sync();
+
+// hide / show the interface (H, Esc)
+const setUi = on => document.documentElement.dataset.ui = on ? 'on' : 'off';
+$('[data-hide-ui]').addEventListener('click', () => setUi(false));
+$('#showUi').addEventListener('click', () => setUi(true));
+addEventListener('keydown', e => {
+  if (e.target.closest('input:not([type=range]), textarea, select, [contenteditable]:not([contenteditable="false"])')) return;
+  if (e.key === 'h' || e.key === 'H') setUi(document.documentElement.dataset.ui === 'off');
+  if (e.key === 'Escape') setUi(true);
+});
+let toastT;
+export function toast(msg, err) {
+  const el = $('#toast');
+  el.textContent = msg; el.className = 'float show' + (err ? ' err' : '');
+  clearTimeout(toastT); toastT = setTimeout(() => el.className = 'float', 3600);
+}
 </script>
 </body>
 </html>
