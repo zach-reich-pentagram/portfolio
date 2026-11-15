@@ -7,6 +7,7 @@ from datetime import datetime
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
+VIDEO_MBPS = 4  # the site's videos: about 4 MB per 8 s, like a web compressor's Low at 1080p
 ROOT = HERE.parents[1]  # ~/Documents/GitHub
 spec = importlib.util.spec_from_file_location('cs', ROOT / 'conversation-summary' / 'serve.py')
 cs = importlib.util.module_from_spec(spec); spec.loader.exec_module(cs)
@@ -50,10 +51,15 @@ for d in sorted(ROOT.iterdir()):
     for f in sorted((d / 'portfolio').glob('*')) if (d / 'portfolio').is_dir() else []:
         kind = (mimetypes.guess_type(f.name)[0] or '').split('/')[0]
         if kind not in ('image', 'video'): continue
-        out = media / d.name / f.name
+        out = media / d.name / (f.stem + '.mp4' if kind == 'video' else f.name)
         out.parent.mkdir(exist_ok=True)
-        if not out.exists() or out.stat().st_mtime < f.stat().st_mtime: shutil.copy2(f, out)
-        gallery.append({'type': kind, 'src': f'media/{d.name}/{f.name}'})
+        if not out.exists() or out.stat().st_mtime < f.stat().st_mtime:
+            if kind == 'video':   # never the full file: H.264, 1080p at most, 4 Mbps, no audio (compress.swift)
+                r = subprocess.run(['swift', HERE / 'compress.swift', f, out, str(VIDEO_MBPS)], capture_output=True, text=True)
+                if r.returncode: print(f'  couldn’t compress {f.name}:', r.stdout.strip()[-300:]); continue
+                print(f'  {f.name}: {f.stat().st_size / 1e6:.1f} MB → {out.stat().st_size / 1e6:.1f} MB')
+            else: shutil.copy2(f, out)
+        gallery.append({'type': kind, 'src': f'media/{d.name}/{out.name}'})
     repos.append({'name': d.name, 'date': date, 'prompts': prompts, 'gallery': gallery})
     print(d.name, len(prompts), 'prompts', sum(len(p['images']) for p in prompts), 'images', len(gallery), 'in portfolio')
 
