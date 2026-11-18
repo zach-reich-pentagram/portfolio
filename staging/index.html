@@ -455,12 +455,13 @@
   .site h2 { font: inherit; margin-bottom: calc(var(--pad-top) * var(--k) * 1px); }
   .prompts { list-style: none; counter-reset: p; columns: var(--cols); column-gap: calc(var(--col-gap) * var(--k) * 1px); }
   .prompts li { counter-increment: p; margin-bottom: calc(var(--prompt-gap) * var(--k) * 1px); overflow-wrap: break-word; white-space: pre-wrap; }
+  .site .process { font: inherit; font-weight: 700; margin-bottom: calc(var(--prompt-gap) * var(--k) * 1px); }
   .whole .prompts li { break-inside: avoid; }
   .numbered .prompts li > p:first-child::before, .numbered .prompts li:not(:has(p))::before { content: counter(p) ". "; }
   .prompts img { display: block; max-width: var(--img-w); max-height: calc(var(--img-h) * var(--k) * 1px); margin-top: calc(var(--prompt-gap) * var(--k) * 0.5px);
                  border-radius: calc(var(--img-r) * var(--k) * 1px); }
-  .gallery { display: grid; grid-template-columns: repeat(var(--g-cols), 1fr); gap: calc(var(--g-gap) * var(--k) * 1px); margin-bottom: calc(var(--pad-top) * var(--k) * 1px); }
-  .gallery > * { display: block; width: 100%; aspect-ratio: 1; object-fit: var(--g-fit); border-radius: calc(var(--g-r) * var(--k) * 1px); }
+  .gallery { display: grid; grid-template-columns: repeat(var(--g-cols), 1fr); align-items: start; gap: calc(var(--g-gap) * var(--k) * 1px); margin-bottom: calc(var(--pad-top) * var(--k) * 1px); }
+  .gallery > * { display: block; width: 100%; height: auto; aspect-ratio: var(--g-ar); object-fit: cover; border-radius: calc(var(--g-r) * var(--k) * 1px); }
   #repoList .kv span:first-child { color: var(--label); }
   /* Hide UI: the site full screen, at the window's own size */
   html[data-ui="off"] #board { width: 100%; height: 100%; aspect-ratio: auto; }
@@ -543,7 +544,7 @@
           <div class="row"><div class="rowhead"><span>Gap</span><span class="val" data-unit="px"></span></div><input type="range" id="gGap" min="0" max="120" step="1" value="12" aria-label="Gallery gap"></div>
           <div class="row"><div class="rowhead"><span>Corners</span><span class="val" data-unit="px"></span></div><input type="range" id="gR" min="0" max="60" step="1" value="0" aria-label="Gallery corners"></div>
         </div>
-        <div class="seg" id="gFit" role="group" aria-label="Fit"><button class="on" data-value="cover">Square</button><button data-value="contain">Whole</button></div>
+        <div class="seg" id="gFit" role="group" aria-label="Fit"><button data-value="cover">Square</button><button class="on" data-value="contain">Whole</button></div>
         <div class="note">The images and videos in each repo’s portfolio/ folder.</div>
       </section>
       <section class="panel">
@@ -665,7 +666,7 @@ const setVars = () => {
   board.style.setProperty('--t-leading', $('#leading').value);
   board.style.setProperty('--t-tracking', `${$('#tracking').value}em`);
   board.style.setProperty('--t-align', $('#align .on').dataset.value);
-  board.style.setProperty('--g-fit', $('#gFit .on').dataset.value);
+  board.style.setProperty('--g-ar', $('#gFit .on').dataset.value === 'cover' ? '1' : 'auto');
   board.classList.toggle('numbered', $('#numbers').checked);
   board.classList.toggle('whole', $('#whole').checked);
 };
@@ -726,8 +727,8 @@ function render() {
       ol.append(li);
     }
     const g = el('div', { className: 'gallery' });
-    if (r.gallery.length) a.append(g);
-    a.append(ol);
+    if (r.gallery.length) a.append(el('h3', { className: 'process', textContent: 'Samples' }), g);
+    a.append(el('h3', { className: 'process', textContent: 'Process' }), ol);
     for (const m of r.gallery) g.append(m.type === 'video'
       ? el('video', { src: m.src, muted: true, loop: true, autoplay: true, playsInline: true })
       : el('img', { src: m.src, loading: 'lazy', alt: '' }));

@@ -299,7 +299,36 @@
     "images": []
    }
   ],
-  "gallery": []
+  "gallery": [
+   {
+    "type": "video",
+    "src": "media/crowded-type/crowded-type-2026-11-15-150127.mp4"
+   },
+   {
+    "type": "video",
+    "src": "media/crowded-type/crowded-type-2026-11-15-150614.mp4"
+   },
+   {
+    "type": "video",
+    "src": "media/crowded-type/crowded-type-2026-11-15-150850.mp4"
+   },
+   {
+    "type": "video",
+    "src": "media/crowded-type/crowded-type-2026-11-15-151246.mp4"
+   },
+   {
+    "type": "video",
+    "src": "media/crowded-type/crowded-type-2026-11-15-151723.mp4"
+   },
+   {
+    "type": "video",
+    "src": "media/crowded-type/crowded-type-2026-11-15-152843.mp4"
+   },
+   {
+    "type": "video",
+    "src": "media/crowded-type/crowded-type-2026-11-15-153113.mp4"
+   }
+  ]
  },
  {
   "name": "maps-render",
