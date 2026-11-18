@@ -30,13 +30,36 @@ def merged(prompts):
         out.append(p)
     return out
 
+# Sessions started in one repo that went on to work in another, which build.py can't tell by
+# itself (a cloud session's paths aren't this Mac's): repo → the repos its sessions started in.
+# Only the transcripts there that carry one of this repo's Claude-Session links are taken.
+STARTED_IN = {'bad-news': ['auto-letterspace']}
+
+def started_elsewhere(d):
+    ids = set(re.findall(r'claude\.ai/code/(session_\w+)', subprocess.run(['git', '-C', d, 'log', '--all', '--format=%B'], capture_output=True, text=True).stdout))
+    out = []
+    for other in STARTED_IN.get(d.name, []):
+        folder = cs.sessions_of(str(ROOT / other))
+        for f in sorted(Path(folder).glob('*.jsonl')) if folder and ids else []:
+            lines = f.read_text(errors='replace').splitlines()
+            if any(i in l for l in lines for i in ids):
+                for l in lines:
+                    try: p = cs.prompt_of(json.loads(l), f.stem)
+                    except ValueError: continue
+                    if p: out.append(p)
+    return out
+
+own = {f.stem for f in Path(cs.sessions_of(str(HERE.parent)) or '/nonexistent').glob('*.jsonl')}
+about = json.loads((HERE / 'about.json').read_text())
 media = HERE / 'media'; media.mkdir(exist_ok=True)
 repos = []
 for d in sorted(ROOT.iterdir()):
     if not (d / '.git').exists() or not green(d): continue
     folder = cs.sessions_of(str(d))
-    prompts = sorted((cs.read_prompts(folder) if folder else []) + cs.read_elsewhere(str(d), folder), key=lambda p: p['ts'])
-    prompts = [{'text': p['text'], 'images': p['images']} for p in merged([p for p in prompts if p['ts']])]
+    prompts = sorted((cs.read_prompts(folder) if folder else []) + cs.read_elsewhere(str(d), folder) + started_elsewhere(d), key=lambda p: p['ts'])
+    # not this site's own sessions (building it runs commands in every repo), nor a teleport typed as a prompt
+    prompts = [p for p in prompts if p['ts'] and p['session'] not in own and not re.match(r'\s*(claude\s+)?--teleport\b', p['text'])]
+    prompts = [{'text': p['text'], 'images': p['images']} for p in merged(prompts)]
     for p in prompts:
         names = []
         for k in p['images']:
@@ -60,7 +83,8 @@ for d in sorted(ROOT.iterdir()):
                 print(f'  {f.name}: {f.stat().st_size / 1e6:.1f} MB → {out.stat().st_size / 1e6:.1f} MB')
             else: shutil.copy2(f, out)
         gallery.append({'type': kind, 'src': f'media/{d.name}/{out.name}'})
-    repos.append({'name': d.name, 'date': date, 'prompts': prompts, 'gallery': gallery})
+    repos.append({'name': d.name, **about.get(d.name, {}), 'date': date, 'prompts': prompts, 'gallery': gallery})
     print(d.name, len(prompts), 'prompts', sum(len(p['images']) for p in prompts), 'images', len(gallery), 'in portfolio')
 
+for n in sorted(set(r['name'] for r in repos) - set(about)): print('  no title or description in about.json:', n)
 (HERE / 'repos.json').write_text(json.dumps(repos, indent=1, ensure_ascii=False))

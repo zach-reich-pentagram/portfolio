@@ -1,0 +1,101 @@
+{
+ "3d-eyeball-cluster": {
+  "title": "Eyeballs",
+  "description": "An interactive canvas that packs the frame edge to edge with shaded 3D eyeballs that follow, avoid or ignore the cursor, using plain Canvas 2D in a single dependency-free file, that offers eight arrangements from scatter and hex to rings and spiral.",
+  "url": "https://3d-eyeball-cluster.vercel.app/"
+ },
+ "auto-bento": {
+  "title": "Auto Bento",
+  "description": "A Figma plugin that turns any selection into a clean, hole-free bento grid, using the Figma Plugin API and a custom mosaic packing engine, that either snaps items to standard bento units or keeps their true aspect ratios, and can pour the result into a frame you choose."
+ },
+ "average-typeface": {
+  "title": "Average Typeface",
+  "description": "A typeface blending tool that interpolates any two fonts into a hybrid, using opentype.js, that updates spacing and kerning live, rebuilds any letter another way with a click, and exports an installable OTF."
+ },
+ "bad-news": {
+  "title": "Bad News",
+  "description": "A website remixing tool that rebuilds any web page’s own words, letters and pictures into new sentences and word art, using a sandboxed page harvester, CORS proxies and Canvas 2D, that keeps every word in the exact font, size, weight and colour it had on the original site."
+ },
+ "bad-rag": {
+  "title": "Bad Rag",
+  "description": "A typesetting tool that sets a paragraph with a deliberately bad rag, using Canvas 2D in a single file, that treats the ragged edge as cloth, so the loose ends of the lines lift and wave like frayed threads under the cursor."
+ },
+ "crowded-type": {
+  "title": "Crowded Type",
+  "description": "A space-filling lettering generator that carves text into one irregular cell per letter, using Canvas 2D, WebGL2 and the Web Audio API, that reshuffles into new legible layouts, adds pinched-balloon 3D shading, and can move to live music."
+ },
+ "embossing-die-generator": {
+  "title": "Embossing Die Generator",
+  "description": "A 3D-printing tool that turns type and SVG drawings into a matched pair of male and female embossing dies, using HarfBuzz and Clipper, that reads every font on the computer and exports print-ready STL files.",
+  "url": "https://embossing-die-generator.vercel.app/"
+ },
+ "flourish-fill": {
+  "title": "Flourish Fill",
+  "description": "A calligraphy generator that fills rectangles, ovals, letters or the whole canvas with one smooth, continuous flourish, using a custom stroke engine in Canvas 2D, that keeps clear of everything else on the canvas and runs from a single self-contained file."
+ },
+ "gravity-clock": {
+  "title": "Gravity Clock",
+  "description": "A kinetic clock that drops every passing second, minute and hour as a physical numeral that tumbles and piles up on the canvas, using p5.js, Matter.js and poly-decomp, that keeps live time for any city you search.",
+  "url": "https://gravity-clock.vercel.app/"
+ },
+ "hairline-type": {
+  "title": "Hairline Type",
+  "description": "An isometric type animation that builds an ampersand and any typed text from extruded ribbon letterforms, using the hairline library and opentype.js, that twist and pop up toward the cursor with spring physics.",
+  "url": "https://hairline-type.vercel.app/"
+ },
+ "impact-driver": {
+  "title": "Impact Driver",
+  "description": "A modular typeface playground that stretches, rounds, emboldens, slants and wobbles a font’s outlines live, using opentype.js and Clipper, that re-solves the optical letterspacing as you go and exports a working font.",
+  "url": "https://impact-driver.vercel.app/"
+ },
+ "maps-render": {
+  "title": "Maps Render",
+  "description": "A 3D map lettering tool that builds a word or SVG out of the real buildings, streets, parks and water at any address, using three.js, OpenStreetMap’s Overpass API and Nominatim, that stands each letter on its own base and exports PNGs and video."
+ },
+ "nike-typeface-revival": {
+  "title": "Embroidered Bold",
+  "description": "A typeface revival that extrapolates four embroidered letters (N, I, K, E) into a complete A–Z and 0–9, using Python, OpenCV, fontTools and skia-pathops, that builds an installable variable TrueType font."
+ },
+ "point-cloud-generator": {
+  "title": "Point Cloud Generator",
+  "description": "A 3D particle generator that turns typed text and uploaded STL or OBJ models into clouds of points, using three.js, that push and pull away from the cursor with adjustable particle shapes, counts and extrusion.",
+  "url": "https://point-cloud-generator.vercel.app/"
+ },
+ "responsive-handwriting": {
+  "title": "Responsive Handwriting",
+  "description": "A Figma plugin that turns scans of handwriting on lined paper into clean word-by-word image layers in a wrapping Auto Layout frame, using a local Node bridge and Transformers.js, that strips the paper lines while keeping the ink’s organic bleeds."
+ },
+ "scrabble": {
+  "title": "Scrabble Type",
+  "description": "An interactive word-layout tool that arranges typed words into a legal Scrabble board in real time, using plain JavaScript, that interlocks words only through shared letters and shows real tile point values."
+ },
+ "solitaire-type": {
+  "title": "Solitaire Type",
+  "description": "A typographic animation that turns typed letters into the classic solitaire win cascade, using Canvas 2D in three static files, that bounces each letter down the canvas and stamps a trail behind it until it runs off screen."
+ },
+ "subway-font": {
+  "title": "Subway Letterforms",
+  "description": "A type generator that finds every letter in the lines of the New York City subway map, using Canvas 2D and a map of the system built in Python, that cuts out each character with its stations, names and route bullets intact.",
+  "url": "https://subway-font.vercel.app/"
+ },
+ "tear-box": {
+  "title": "Tear Box",
+  "description": "A text-box generator that wraps type in organically torn scraps of paper, using SVG and opentype.js, that fit the text they hold while keeping a random, hand-torn edge."
+ },
+ "thaw": {
+  "title": "Thaw",
+  "description": "A melting type specimen that turns letters into ice or mercury that melts, beads and pools under the cursor, using a WebGL2 fluid simulation on the GPU, that models gravity, surface tension and wetting."
+ },
+ "typeface-creation": {
+  "title": "Ribbon Caps",
+  "description": "A typeface design project that turns hand sketches into single-stroke cursive ribbon capitals, using Glyphs 3 and Python tracing scripts, that produces five constructions for every letter of the alphabet."
+ },
+ "typeface-revival": {
+  "title": "Schleife Capitals",
+  "description": "A lettering tool that revives the ribbon capitals of an 1896 banquet invitation, using Paper.js and a simulated 45° broad nib, that lets you edit each letter’s skeleton and export the set as SVG."
+ },
+ "typographic-flowers": {
+  "title": "Typographic Flowers",
+  "description": "A 3D illustration generator that draws flowers and fish entirely in flat type, using Canvas 2D, that offers 14 species of each in their natural colours, with PNG and video export."
+ }
+}

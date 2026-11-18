@@ -1,6 +1,111 @@
 [
  {
+  "name": "3d-eyeball-cluster",
+  "title": "Eyeballs",
+  "description": "An interactive canvas that packs the frame edge to edge with shaded 3D eyeballs that follow, avoid or ignore the cursor, using plain Canvas 2D in a single dependency-free file, that offers eight arrangements from scatter and hex to rings and spiral.",
+  "url": "https://3d-eyeball-cluster.vercel.app/",
+  "date": "2026-08-05T15:51:52Z",
+  "prompts": [],
+  "gallery": []
+ },
+ {
+  "name": "auto-bento",
+  "title": "Auto Bento",
+  "description": "A Figma plugin that turns any selection into a clean, hole-free bento grid, using the Figma Plugin API and a custom mosaic packing engine, that either snaps items to standard bento units or keeps their true aspect ratios, and can pour the result into a frame you choose.",
+  "date": "2026-08-31T16:55:35Z",
+  "prompts": [],
+  "gallery": []
+ },
+ {
+  "name": "average-typeface",
+  "title": "Average Typeface",
+  "description": "A typeface blending tool that interpolates any two fonts into a hybrid, using opentype.js, that updates spacing and kerning live, rebuilds any letter another way with a click, and exports an installable OTF.",
+  "date": "2026-11-02T12:20:58-05:00",
+  "prompts": [
+   {
+    "text": "build an average typeface generator web app that intelligently, cleanly, and professionally creates hybrid typefaces from two typefaces submitted. I basically want a cleaned up version of /Users/zacharyreich/Downloads/spacesheet-master.zip where, instead of just being able to visualize what the intermittent points between two glyphs might look like, i can quickly test and then export full typefaces. i should be able to skew the typeface toward one or the other with a slider, and should be able to click on individual characters to refresh. also, i should be able to adjust the scale and colors of the text on the canvas, as well as other standard typographic features, and i should see the typeface change in real time as I change the slider toward one typeface or the other.",
+    "images": []
+   },
+   {
+    "text": "continue",
+    "images": []
+   },
+   {
+    "text": "great. now add an option to show the outlines/transparent shapes of the two typefaces, in two different colors the user can set, so that you can see exactly where the hybrid typeface sits between the tyo typefaces",
+    "images": []
+   },
+   {
+    "text": "[Image #1] the outlines aren't perfectly centered on their corresponding letterforms. see the \"I\". make sure the outlines of the two fonts are horizontally aligned so that the resulting average letterform is clear",
+    "images": [
+     "media/fd08fc55a9ebbbcfbbbba826a99e802ad7c44273.png"
+    ]
+   },
+   {
+    "text": "[Image #1] [Image #2] [Image #3] Make the transition between terminals of typefaces cleaner so that we don't get odd moments like the \"s\" in image 2. the program should be able to see clearly where the two terminals are and calculate a clean middle ground between the two while maintaining the perfect rectangularity of the terminal. same with the end of the e (it should stay blunt / rectangular, instead of what you're seeing in image 2 where there's a clear point at the end of the e terminal)",
+    "images": [
+     "media/6d35500e3ac2e19f3a4e5299b7d25816f2521639.png",
+     "media/460e4397421525641fa842af14d2e77c3b955028.png",
+     "media/a4d03479c968ea9f746dded1eda42e78ec09d371.png"
+    ]
+   },
+   {
+    "text": "commit to main",
+    "images": []
+   },
+   {
+    "text": "edit the scaling so that a single letterform can take up the entire canvas, right now at the max size it isn't big enough to fill the canvas. also make it possible to change the line thickness of the comparison outlines",
+    "images": []
+   }
+  ],
+  "gallery": []
+ },
+ {
+  "name": "bad-news",
+  "title": "Bad News",
+  "description": "A website remixing tool that rebuilds any web page’s own words, letters and pictures into new sentences and word art, using a sandboxed page harvester, CORS proxies and Canvas 2D, that keeps every word in the exact font, size, weight and colour it had on the original site.",
+  "date": "2026-11-06T10:05:25-05:00",
+  "prompts": [
+   {
+    "text": "Right now this web remixing tool i created isn't loading nytimes or wsj, both critical websites to load for the tool to generate the effects I want. I'm getting a \"site blocked us\" message followed by an attempt to load the internet archive copy, but it never loads. can you fix this so both sites load smoothly?",
+    "images": []
+   },
+   {
+    "text": "add a start command per the ui guideilnes",
+    "images": []
+   },
+   {
+    "text": "[Image #1] what's causing the image not to appear clearly through the text? i want to be able to clearly see the stripes of the flag and the pole of the flag, for instance",
+    "images": [
+     "media/6a65ef364f3ee829ce597ad23c070a4962d90731.png"
+    ]
+   },
+   {
+    "text": "start with the code fix. don't reuse any words or images but refine the code so that images like the black and white one here more clearly come through with just wwords.[Image #2]",
+    "images": [
+     "media/ca5a09ea8302e5f1aeed4916c12b389448b56768.png"
+    ]
+   },
+   {
+    "text": "[Image #3] can i make it come through any clearer here?",
+    "images": [
+     "media/184b294112b5683b672bd5cf20ee0e6c8cd56f94.jpg"
+    ]
+   }
+  ],
+  "gallery": []
+ },
+ {
+  "name": "bad-rag",
+  "title": "Bad Rag",
+  "description": "A typesetting tool that sets a paragraph with a deliberately bad rag, using Canvas 2D in a single file, that treats the ragged edge as cloth, so the loose ends of the lines lift and wave like frayed threads under the cursor.",
+  "date": "2026-09-21T18:18:16Z",
+  "prompts": [],
+  "gallery": []
+ },
+ {
   "name": "crowded-type",
+  "title": "Crowded Type",
+  "description": "A space-filling lettering generator that carves text into one irregular cell per letter, using Canvas 2D, WebGL2 and the Web Audio API, that reshuffles into new legible layouts, adds pinched-balloon 3D shading, and can move to live music.",
   "date": "2026-11-15T14:56:30-05:00",
   "prompts": [
    {
@@ -331,7 +436,537 @@
   ]
  },
  {
+  "name": "embossing-die-generator",
+  "title": "Embossing Die Generator",
+  "description": "A 3D-printing tool that turns type and SVG drawings into a matched pair of male and female embossing dies, using HarfBuzz and Clipper, that reads every font on the computer and exports print-ready STL files.",
+  "url": "https://embossing-die-generator.vercel.app/",
+  "date": "2026-10-06T08:10:59-04:00",
+  "prompts": [
+   {
+    "text": "I want to create a web app that can automatically generate STL files for embossing dies that I plan to 3d print. Right now, I'm making them manually in fusion and it's taking a long time (included is an image of a male die where I've finished the \"h\" in \"Zach\". Here's how I've been making the embossing dies:\n\n* create a rectangular sketch and add text inside\n\n* explode and extrude the text and base of the male die\n* duplicate the die and offset the faces on the sides of the extruded letterforms a bit in order to create the negative for the female die (slightly looser than the male to provide wiggle room for the embossing material\n* for the male die, first fillet the vertical sharp edges at the corners of text, then fillet the top edges of the text as well as the edges where the text meets the baseplate\n* for the female die, fillet the top face at the edges where it meets the text, and fillet the bottom crevices in the text recesses\n\n\nI want the web app to work as follows:\n\n* I can type text in any font that I upload (there should also already be default web fonts installed like helvetica, arial, times new roman, etc)\n* I can also add any svgs that I want to upload\n* I can edit the text with normal text editing functions like vertical/horizontal alignment, tracking, leading, weight, etc. I can drag the text and the vectors around on the canvas\n*  I can then adjust the padding (ie the negative space that the \"plate\" portion of the dies beyond the horizontal and vertical edges of the text/svgs), which should adapt automatically to go around the objects on the canvas\n* I can then specify the extrusion distance for the plates and text, as well as the amount I want to offset the female die\n* The fillets should be applied automatically to first round out any sharp edges in the text's letterforms and then have the maximum fillet so that fillets at the top and bottom of the extrusions/recesses meet perfectly and the two dies can slide together smoothly.\n* I should be able to control the fillet of the edges of the die plates as well (both filleting the four corners as well as the top edge of the plates\n\n\nAs I'm doing this, in the center of the canvas, I should be able to see the male and female dies side by side (text side up on both) being generated as I text and input extrusion/offset values , as well as view the canvas where I'm building my design for the dies in 2d/flat/illustrator-style (include a toggle to switch between 2d (design) and 3d (preview) modes.\n\nCtrl z to undo /+shift to redo, text size measured in mm height, padding measured in mm, anchor points to resize text and svg objects on the 2d canvas, minimal/clear/simple coloring/lighting on the 3d preview. I should be able to export both dies at once side by side and specify the distance between the two. I should be able to export as svg directly to downloads.\n\nBorrow the exact ui styling and layout used in /Users/zacharyreich/Documents/GitHub/amigues-styling.",
+    "images": [
+     "media/b5326d92661d073ea6ccacfb658825687cb1f45a.webp"
+    ]
+   },
+   {
+    "text": "resume unless you're done",
+    "images": []
+   },
+   {
+    "text": "set the default settings to these",
+    "images": [
+     "media/358f5e45d7a074226c54437c3eeded4f96b4dfe6.webp"
+    ]
+   },
+   {
+    "text": "add a button to the web app that will generate this kind of tester for ironing, but in place of the squares should be the same letter/word, each of which has its own ironing settings. i should be able to specify the text size and other settings, but it should be in this 5x5 grid shown.",
+    "images": [
+     "media/1de7447fa32c5edd3b38e86f498fbdb2f2d5a2b8.png"
+    ]
+   },
+   {
+    "text": "make these the default settings, and make the ui the same style and layout as that used in /Users/zacharyreich/Documents/GitHub/tear-box, /Users/zacharyreich/Documents/GitHub/embossing-die-generator, or /Users/zacharyreich/Documents/GitHub/amigues-styling",
+    "images": [
+     "media/d618088d6be9411576ae9aa8d00867e0dd585610.webp",
+     "media/3bb4a02ebabe5dc1a7ed5fbaa3d56448670e2dad.webp"
+    ]
+   }
+  ],
+  "gallery": []
+ },
+ {
+  "name": "flourish-fill",
+  "title": "Flourish Fill",
+  "description": "A calligraphy generator that fills rectangles, ovals, letters or the whole canvas with one smooth, continuous flourish, using a custom stroke engine in Canvas 2D, that keeps clear of everything else on the canvas and runs from a single self-contained file.",
+  "date": "2026-10-08T18:41:19-04:00",
+  "prompts": [
+   {
+    "text": "I want to create a web app that generates a smooth, continuous calligraphic flourish to fill the space of the shapes I give it — regular shapes like boxes and ellipses, as well as irregular shapes like letterforms and numbers. I've previously made a program that attempts to do this and I got something nice, but the flourishes generated inside didn't have a consistent stroke weight from top to bottom (as shown in the first screenshot), and it struggled to fill shapes with overhangs (the 2 I gave the program for reference looked like the second screenshot, and as you can see in the first, the space under the overhang got filled in by the flourish).\n\nBuild a web app that fixes that issue by making a consistent, smooth, clean calligraphic flourish (or flourishes if that isn't possible) in order to accurately render the given shapes with a smooth, calligraphic curve. I should be able to adjust the line min/max widths, the colors of line and background, the tightness of the. curves, the density of the flourish, and, most importantly, the complexity (a new addition) — I want to be able to fill shapes with more complex flourishes that don't just go back and forth from side to side down the shape. I want the program to be able to come up with complex flourishes that remain clean and symmetric to fill the shapes inside (see third through seventh screenshots for the more complex, irregular flourishes I'm referring to).\n\nI want this to be an all-in-one web app with the same ui style and layout (controls on left, but this time don't include export options on right or the little pill at the top of the screen) as that found in /Users/zacharyreich/Documents/GitHub/amigues-styling or /Users/zacharyreich/Documents/GitHub/77th-national-book-awards-riffle-tool. I should have controls for the colors, the aspect ratio of the canvas, the complexity of the flourish as a slider, the density of flourish as slider, the min/max stroke widths as slider, the angle at which the thicker stroke is applied to the flourish, the number of individual flourishes (with two ends) included in the design, and options to add regular shapes to the canvas (rectangles with holding shift creating squares) and ellipses (shift creates perfect circle). I should be able to delete any of these shapes by clicking on them, which should reveal anchor points, and clicking backspace. ctrl z should undo and ctrl shift z redoes. I should also be able to add typography that I can choose either to get filled by the flourish or not, and I should have control over the type size (controllable also by stretching with the anchor points on the text box), the alignment/tracking/kerning, the typeface, the weight, and any others you think are necessary. i should also have an option to fill the whole canvas with a flourish (include padding slider) but note that if I add regular, un-flourished text to the canvas, the flourishes should wrap around that text box and I should be able to control the padding of the text box as well. I should also be able to upload images to the canvas that the full-canvas flourish has to wrap around according to the same padding rules as the text boxes.",
+    "images": [
+     "media/2bc7d1ccfc4f7d45e2299cf7c27b2680681c0c0b.png",
+     "media/0c59739480ac97f7ff659dcfd3a1f5dd6ac36452.png",
+     "media/5588e59db5a6febade0bbce3a7d919c28711ba70.png",
+     "media/993767329321437616ad49028a82412a70f08290.png",
+     "media/eb2ae947568c9436dcd36c60700413a057fff15e.png",
+     "media/d2bdce3ae2090597c93b27ade6d7c20acc2341b8.webp",
+     "media/08f3285f8a061fc69639fc4ae03c4eed4e88f989.png"
+    ]
+   },
+   {
+    "text": "Try again",
+    "images": []
+   },
+   {
+    "text": "I want to create a web app that generates a smooth, continuous calligraphic flourish to fill the space of the shapes I give it — regular shapes like boxes and ellipses, as well as irregular shapes like letterforms and numbers. I've previously made a program that attempts to do this and I got something nice, but the flourishes generated inside didn't have a consistent stroke weight from top to bottom (as shown in the first screenshot), and it struggled to fill shapes with overhangs (the 2 I gave the program for reference looked like the second screenshot, and as you can see in the first, the space under the overhang got filled in by the flourish).\n\nBuild a web app that fixes that issue by making a consistent, smooth, clean calligraphic flourish (or flourishes if that isn't possible) in order to accurately render the given shapes with a smooth, calligraphic curve. I should be able to adjust the line min/max widths, the colors of line and background, the tightness of the. curves, the density of the flourish, and, most importantly, the complexity (a new addition) — I want to be able to fill shapes with more complex flourishes that don't just go back and forth from side to side down the shape. I want the program to be able to come up with complex flourishes that remain clean and symmetric to fill the shapes inside (see third through seventh screenshots for the more complex, irregular flourishes I'm referring to). see the remaining screenshots (until now i've been counting within the first image, but now im referring to images 2-7) for the irregular types of flourishes i'm referring to that can create shapes with varying degrees of irregularity. I'm especially interested in building flourishes like those found in image 4, which are complex but symmetric and built from very few individual lines\n\nI want this to be an all-in-one web app with the same ui style and layout (controls on left, but this time don't include export options on right or the little pill at the top of the screen) as that found in /Users/zacharyreich/Documents/GitHub/amigues-styling or /Users/zacharyreich/Documents/GitHub/77th-national-book-awards-riffle-tool. I should have controls for the colors, the aspect ratio of the canvas, the complexity of the flourish as a slider, the density of flourish as slider, the min/max stroke widths as slider, the angle at which the thicker stroke is applied to the flourish, the number of individual flourishes (with two ends) included in the design, and options to add regular shapes to the canvas (rectangles with holding shift creating squares) and ellipses (shift creates perfect circle). I should be able to delete any of these shapes by clicking on them, which should reveal anchor points, and clicking backspace. ctrl z should undo and ctrl shift z redoes. I should also be able to add typography that I can choose either to get filled by the flourish or not, and I should have control over the type size (controllable also by stretching with the anchor points on the text box), the alignment/tracking/kerning, the typeface, the weight, and any others you think are necessary. i should also have an option to fill the whole canvas with a flourish (include padding slider) but note that if I add regular, un-flourished text to the canvas, the flourishes should wrap around that text box and I should be able to control the padding of the text box as well. I should also be able to upload images to the canvas that the full-canvas flourish has to wrap around according to the same padding rules as the text boxes.",
+    "images": [
+     "media/f496e0f4ab5b4c38710d582bc0cd20d7d6ef5f95.png",
+     "media/fbe75319cc8d5929dd0b3133eed52fc78cbde89f.jpg",
+     "media/a6f6692e76410200e4ce7e861e298de53e8805b0.jpg",
+     "media/880fdf156260f0f77e2670f248d0cb573eef12d8.webp",
+     "media/ad6159504081261d1521ca4704f771f5765fbaec.jpg",
+     "media/6de624df93e69145a9a4911a8a0e4b5701774176.jpg",
+     "media/4f11e1bf1cccd1a101783264caca6ab4701d53d4.jpg"
+    ]
+   },
+   {
+    "text": "totally wrong. the flourishes shouldn't just follow the curve algorithmically — they should maintain the same axis/direction/orientation while filling up the shape they're in. Also, all curves should be smooth (no pinching like they have here near the ends), and they should look more organic (not just the same movements happening over and over again. I really want flourishes with the geometry and structure of the second image, not just a flourish following the curves like the first image which you gave me",
+    "images": [
+     "media/3249c590bd2596df5638f6a6351fb4b8887d6eaf.webp",
+     "media/880fdf156260f0f77e2670f248d0cb573eef12d8.webp"
+    ]
+   },
+   {
+    "text": "Still not good at all. These aren't the flourishes like the ones in the images I showed! attaching the references again here. The flourishes you're giving me look way to simple, disconnected, and unnatural.",
+    "images": [
+     "media/f7c9920f9783927a18ed51fc57f61fef5a689775.webp",
+     "media/880fdf156260f0f77e2670f248d0cb573eef12d8.webp",
+     "media/d56f15bc925ee5c398638d0c1087efa9cd582393.png",
+     "media/b0bf6531e05f3aef6814b86f21b47170c3b87d46.webp",
+     "media/b0bf6531e05f3aef6814b86f21b47170c3b87d46.webp"
+    ]
+   },
+   {
+    "text": "getting a little better, but the flourishes are either not connected at all or not connected cleanly/neatly. make sure it looks like one consistent flourish rather than a bunch of individual ones of very different densities",
+    "images": [
+     "media/b36040d40eb368730e6bd6e26f19f7436ba97aaa.webp"
+    ]
+   },
+   {
+    "text": "still not right. at lower complexities, it gets this weird ringlike effect at the bottom. also, at higher complexities, the junctions at the top aren't clean, and with more flourishes added, rather than substantially changing the flourish layout and design to cleanly incorporate more flourishes, it just adds more flourishes on top of existing ones, which looks messy. also, the ellpse shape in the fourth screenshot doesn't fill the space evenly and isn't vertically symmetric. can you also add some kind of shuffle/seed button that creates a new complex flourish design inside? re-run your code to make sure the flourishes are cleanly joined and that the distribution is even enough where there aren't areas of the shape that look significantly denser than others",
+    "images": [
+     "media/ac14640839acd795e4f728f7496509102b6fd3c8.webp",
+     "media/77f5b6753a771f98957c2c8a694bb2ec77c421cd.webp",
+     "media/e85531c4ad6fc3b209d57bdad585a4ac0870ce31.webp",
+     "media/dc74f8731d1ebde70b4c9868168b7e4bed8a70ca.webp"
+    ]
+   },
+   {
+    "text": "Try again",
+    "images": []
+   },
+   {
+    "text": "text still looks messy, disconnected, and overall wrong — and the spine of the 2 just doesn't look smooth, natural, or realistic enough. make sure all curves, direction changes, and combinations of flourishes are totally smooth across all letterforms and numbers. i've inlcuded screenshots of bad parts of the letters and numbers after image 2.",
+    "images": [
+     "media/57a9176d1af9ac12e92d7beb7400e77e3d79eabd.webp",
+     "media/4c6d498f7c26cbeb87a7a5a7243c5b10554f1b7c.png",
+     "media/1dfba3749efea7b4dce8bebb7f41ee61981b0080.png",
+     "media/465406df4a4ed2fc6c650115d1469373284f6a27.png",
+     "media/0aab987abd136d6ced4be5d3235b91b09d45eea2.png"
+    ]
+   },
+   {
+    "text": "it's still so inconsistent for text. i want you to comprehensively rework the flourishing logic so that it looks like one consistent flourish that forms this shape, not a whole bunch that are poorly joined together like here. test your own code to ensure that all letters, numbers, symbols, etc come out cleanly like the cocker flourishes I gave you previously. also, i want you to ensure the flourishes are smooth and natural enough to not need the sliders for complexity, density, and tightness",
+    "images": [
+     "media/31a2c0c63bf98c2bcd7088dba70e4baafe90a825.webp"
+    ]
+   },
+   {
+    "text": "now the a looks nothing like the flourish i made in the top corner. you're getting further away from the desired effect. make sure the flourishes still feel like cocker flourishes without turning into this spiderweb nest mess that you've made",
+    "images": [
+     "media/e30a0616f20290babf361ffd594beafa29cb4711.webp"
+    ]
+   },
+   {
+    "text": "Never mind, this isn't working at all as I wanted. go back to the original flourish design that goes from top to bottom, left to right, and fills overhangs. attached examples. Just make sure the flourishes are clean and don't have the weird moments of extra weight in these attached screenshots.",
+    "images": [
+     "media/50cc41f206baf457411606fa146127248c448117.webp",
+     "media/e13f2ecf2256f73d4adb4064505530b39bde68e6.webp"
+    ]
+   },
+   {
+    "text": "the letterforms still look really weird, especially the bottoms. also bring back the sliders for the density and complexity of the flourishes, and remove the \"knot\" option since sweep is correct. Clean up the terminals too so they don't look messy like the third screenshot.",
+    "images": [
+     "media/e6d4d15a2d217ab65e5dab435aaf92a0d4025b0d.webp",
+     "media/444c33c5fccd3b0c657c731d2220561b92de18a2.webp",
+     "media/27e4cfdfae79e5c2bb5ccbc89ffa3530045874fe.png"
+    ]
+   },
+   {
+    "text": "as complexity increases, the density distribution across the whole form seems wrong — you can see here that in these letters, parts feel denser than others. fix that so it still feels uniform throughout even though there's more going on. also fix the awkward kinks at the bottom of the stem of the \"g\" under the bowl (second screenshot, you can see they're not perfectly smooth) and make sure that doesn't happen in any other letters or characters. can you also find a way for letters like \"m\" to have their humps? maybe introduce multiple flourishes for specific letters?",
+    "images": [
+     "media/a2309b2186533f01dfe13208f2a751fa4a9c0f12.webp",
+     "media/4fd9e386700f993c98586f7c6020b0d4dce86fc8.webp",
+     "media/a6275e937145981de0b932c00fa4d5846f48e608.webp"
+    ]
+   },
+   {
+    "text": "close, but can you make the middle horizontal line where the flourishes connect a little less obvious? can there be individual points of intersection for the three lines of the \"m\" rather than one big flourish where they join? do the same for other letters in the alphabet. can you also try to make the centers of letters with bowls like \"g\" hollow rather than filled?",
+    "images": [
+     "media/ffab5f4cdc86b03dd5f0f16f2350f43fbd2008fb.webp",
+     "media/6717e0e4451a384c5661be85c2898f252326dca9.webp"
+    ]
+   },
+   {
+    "text": "slightly better but there's still a blank space on the right side of the \"m\" at the top of the hump, and the columns of flourishes aren't intersecting at all. they should intersect in a way that mirrors the density of the other self-intersections of the flourishes for a clean, uniform look. see \"o\" in the second screenshot — the flourishes don't intersect at the top and bottom, but I want them to interrsect just a little",
+    "images": [
+     "media/b76b043240c138280fe8d784d559d6fbfd3e871b.webp",
+     "media/e2d13fcd5435da1b22923e2ed66c620bd7b50f59.webp"
+    ]
+   },
+   {
+    "text": "now they're just tucked in between one another, not actually adjusting shape to intersect cleanly with one another. make it so that they cross over into one another but make sure that it looks completely seamless",
+    "images": [
+     "media/3d5a8b0815da58dfb8f98031f134f4cccac3cfb3.webp"
+    ]
+   },
+   {
+    "text": "look, the intersections are still not seamless! the flourishes line up perfectly which causes a visible seam, they should be vertically offset enough where they look like they're just intersecting while not creating a seam\n\nadd a slider for vertical offset between flourishes so that I can play around with the alignment of the curls of separate flourishes",
+    "images": [
+     "media/7ebe274f03c1d0b0d3fe2762dd1767dc97fb9deb.png"
+    ]
+   },
+   {
+    "text": "shoot, the offset still doesn't seem to be seamlessly joining the flourishes. can you work on your own to ensure that the flourishes of all characters line up seamlessly while preserving the original shape of the letter?",
+    "images": [
+     "media/1155d6e8df78974101344203c06983add3b758b3.webp",
+     "media/aff30d05196672025b62435e43548f076967a10f.webp"
+    ]
+   },
+   {
+    "text": "slightly closer but higher complexities cause kinks in the design and some of the flourishes are disconnected in the center. fix that so there are no gaps or weird kinks no matter the complexity",
+    "images": [
+     "media/24b83687fbebd1d25cdac110a950ab80ad806ce8.webp"
+    ]
+   },
+   {
+    "text": "amazing but higher complexity still breaks the design at some points, like in the top left of the 6 or the bottom of the bowl of the p. rather than a complexity slider, can you have sliders for the curve tightness?",
+    "images": [
+     "media/8bda97228dca522a12b9c23c27611c4b9727aedb.webp",
+     "media/15efb1e8b08767701b34fb5011e71343a0649fb2.webp"
+    ]
+   },
+   {
+    "text": "still an awkward moment at the bottom of the \"a\" bowl and in some letterforms (like \"j\" here) there's a disconnection toward the bottom that doens't need to happen to maintain the same geometry. also make it possible to control the ends of the strokes, such as with a slight curl and bulb or any other effect you think would be nice to include to make the design more calligraphic. I should be able to control the length of the end curl, the tightness of the end curl, the size of the bulb, the complexity of the ends, etc. also make the default text just a text box with \"m\" large enough to fill the canvas, not the static 2 that's there currently",
+    "images": [
+     "media/ae2d2a01f9648d501b7ad3812f1268d1d0392f31.webp",
+     "media/5ec74b2ba834435d86da6a40d72235773b6c5c41.webp"
+    ]
+   },
+   {
+    "text": "the curls should be able to go longer so as to fill the entire page, and make it so that i can adjust their variation with a slider so they don't all look the same. also make sure moments like the center of this \"m\" where the density of flourish is obviously off don't happen by default",
+    "images": [
+     "media/d6f17700f3c38d95055c9948a61075a335f94a3c.webp"
+    ]
+   },
+   {
+    "text": "now the flourishes that make up the letter look messy/not joined properly again, and the end points each only curve in one direction. as length and complexity increase, they should smoothly flourish in different directions like the attached references",
+    "images": [
+     "media/55fac60df25e8665480ad602a1d51d60ceb8f1cd.webp",
+     "media/1aa73b2eda0d834cca1cf444c13838b1c4aa50e0.webp",
+     "media/355225795ad4d845eb6b85322caef6b0d0af6d42.png",
+     "media/49a3085928d3bde98f8231b879bb5eef2c878f6a.png"
+    ]
+   },
+   {
+    "text": "good but make sure the flourished ends are confined to the canvas and can't grow beyond the edges (they should curl inward as they approach the edges",
+    "images": []
+   },
+   {
+    "text": "how come the ends at the top or the center-left of the \"a\" here aren't flourished too? all ends of strokes should be flourished, even those in the center of the designs",
+    "images": [
+     "media/bd01d3ee686d832fba9cf3b6bb73d8337eff3150.webp"
+    ]
+   },
+   {
+    "text": "make these the default settings and make it possible to shuffle the designs of the flourishes both inside the design and the design of the end flourishes. also make sure the kink where the end flourish begins here doesn't occur here or elsewhere.",
+    "images": [
+     "media/8de70273d1724e002fba155a2724c511c23c8b4a.png",
+     "media/b653c0fbb52b12989a7933920a55e19034fac1c5.webp"
+    ]
+   },
+   {
+    "text": "also make sure that the end flourishes on the inside are significantly shorter than those on the outside, which should fill the empty space",
+    "images": [
+     "media/398a10eb08b59edb4c3797c139c360fdd5b6fd5c.webp"
+    ]
+   },
+   {
+    "text": "also, these flourishes should be weighted to loop on themselves before chanign direction, not just zigzag outward",
+    "images": [
+     "media/5d57f4b2927d717593d899c5ee34a1199bad4362.webp"
+    ]
+   },
+   {
+    "text": "refine the end flourishing logic so that the flourishes more evenly distribute in the negative space on the canvas and don't overlap with one another as much. the goal with these end flourishes is to fill the negative space as efficiently as possible",
+    "images": [
+     "media/863d03cc7fdcd243dffdb4f524ebe7640c181f42.webp"
+    ]
+   },
+   {
+    "text": "add separate sliders for the lengths of inner end flourishes and outer end flourishes",
+    "images": []
+   },
+   {
+    "text": "add separate sliders for the settings (length, complexity, etc) of inner end flourishes and outer end flourishes",
+    "images": []
+   },
+   {
+    "text": "improve the distribution of the outer ends so that more of the negative space is filled evenly. right now some empty space on the canvas is empty and at other points the end flourishes overlap a bunch",
+    "images": []
+   },
+   {
+    "text": "now the flourishes aren't as loopy on the ends (they look like sperm). they should be loopy and smooth but also effectively fill the negative space around the letter. i also want to be able to adjust the canvas aspect ratio (standard options) and the scale of the design to change the behavior of the outer flourishes",
+    "images": [
+     "media/0bb4178cd49821f340483dbf83dabd2f608d02a5.webp"
+    ]
+   },
+   {
+    "text": "most of the end flourishes here are just what i'm looking for, but some (espeically bottom right) are still not loopy and more spermlike. can you make the settings in this screenshot the default (canvas 16:9) and mkae sure all end flourishes look like this?",
+    "images": [
+     "media/73e02862168307f053eb3217fd3c22490b93a549.webp"
+    ]
+   },
+   {
+    "text": "perfect, but now can you make it so the outer flourishes don't intersect with the letter/number and instead fill the empty parts of the canvas?",
+    "images": [
+     "media/c53df391c0dc8179de715b2ecc5ac50260de40e9.webp"
+    ]
+   },
+   {
+    "text": "now can you add a panel for animation where i can have the flourishes rearrange themselves in the characters I input one by one? the movement should be clean and simple, and I should be able to change interpolation and speed. it should loop",
+    "images": []
+   },
+   {
+    "text": "the transitions are really ugly, you get weird moments like this where the lines distort. it should be smooth, and the curves should rearrange themselves without as much movement",
+    "images": [
+     "media/40442113e97f6e2863163cd03680b8f0b4cfa1be.webp"
+    ]
+   },
+   {
+    "text": "can you also make it so that I have a slider that can make the loops of the flourish overlap vertically? right now the loops are just stacked and never intersect with themselves",
+    "images": [
+     "media/bcecc677ae3c62c110f40bb7fd44dfc26947c02d.png"
+    ]
+   },
+   {
+    "text": "the animation is great except in moments like this, where it looks like another number comes out of nothing instead of being rearranged from what's already there. can you fix that so no matter what two letters are in the transition, the transition is as smooth as from 2 to 3 in \"123\" here?",
+    "images": [
+     "media/70827c1b5eedb4e8c9c5f8ded5d7b37c6b55c0fc.webp"
+    ]
+   },
+   {
+    "text": "make it so loop tightness and loop overlap can go even higher than the max currently",
+    "images": [
+     "media/4c48357575139ed6ac57efa8b4f4ded53e7ec2b8.webp"
+    ]
+   },
+   {
+    "text": "still weird overlap happening occasionsally (here you can see it at the top of this number 3). make sure it's totally seamless, and remove the weird glitching/flickering near the curve edges as the shape changes",
+    "images": [
+     "media/e45d6387574f557b840b5bbba83c0e687571b228.webp"
+    ]
+   },
+   {
+    "text": "adjust the settings so the loops would overlap here. otherwise make these the default settings.",
+    "images": [
+     "media/e97794880e96fa24f5f8761ee657e2792143d5ef.webp",
+     "media/0036bae8a2076da7c18cd1bc1b42470b4ed4341a.png",
+     "media/3c2a936d8d9c91266bb6c455f7b67d7e4c80542c.png"
+    ]
+   },
+   {
+    "text": "actually, make it so that the flourishes fully retract into nothing between transitions in the animation",
+    "images": []
+   },
+   {
+    "text": "i meant the whole letter should retract to nothing so between letters there's nothing at all on the canvas",
+    "images": []
+   }
+  ],
+  "gallery": []
+ },
+ {
+  "name": "gravity-clock",
+  "title": "Gravity Clock",
+  "description": "A kinetic clock that drops every passing second, minute and hour as a physical numeral that tumbles and piles up on the canvas, using p5.js, Matter.js and poly-decomp, that keeps live time for any city you search.",
+  "url": "https://gravity-clock.vercel.app/",
+  "date": "2026-08-17T12:44:24-04:00",
+  "prompts": [],
+  "gallery": []
+ },
+ {
+  "name": "hairline-type",
+  "title": "Hairline Type",
+  "description": "An isometric type animation that builds an ampersand and any typed text from extruded ribbon letterforms, using the hairline library and opentype.js, that twist and pop up toward the cursor with spring physics.",
+  "url": "https://hairline-type.vercel.app/",
+  "date": "2026-10-09T08:23:02-04:00",
+  "prompts": [
+   {
+    "text": "/hairline-create an interactive ampersand (&) constructed from a thick isometric ribbon. As the pointer moves around it, the loops twist and rotate toward the cursor with spring physics. make it an all in one web app with the ui style and layout from /Users/zacharyreich/Documents/GitHub/subway-font or /Users/zacharyreich/Documents/GitHub/embossing-die-generator",
+    "images": []
+   },
+   {
+    "text": "now add a version using another of the skill's features where I can type text and specify the font/line breaks and have the text appear isometrically as 3d letterforms whose extrusion I can control, and where I can hover and the letterforms under the cursor pop up the closer they are to the cursor",
+    "images": []
+   },
+   {
+    "text": "make it possible to change the background color, and make it possible to pick from all the effects for the text that I type. instead of having the options at the top of the screen in the ui, make it a dropdown selector at left. also make it so that the font selector is a dropdown (right now when I go to click the font name i don't get a dropdown list of available ones on my computer)",
+    "images": []
+   },
+   {
+    "text": "make it possible to change the background color, and make it possible to pick from all 27 figures for the text that I type. instead of having the options at the top of the screen in the ui, make it a dropdown selector at left. also make it so that the font selector is a dropdown (right now when I go to click the font name i don't get a dropdown list of available ones on my computer)",
+    "images": []
+   },
+   {
+    "text": "for the cabinet figure, can you make it so individual lines of text are stacked and hovering over any of them pulls them out like a drawer?",
+    "images": [
+     "media/010f2f31f4b9f432b14a63404b9541ab95ef866d.webp"
+    ]
+   },
+   {
+    "text": "good now alos make it so that the background color doesn't change the text color, which should also be individually changeable",
+    "images": []
+   },
+   {
+    "text": "add another selector for the color of the faces of the text and the intensity of the shadow (the background should change neither the faces of the text nor the lines",
+    "images": []
+   },
+   {
+    "text": "also make it possible to control the axis on which the cabinet motion occurs (right now the text can only move side to side, not up and down",
+    "images": []
+   },
+   {
+    "text": "can you also add a heatmap feature to turn on and off so that closer to the cursor the color of the faces on the letters get closer to red and further away is closer to blue/indigo? I should be able to adjust the color spectrum and the radius of the heatmap",
+    "images": []
+   },
+   {
+    "text": "good but add a selector for individual letters to have gradients of heatmaps (ie each letter isn't a solid color but instead there's a heatmap gradient/blur converging at the cursor that spreads across letterforms). also, farthest away from the cursor should be white, not blue (in other words, the heatmap should end at some point, and the radius control should be able to determine where that is)",
+    "images": []
+   },
+   {
+    "text": "the heatmap feels way too flat and doesn't feel connected to the geometry of the letters (ie the more intensity applied to the letter across the figures, the closer it is to the first color). make it more realistic with a more organic shape based on the geometry, give it a blurriness slider, and make it feel like an actual terrain heatmap like the reference images included here.",
+    "images": [
+     "media/59d0e0effd66a791eadbb3f1a6ad4c79a95a25d4.webp",
+     "media/a1e717339c9735ec7521f33145c2231032f12c8f.webp",
+     "media/450a83a6a709e7133d527ff4d66e59e12e119c44.webp",
+     "media/d62c0964aebb66cf9b12ea5cfeb7ddf1b52f61d5.webp",
+     "media/968a3d6cc9a18fdf9dc549ef6cec6024e43235ce.png"
+    ]
+   },
+   {
+    "text": "still feels more like an overlay and is really laggy. the form of the heatmap should actively respond somehow to the shape of the letterforms so that it doesn't just look like a perfect circle, but instead adapts to the shapes of the letters",
+    "images": [
+     "media/c7afd1083c074db4bdca87c9cbf213e632c95543.webp"
+    ]
+   },
+   {
+    "text": "great but now make it so the heatmap can change positions within letters as the cursor moves, not just one heatmap state per letter. I want to be able to hover over the dot of the i for instance and have that dot be the reddest part of the image",
+    "images": [
+     "media/fb85c17650d44fd8268fe8b9a2c93c5e5806dd8e.webp"
+    ]
+   },
+   {
+    "text": "for the per letter version, can you make it so that in modes where letters are split apart like here, the color is proportional to the height? so segments of the same letter have different colors depending on how high up they are",
+    "images": [
+     "media/8fa8784acdc51126e80d11c3fdb34522875cca03.webp"
+    ]
+   },
+   {
+    "text": "get rid of the \"along the letterforms\" option, and make it so that the radius setting also affects the per letter mode. also make it so that I can control the amount of layers in modes like the phone so it's not just four",
+    "images": [
+     "media/b52635223168f8c4174cda1b23867e240f128d0b.webp"
+    ]
+   },
+   {
+    "text": "great. now add a version where the canvas is split into a grid where I can see all of the effects at once and hover over them individually. also make sure the effects are sufficiently different for text — some of them seem very similar to one another currently",
+    "images": []
+   },
+   {
+    "text": "I’m a graphic designer who’s a fan of a book spine I found where instead of having simple boxes on which text sits, this book has what almost look like random torn sections of paper as text boxes. These “tear boxes” seem to have random shapes (they look organically torn, amorphous, and detailed) but they fit perfectly the text they encapsulate.\n\nI want to build a web app that takes text and then replicates the random “tear boxes” behind the selected text. I should be able to input any length of text, then specify whether I want individual tear boxes around paragraphs, words, or individual letters. I should be able to specify the color of the tear boxes, text, and background, as well as the aspect ratio of the canvas (standard aspect ratios as options). I should then be able to manipulate the properties of the tear boxes in one of two ways:\n\n1. The tear boxes encapsulate the text per the specifications while organically filling the canvas as much as possible — that is, if I type the letters “h” and I,” and specify to have a tear box around letters, there should be two tear boxes — the “h” one should fill roughly 50 percent of the canvas and the “I” one should fill the other half (I also want a slider for the variation between sizes of tear boxes on the canvas), leaving some room for empty space around the canvas and between the tear boxes (slider for how much negative space as well). The text should always be vertically and horizontally centered within the tear boxes.\n2. The tear boxes are sized according to the text inside them and the padding specified in the controls, and organized around the canvas either side by side (left to right, top to bottom) or randomly placed around the canvas.\n\nNo matter what, I want total control over the properties of the tear box designs — sliders for the following:\n- amount of vertices/detail/jaggedness of the edges of the tear boxes\n- the horizontality/verticality, so that at in the minimum of the slider the tear boxes are mainly circular or square and when the slider is at a maximum the boxes are much taller than wide or much wider than tall\n- the irregularity of the tears along the edges of the tear boxes, so that at a minimum the cuts aren’t very deep/close to the center of the tear box and at a maximum there are deep cuts, irregular tears, and overall more amorphous tear boxes\n- the color of the boxes, the outlines of the boxes (and standard stroke settings), and the color of the background\n- the padding between text and the edges of the tear box in mode 2\n- the negative space around the canvas and between tear boxes\n\nI should be able to manually drag around the tear boxes in mode 2 by clicking and dragging as well as the paragraphs/words/letters in mode 1 so that the tear boxes adapt to where the words are and fill the canvas completely while generally going around the words/paragraphs/letters in the center.\n\nUse the exact ui styling and layout found in /Users/zacharyreich/Documents/GitHub/hairline-type, /Users/zacharyreich/Documents/GitHub/embossing-die-generator, or /Users/zacharyreich/Documents/GitHub/subway-font\n\nAttached is the exact spine I'm looking at for reference.\n\nOh, and before I forget, I should be able to have standard text editing controls — leading, tracking, horizontal and vertical alignment, font size, weight, font family (standard web fonts and upload own font options please), etc\n\nI also want an option where I can draw my own tear boxes and set those as the tear boxes to use in mode 2, and I should be able to upload images that I can use as the \"paper\" of the tear boxes instead of just a plain background if I want to",
+    "images": [
+     "media/e2f657a121a45037f535c03926b28ec3c9b015af.webp"
+    ]
+   },
+   {
+    "text": "they still read more like polygons than randomly torn paper. make the torn paper shapes even more random and less fidelity to the text, and how come the edges look so spiky and not really like torn paper? is it a rounding thing where the vertices should be rounded?",
+    "images": [
+     "media/10c0a5847a2e5a0b5b2381f0d5c399c903e7e6a5.webp"
+    ]
+   },
+   {
+    "text": "make these the default settings",
+    "images": [
+     "media/b07818b5bd406765876fb49f14a4532f055b7a88.webp"
+    ]
+   },
+   {
+    "text": "Now add an experimental/beta/3d section where these paper tears become 3d torn, folded paper scraps and where the words conform to the shapes and folds made. i should be able to adjust lighting and reflectivity of the paper",
+    "images": []
+   },
+   {
+    "text": "no, there shouldn't be a 3d canvas (i shouldn't be able to pan around, i just want the individual pieces to be 3d. i also want an option for an outline for the creases.",
+    "images": []
+   },
+   {
+    "text": "it doesn't look very realistic and the shape of the text isn't responding to the folds and creases",
+    "images": [
+     "media/6cc02f92a9573e94de573e6ee1611337a4b3e9ed.webp"
+    ]
+   },
+   {
+    "text": "i like this but i also like the geometric shadows of last time. make both of them options",
+    "images": []
+   },
+   {
+    "text": "now also add an overlap feature where the space between boxes can be negative",
+    "images": []
+   },
+   {
+    "text": "add a gradient fill option and make it so i can manually adjust the text size variation",
+    "images": []
+   },
+   {
+    "text": "i'm a graphic designer trying to create a web app that can visualize my internet browsing journey as a node map. I want to make a web app that captures each page I view as a window that's added to a canvas and strung together with lines from the link I clicked to the new page as a separate window. The length of the line should be proportional to the time I spend on the page from which the line originates, and the size of the windows, the length of the lines, and the arrangement on the canvas should adapt to the aspect ratio, number of pages, time browsed on each page, etc. There should also be statistics around the page such as the ones included in this sketch (feel free to add any you'd recommend as well). I want controls for:\n\n* which statistics to show (checkboxes)\n* space between nodes, padding around canvas, stroke weight of the connecting lines (sliders)\n* background color\n* window style (dropdown — flat with just an outline, liquid glass like the ui, etc)\n* light mode/dark mode of pages\n* aspect ratio of canvas (standard aspect ratios)\n\n\ni should see the url at the top of each page and i should be able to click the links shown in the nodes, which will open a new window to that exact link\n\nui style and layout of /Users/zacharyreich/Documents/GitHub/tear-box or /Users/zacharyreich/Documents/GitHub/hairline-type or /Users/zacharyreich/Documents/GitHub/subway-font\n\neach page node should be as tall as I scroll, so a page I go only a few lines down should be shorter than a page that I go to the bottom of\n\ni should be able to click \"start\" on the web app, then browse around, then go back to the web app and click stop and be able to resume to add more to my browsing journey, and it should all adapt seamlessly to fit everything proportionally on the canvas\n\nadd a reshuffle button to shuffle the layout of the nodes. overall, though, they should evenly fill the canvas\n\nrunning this web app should open a new window in my preferred browser (chrome) and should account for new tabs being opened\n\nadd an animation section in the ui where the nodes pop up one by one and extend to one another in the order of browsing to populate the page. controls for interpolation, speed. lines should be traced between nodes, not popup\n\ni should be able to drag around individual nodes around the canvas\n\nadd a bezier curve option as well instead of just straight lines between nodes, as well as options for the end points styles (empty circle, filled circle, size of circle, etc\n\nfeel free to create a chrome extension for this as well\n\npreserve all formatting from the sites browsed.",
+    "images": [
+     "media/01dee662cf682349cf64d6899741c7ae4625e970.jpg"
+    ]
+   },
+   {
+    "text": "@\"/Users/zacharyreich/Documents/GitHub/touch-response/logo.svg\" @\"/Users/zacharyreich/Documents/GitHub/touch-response/unit.svg\"\nI want to build a web app that can build random variations of the logo in the first image, built from four modular units arranged to form a T/R symbol. I've uploaded the svg for the exact layout I'm going for.\n\nthis logo is built on four modular units each with five points, shown in the second image. for this random logo generator, I want the following constraints:\n\n*  the red points are locked and cannot move, but their their handles can be bent.\n* the green points are unlocked  and can move freely, as well as have their handles bent\n* at no point can the curve extend outside the square formed by the dotted line in the second image.\n\n\nI need sliders for the following:\n\n* closeness to the original design (ie the green points and all handles are weighted toward those of the original svg unit)\n* angularity (extension of the handles, so it's more curvy or more blocky)\n* regularity (how much the properties of each of the points differ, how much the units are simple/smooth)\n\n\nI should also have a shuffle button to shuffle the design for the units, as well as a toggle for whether I want all the units to be the same or to have four different units to build the logo. I also want to be able to control the animation between different shuffles so it can either be instantaneous or have easing/overshoot and controls over speed. i also want to control padding around the logo and scale of logo.\n\nI also want a cursor-responsive mode where the design liquifies/morphs/adapts to where the cursor hovers over it, either with an attract or repel.\n\nI should be able to control background color and design color.\n\nSame ui style and layout as /Users/zacharyreich/Documents/GitHub/tear-box or /Users/zacharyreich/Documents/GitHub/hairline-type\n\nCreate this as a new web app",
+    "images": [
+     "media/893804be179190360078141927242badb12238b9.png",
+     "media/24bd7261141612a141d1990ac013f70a1dc03f79.png"
+    ]
+   }
+  ],
+  "gallery": []
+ },
+ {
+  "name": "impact-driver",
+  "title": "Impact Driver",
+  "description": "A modular typeface playground that stretches, rounds, emboldens, slants and wobbles a font’s outlines live, using opentype.js and Clipper, that re-solves the optical letterspacing as you go and exports a working font.",
+  "url": "https://impact-driver.vercel.app/",
+  "date": "2026-09-20T20:22:44Z",
+  "prompts": [
+   {
+    "text": "Refine the justify fill play option so that individual letterforms stretch vertically and horizontally, not entire rows. also, add a play option where the typed letters retain their order going left to right, top to bottom to fill the entire canvas, but individual letters throughout the canvas resize (stretching either horizontally or vertically or both) every unit of time, causing the letters around it to adapt and resize with a repeating rhythm. include controls for the speed, frequency of resizing, motion interpolation, intensity of the size changes (for both x and y), etc. The letters should constantly resize in a bento box style way without losing their order so they can still be read. I'm trying to make a kinetic poster where these letters are constantly resizing themselves in an eye catching way that's still legible, clean, and satisfying.",
+    "images": [
+     "media/9b04cc16904940b32668dd03b613dd773cf93208.webp"
+    ]
+   },
+   {
+    "text": "resume",
+    "images": []
+   },
+   {
+    "text": "still doesn't seem to be filling space perfectly. for instance, why isn't the \"e\" stretching downward to fill the space, or the \"w\" stretching horizontally to fill the space around it?",
+    "images": [
+     "media/2f2a1083893516ff57f1f0a9ab270c61e077ba82.webp"
+    ]
+   },
+   {
+    "text": "good, but there are still moments where letters \"snap\" into position aggressively, especially the \"d\" in the bottom row here snapping vertically. make sure that all resizing motions are smooth",
+    "images": [
+     "media/d80948389627ec0b1d58beb63d0020c1d4064f46.webp"
+    ]
+   }
+  ],
+  "gallery": []
+ },
+ {
   "name": "maps-render",
+  "title": "Maps Render",
+  "description": "A 3D map lettering tool that builds a word or SVG out of the real buildings, streets, parks and water at any address, using three.js, OpenStreetMap’s Overpass API and Nominatim, that stands each letter on its own base and exports PNGs and video.",
   "date": "2026-11-03T08:05:57-05:00",
   "prompts": [
    {
@@ -474,6 +1109,8 @@
  },
  {
   "name": "nike-typeface-revival",
+  "title": "Embroidered Bold",
+  "description": "A typeface revival that extrapolates four embroidered letters (N, I, K, E) into a complete A–Z and 0–9, using Python, OpenCV, fontTools and skia-pathops, that builds an installable variable TrueType font.",
   "date": "2026-09-27T16:22:31-04:00",
   "prompts": [
    {
@@ -520,7 +1157,79 @@
   "gallery": []
  },
  {
+  "name": "point-cloud-generator",
+  "title": "Point Cloud Generator",
+  "description": "A 3D particle generator that turns typed text and uploaded STL or OBJ models into clouds of points, using three.js, that push and pull away from the cursor with adjustable particle shapes, counts and extrusion.",
+  "url": "https://point-cloud-generator.vercel.app/",
+  "date": "2026-07-17T12:41:14-04:00",
+  "prompts": [],
+  "gallery": []
+ },
+ {
+  "name": "responsive-handwriting",
+  "title": "Responsive Handwriting",
+  "description": "A Figma plugin that turns scans of handwriting on lined paper into clean word-by-word image layers in a wrapping Auto Layout frame, using a local Node bridge and Transformers.js, that strips the paper lines while keeping the ink’s organic bleeds.",
+  "date": "2026-10-11T09:07:41-04:00",
+  "prompts": [
+   {
+    "text": "Write a complete, end-to-end Figma plugin and companion local processing bridge for my repository at `/Users/zacharyreich/Documents/GitHub/responsive-handwriting`.\n\nThe goal is to take high-resolution scans of my handwriting on lined paper from the folder `/Users/zacharyreich/Documents/GitHub/responsive-handwriting/images`, remove the paper lines and background while preserving organic bleeds/scribbles, segment each word into transparent PNG slices with OCR transcription, and bring them into Figma as a reflowing, responsive text box.\n\nBecause Figma plugins run in a browser sandbox and cannot access the local filesystem directly, architect this as:\n1. `server.js` (A lightweight Node.js/Express bridge running in my repo that reads `/Users/zacharyreich/Documents/GitHub/responsive-handwriting/images`).\n2. `manifest.json` (Figma Plugin Manifest v2 with network access enabled for localhost).\n3. `ui.html` (Plugin UI, canvas-based CV tuning, OCR preview, and responsive web exporter).\n4. `code.ts` (Figma canvas operations, wrapped Auto Layout builder).\n\n---\n\n### DETAILED SPECIFICATIONS:\n\n#### 1. Local Bridge (`server.js`)\n- Runs locally at `http://localhost:3001` with CORS enabled.\n- Endpoints:\n- `GET /api/images`: Scans `/Users/zacharyreich/Documents/GitHub/responsive-handwriting/images` and returns a list of available scan filenames.\n- `GET /api/images/:filename`: Serves the image file as a binary stream/base64.\n- Fallback: Allow dropping new files directly into the folder and hitting \"Refresh\" in the plugin UI.\n\n#### 2. Computer Vision & Preprocessing (`ui.html` / Canvas)\n- When an image is selected from the folder list (or uploaded manually):\n- Load into an off-screen HTML5 `<canvas>`.\n- **Lined Paper & Background Removal:**\n- Notebook lines (blue/cyan/gray) and white/cream paper texture must be extracted and made completely transparent (`alpha = 0`).\n- Use chroma and luminosity separation so dark ink strokes, feathering, pressure variations, and ink bleeds retain their exact semi-transparent edges and tooth.\n- Provide interactive sliders in the UI for \"Ink Sensitivity\" and \"Line Suppression\" with a 1:1 live preview crop.\n- **Word Segmentation:**\n- Run horizontal and vertical projection profiles (or connected component bounding-box clustering) to isolate words, punctuation, crossouts, and scribbles.\n- Slice each segmented element into an individual transparent PNG.\n- **OCR Transcription:**\n- Use Tesseract.js (loaded via CDN: `https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js`).\n- Run recognition across each detected bounding box to pair each image slice with its transcribed text.\n- Render an editable list in the UI displaying: [Thumbnail] [Editable Plaintext Input] [Include/Exclude Checkbox] so I can correct typos or label doodles/crossouts before importing.\n\n#### 3. Figma Canvas Assembly (`code.ts`)\n- Receive the processed transparent PNG slices, dimensions, and transcribed text from `ui.html`.\n- Create a container frame with:\n- `layoutMode = \"HORIZONTAL\"`\n- `layoutWrap = \"WRAP\"`\n- `itemSpacing = 12` (Word spacing / tracking)\n- `counterAxisSpacing = 20` (Line height / leading)\n- `primaryAxisSizingMode = \"FIXED\"` (initial width = 640px so lines wrap immediately)\n- `counterAxisSizingMode = \"AUTO\"`\n- For every word/mark:\n- Create a child `RectangleNode` or `FrameNode` matching the word slice's aspect ratio.\n- Set its fill to the transparent PNG using `figma.createImage()`.\n- Name the node `Word: \"<transcribed_text>\"`.\n- Save the transcription to the node's metadata: `node.setPluginData(\"ocrText\", text)`.\n- Center the viewport on the created frame.\n\n#### 4. Web Export Feature\n- Provide an \"Export Web Component\" tab in the plugin UI.\n- When a handwriting frame is selected in Figma:\n- Reads each child node's image data and `ocrText` metadata.\n- Generates ready-to-use, clean HTML and CSS:\n- CSS Flexbox container (`display: flex; flex-wrap: wrap; align-items: baseline; gap: ...`).\n- Each word wrapped in a `<span>` containing an `<img>` with `alt` text and a hidden accessible `<span class=\"accessible-text\">` sibling.\n- A simple CSS/JS toggle that switches from handwriting view to standard readable text.\n\nProvide full, production-ready code with clean styling and error handling for all 4 files, along with the exact commands needed to install dependencies and run the server.",
+    "images": []
+   },
+   {
+    "text": "",
+    "images": [
+     "media/6582ba6b369b8d4cb99633c73eb91e672f2811f2.png"
+    ]
+   },
+   {
+    "text": "refine to respect carats where they're placed. also, make sure quotation marks are always at the top and don't break lines from their corresponding word like they do in the second screenshot. commas also shouldn't line-break. also make sure apostrophes remain in their place and don't drop down to look like commas. also, the transcription is totally off — make sure the program can read handwriting intelligently and ensure the sentences being written make sense.",
+    "images": [
+     "media/a8fa313e856407b4ab022c4690dfe2a2dbaae340.png",
+     "media/83cbaa9a136849ca794445809bee1e85c4a5033b.png",
+     "media/21a38867028519c02efef06cc31312b1602c13a6.png",
+     "media/36e6ebc6cef7fad73217c34dcf1543306bef1e30.png",
+     "media/f6906825f90abe67db6465b0c171a3afc09e87d6.png"
+    ]
+   },
+   {
+    "text": "remove the claude transcription — I want the transcription to be baked into the code without relying on some external translation tool",
+    "images": []
+   },
+   {
+    "text": "just added test 2 to the images folder",
+    "images": []
+   }
+  ],
+  "gallery": []
+ },
+ {
+  "name": "scrabble",
+  "title": "Scrabble Type",
+  "description": "An interactive word-layout tool that arranges typed words into a legal Scrabble board in real time, using plain JavaScript, that interlocks words only through shared letters and shows real tile point values.",
+  "date": "2026-09-02T00:04:25Z",
+  "prompts": [],
+  "gallery": []
+ },
+ {
+  "name": "solitaire-type",
+  "title": "Solitaire Type",
+  "description": "A typographic animation that turns typed letters into the classic solitaire win cascade, using Canvas 2D in three static files, that bounces each letter down the canvas and stamps a trail behind it until it runs off screen.",
+  "date": "2026-11-10T17:59:54-05:00",
+  "prompts": [
+   {
+    "text": "[Image #1] make these the default settings",
+    "images": [
+     "media/161e8f24572d349dc19fd9d0b648e271f904d5eb.png"
+    ]
+   }
+  ],
+  "gallery": []
+ },
+ {
   "name": "subway-font",
+  "title": "Subway Letterforms",
+  "description": "A type generator that finds every letter in the lines of the New York City subway map, using Canvas 2D and a map of the system built in Python, that cuts out each character with its stations, names and route bullets intact.",
+  "url": "https://subway-font.vercel.app/",
   "date": "2026-10-06T16:33:17-04:00",
   "prompts": [
    {
@@ -613,5 +1322,445 @@
     "src": "media/subway-font/Screenshot 2026-10-06 at 6.57.06 PM.png"
    }
   ]
+ },
+ {
+  "name": "tear-box",
+  "title": "Tear Box",
+  "description": "A text-box generator that wraps type in organically torn scraps of paper, using SVG and opentype.js, that fit the text they hold while keeping a random, hand-torn edge.",
+  "date": "2026-10-09T14:35:34-04:00",
+  "prompts": [
+   {
+    "text": "I’m a graphic designer who’s a fan of a book spine I found where instead of having simple boxes on which text sits, this book has what almost look like random torn sections of paper as text boxes. These “tear boxes” seem to have random shapes (they look organically torn, amorphous, and detailed) but they fit perfectly the text they encapsulate.\n\nI want to build a web app that takes text and then replicates the random “tear boxes” behind the selected text. I should be able to input any length of text, then specify whether I want individual tear boxes around paragraphs, words, or individual letters. I should be able to specify the color of the tear boxes, text, and background, as well as the aspect ratio of the canvas (standard aspect ratios as options). I should then be able to manipulate the properties of the tear boxes in one of two ways:\n\n1. The tear boxes encapsulate the text per the specifications while organically filling the canvas as much as possible — that is, if I type the letters “h” and I,” and specify to have a tear box around letters, there should be two tear boxes — the “h” one should fill roughly 50 percent of the canvas and the “I” one should fill the other half (I also want a slider for the variation between sizes of tear boxes on the canvas), leaving some room for empty space around the canvas and between the tear boxes (slider for how much negative space as well). The text should always be vertically and horizontally centered within the tear boxes.\n2. The tear boxes are sized according to the text inside them and the padding specified in the controls, and organized around the canvas either side by side (left to right, top to bottom) or randomly placed around the canvas.\n\nNo matter what, I want total control over the properties of the tear box designs — sliders for the following:\n- amount of vertices/detail/jaggedness of the edges of the tear boxes\n- the horizontality/verticality, so that at in the minimum of the slider the tear boxes are mainly circular or square and when the slider is at a maximum the boxes are much taller than wide or much wider than tall\n- the irregularity of the tears along the edges of the tear boxes, so that at a minimum the cuts aren’t very deep/close to the center of the tear box and at a maximum there are deep cuts, irregular tears, and overall more amorphous tear boxes\n- the color of the boxes, the outlines of the boxes (and standard stroke settings), and the color of the background\n- the padding between text and the edges of the tear box in mode 2\n- the negative space around the canvas and between tear boxes\n\nI should be able to manually drag around the tear boxes in mode 2 by clicking and dragging as well as the paragraphs/words/letters in mode 1 so that the tear boxes adapt to where the words are and fill the canvas completely while generally going around the words/paragraphs/letters in the center.\n\nUse the exact ui styling and layout found in /Users/zacharyreich/Documents/GitHub/hairline-type, /Users/zacharyreich/Documents/GitHub/embossing-die-generator, or /Users/zacharyreich/Documents/GitHub/subway-font\n\nAttached is the exact spine I'm looking at for reference.\n\nOh, and before I forget, I should be able to have standard text editing controls — leading, tracking, horizontal and vertical alignment, font size, weight, font family (standard web fonts and upload own font options please), etc\n\nI also want an option where I can draw my own tear boxes and set those as the tear boxes to use in mode 2, and I should be able to upload images that I can use as the \"paper\" of the tear boxes instead of just a plain background if I want to",
+    "images": [
+     "media/e2f657a121a45037f535c03926b28ec3c9b015af.webp"
+    ]
+   },
+   {
+    "text": "they still read more like polygons than randomly torn paper. make the torn paper shapes even more random and less fidelity to the text, and how come the edges look so spiky and not really like torn paper? is it a rounding thing where the vertices should be rounded?",
+    "images": [
+     "media/10c0a5847a2e5a0b5b2381f0d5c399c903e7e6a5.webp"
+    ]
+   },
+   {
+    "text": "make these the default settings",
+    "images": [
+     "media/b07818b5bd406765876fb49f14a4532f055b7a88.webp"
+    ]
+   },
+   {
+    "text": "Now add an experimental/beta/3d section where these paper tears become 3d torn, folded paper scraps and where the words conform to the shapes and folds made. i should be able to adjust lighting and reflectivity of the paper",
+    "images": []
+   },
+   {
+    "text": "no, there shouldn't be a 3d canvas (i shouldn't be able to pan around, i just want the individual pieces to be 3d. i also want an option for an outline for the creases.",
+    "images": []
+   },
+   {
+    "text": "it doesn't look very realistic and the shape of the text isn't responding to the folds and creases",
+    "images": [
+     "media/6cc02f92a9573e94de573e6ee1611337a4b3e9ed.webp"
+    ]
+   },
+   {
+    "text": "i like this but i also like the geometric shadows of last time. make both of them options",
+    "images": []
+   },
+   {
+    "text": "now also add an overlap feature where the space between boxes can be negative",
+    "images": []
+   },
+   {
+    "text": "add a gradient fill option and make it so i can manually adjust the text size variation",
+    "images": []
+   },
+   {
+    "text": "i'm a graphic designer trying to create a web app that can visualize my internet browsing journey as a node map. I want to make a web app that captures each page I view as a window that's added to a canvas and strung together with lines from the link I clicked to the new page as a separate window. The length of the line should be proportional to the time I spend on the page from which the line originates, and the size of the windows, the length of the lines, and the arrangement on the canvas should adapt to the aspect ratio, number of pages, time browsed on each page, etc. There should also be statistics around the page such as the ones included in this sketch (feel free to add any you'd recommend as well). I want controls for:\n\n* which statistics to show (checkboxes)\n* space between nodes, padding around canvas, stroke weight of the connecting lines (sliders)\n* background color\n* window style (dropdown — flat with just an outline, liquid glass like the ui, etc)\n* light mode/dark mode of pages\n* aspect ratio of canvas (standard aspect ratios)\n\n\ni should see the url at the top of each page and i should be able to click the links shown in the nodes, which will open a new window to that exact link\n\nui style and layout of /Users/zacharyreich/Documents/GitHub/tear-box or /Users/zacharyreich/Documents/GitHub/hairline-type or /Users/zacharyreich/Documents/GitHub/subway-font\n\neach page node should be as tall as I scroll, so a page I go only a few lines down should be shorter than a page that I go to the bottom of\n\ni should be able to click \"start\" on the web app, then browse around, then go back to the web app and click stop and be able to resume to add more to my browsing journey, and it should all adapt seamlessly to fit everything proportionally on the canvas\n\nadd a reshuffle button to shuffle the layout of the nodes. overall, though, they should evenly fill the canvas\n\nrunning this web app should open a new window in my preferred browser (chrome) and should account for new tabs being opened\n\nadd an animation section in the ui where the nodes pop up one by one and extend to one another in the order of browsing to populate the page. controls for interpolation, speed. lines should be traced between nodes, not popup\n\ni should be able to drag around individual nodes around the canvas\n\nadd a bezier curve option as well instead of just straight lines between nodes, as well as options for the end points styles (empty circle, filled circle, size of circle, etc\n\nfeel free to create a chrome extension for this as well\n\npreserve all formatting from the sites browsed.",
+    "images": [
+     "media/01dee662cf682349cf64d6899741c7ae4625e970.jpg"
+    ]
+   },
+   {
+    "text": "@\"/Users/zacharyreich/Documents/GitHub/touch-response/logo.svg\" @\"/Users/zacharyreich/Documents/GitHub/touch-response/unit.svg\"\nI want to build a web app that can build random variations of the logo in the first image, built from four modular units arranged to form a T/R symbol. I've uploaded the svg for the exact layout I'm going for.\n\nthis logo is built on four modular units each with five points, shown in the second image. for this random logo generator, I want the following constraints:\n\n*  the red points are locked and cannot move, but their their handles can be bent.\n* the green points are unlocked  and can move freely, as well as have their handles bent\n* at no point can the curve extend outside the square formed by the dotted line in the second image.\n\n\nI need sliders for the following:\n\n* closeness to the original design (ie the green points and all handles are weighted toward those of the original svg unit)\n* angularity (extension of the handles, so it's more curvy or more blocky)\n* regularity (how much the properties of each of the points differ, how much the units are simple/smooth)\n\n\nI should also have a shuffle button to shuffle the design for the units, as well as a toggle for whether I want all the units to be the same or to have four different units to build the logo. I also want to be able to control the animation between different shuffles so it can either be instantaneous or have easing/overshoot and controls over speed. i also want to control padding around the logo and scale of logo.\n\nI also want a cursor-responsive mode where the design liquifies/morphs/adapts to where the cursor hovers over it, either with an attract or repel.\n\nI should be able to control background color and design color.\n\nSame ui style and layout as /Users/zacharyreich/Documents/GitHub/tear-box or /Users/zacharyreich/Documents/GitHub/hairline-type\n\nCreate this as a new web app",
+    "images": [
+     "media/893804be179190360078141927242badb12238b9.png",
+     "media/24bd7261141612a141d1990ac013f70a1dc03f79.png"
+    ]
+   },
+   {
+    "text": "@\"/Users/zacharyreich/Documents/GitHub/touch-response/unit.svg\" @\"/Users/zacharyreich/Documents/GitHub/touch-response/logo.svg\"\n\n\nI want to build a web app that can build random variations of the logo in the first image, built from four modular units arranged to form a T/R symbol. I've uploaded the svg for the exact layout I'm going for.\n\nthis logo is built on four modular units each with five points, shown in the second image. for this random logo generator, I want the following constraints:\n\n*  the red points are locked and cannot move, but their their handles can be bent.\n* the green points are unlocked  and can move freely, as well as have their handles bent\n* at no point can the curve extend outside the square formed by the dotted line in the second image.\n\n\nI need sliders for the following:\n\n* closeness to the original design (ie the green points and all handles are weighted toward those of the original svg unit)\n* angularity (extension of the handles, so it's more curvy or more blocky)\n* regularity (how much the properties of each of the points differ, how much the units are simple/smooth)\n\n\nI should also have a shuffle button to shuffle the design for the units, as well as a toggle for whether I want all the units to be the same or to have four different units to build the logo. I also want to be able to control the animation between different shuffles so it can either be instantaneous or have easing/overshoot and controls over speed. i also want to control padding around the logo and scale of logo.\n\nI also want a cursor-responsive mode where the design liquifies/morphs/adapts to where the cursor hovers over it, either with an attract or repel.\n\nI should be able to control background color and design color.\n\nSame ui style and layout as /Users/zacharyreich/Documents/GitHub/tear-box or /Users/zacharyreich/Documents/GitHub/hairline-type\n\nCreate this as a new web app\n\n\nin main",
+    "images": [
+     "media/cd12d23b01cee7d47717b921423506801d9fa54a.png",
+     "media/693121a073e82542b54a7c3b79c8da71505a92bb.png"
+    ]
+   },
+   {
+    "text": "make these the default settings, and make the ui the same style and layout as that used in /Users/zacharyreich/Documents/GitHub/tear-box, /Users/zacharyreich/Documents/GitHub/embossing-die-generator, or /Users/zacharyreich/Documents/GitHub/amigues-styling",
+    "images": [
+     "media/d618088d6be9411576ae9aa8d00867e0dd585610.webp",
+     "media/3bb4a02ebabe5dc1a7ed5fbaa3d56448670e2dad.webp"
+    ]
+   }
+  ],
+  "gallery": []
+ },
+ {
+  "name": "thaw",
+  "title": "Thaw",
+  "description": "A melting type specimen that turns letters into ice or mercury that melts, beads and pools under the cursor, using a WebGL2 fluid simulation on the GPU, that models gravity, surface tension and wetting.",
+  "date": "2026-09-25T19:28:39Z",
+  "prompts": [
+   {
+    "text": "push the thaw interactive demo to main in the thaw folder on my local computer",
+    "images": []
+   },
+   {
+    "text": "@\"/Users/zacharyreich/Downloads/Interdot-Thin.otf\" @\"/Users/zacharyreich/Downloads/Interdot-Regular.otf\" @\"/Users/zacharyreich/Downloads/Interdot-Light.otf\" @\"/Users/zacharyreich/Downloads/Interdot-Bold.otf\"\nBased on the way melted particles congeal together with surface tension and viscosity at /Users/zacharyreich/Documents/GitHub/thaw, create another web app that takes the attached font family and allows the user to turn some of the dots in the typeface into liquid that congeals with one another. there should be the same sliders for the physics of the liquid, but there shouldn't be melting — instead, the cursor should be able to combine dots into a single bead through surface tension, like sweat beads congealing, as well as. 'random' button that randomly congeals some of the dots to varying degrees, as well as a slider for how much of each letterform's dots become congealed. same ui style and function as the reference. additionally, make sure I can make the fluid literally look like sweat/droplets of water. and make it possible to insert background images that the water/sweat can go over and distort. Also make it possible to place individual dots around the canvas that are the same size as those in the typeface",
+    "images": []
+   },
+   {
+    "text": "continue",
+    "images": []
+   },
+   {
+    "text": "continue",
+    "images": []
+   },
+   {
+    "text": "make these the default settings, and make the ui the same style and layout as that used in /Users/zacharyreich/Documents/GitHub/tear-box, /Users/zacharyreich/Documents/GitHub/embossing-die-generator, or /Users/zacharyreich/Documents/GitHub/amigues-styling",
+    "images": [
+     "media/d618088d6be9411576ae9aa8d00867e0dd585610.webp",
+     "media/3bb4a02ebabe5dc1a7ed5fbaa3d56448670e2dad.webp"
+    ]
+   }
+  ],
+  "gallery": []
+ },
+ {
+  "name": "typeface-creation",
+  "title": "Ribbon Caps",
+  "description": "A typeface design project that turns hand sketches into single-stroke cursive ribbon capitals, using Glyphs 3 and Python tracing scripts, that produces five constructions for every letter of the alphabet.",
+  "date": "2026-11-15T14:14:17-05:00",
+  "prompts": [
+   {
+    "text": "using the new curves skill, create a clean, consistent set of cursive capital letterforms \"A - G\", all caps, from the sketches in this screenshot. stay faithful to the design while making it professional, clean vectors and consistent design features between the letterforms.[Image #1]",
+    "images": [
+     "media/51e90b8ef5a9f03be1574160bd9086da42e29e7d.jpg"
+    ]
+   },
+   {
+    "text": "the skill is here: /Users/zacharyreich/.claude/skills/glyphs-drawing",
+    "images": []
+   },
+   {
+    "text": "try again to make the letterforms a-e in the sketch folder as vectors again using the new type design skill i added. previously your attempts haven't been great",
+    "images": []
+   },
+   {
+    "text": "create a full sans alphabet from this quick sketch of letters \"R\" \"a\" and \"n\" using the glyph design skill I just uploaded. i'm trying to make a typeface inspired by a techno song. I want the font to be extremely bold, with very narrow slits, horizontal cutouts, very fat/exaggerated proportions, almost a superbold/black typeface where each letter feels fat and dramatic. go loosely from the sketch but make sure it's cohesive and exaggerated and FATTTTT",
+    "images": [
+     "media/35e604bc39a4089fbe32ec6f629023d97f8679c0.webp"
+    ]
+   },
+   {
+    "text": "add another version that's less geometric/linear. i want it to feel like a familiar, smooth/curved sans typeface, but where you can feel extreme weight in the letters and intensity throughout the typeface. this one feels dated/like it's from the 60s or something",
+    "images": []
+   },
+   {
+    "text": "turn this sketch into a variable typeface generator with sliders with which i can control the weight of the letterforms, the level of condense-ness, and any other sliders you think can professionalize the typeface. i want it to feel professional yet blunted, aggressive, heavy, and loud. forget about house style if it would save time i need this very quickly",
+    "images": [
+     "media/164e62bd17aee81d8d9b06f9e85e284388f0f029.png"
+    ]
+   },
+   {
+    "text": "commit",
+    "images": []
+   },
+   {
+    "text": "less geometric, more conventional, more like a professional sans serif, loud, heavy typeface",
+    "images": []
+   },
+   {
+    "text": "i want you to generate the rest of this calligrpahic italic capital alphabet i'm trying to create in adobe fresco\nwith a 45 degree brush. the sketch labe \"ideal\" shows letters A-G which are closer to what i'm trying to go for in\nterms of design. each letter is created by a single stroke cleanly wrapping and twirling around to form the letters in an elegant way. I've also included in \"all\" the other sketches throughout my canvas, where i've made mistakes and created sketches that aren't as good as the ideal ones. i want you to first create clean, consistent letterforms A-G from the \"ideal\" sketch and then, once you've understood the exact design logic i'm going for, interpret what the rest of the alphabet would look like to follow those existing letterforms. previously, this task has been extremely difficult for claude - i get results that aren't smooth, clean/well designed, or consistent with the vision I'm going for. do your absolute best to become a calligrapher / master typeface designer to create the rest of the alphabet as clean vectors and a final typeface. draw good curves according to the skill i recently installed - even though i'm told that skill is better as a glyphs mcp and i don't have glyphs, make sure you draw clean curves with what i gave you. look at your generations to verify that the skeletons are accurate to the vision i'm going for, and that the final designs of each letterform are perfect. provide at least three variations per letterform for how you achieve the letterform design for me to pick the best, most convincing from, and make sure they're distinct but all fit the bill for this alphabet. BELIEVE IN YOURSELF! YOU CAN DO IT! I believe that you can build this typeface! Check your work aned make me something beautiful this time!",
+    "images": []
+   },
+   {
+    "text": "continue",
+    "images": []
+   },
+   {
+    "text": "continue",
+    "images": []
+   },
+   {
+    "text": "do another pass. letters like R1 and Z1 are getting close to what I want, but they should be one continuous stroke somehow if possible, if not just focus on maintaining consistency with what i'm going for. also, M and N aren't italic looking enough. m2 and m3 not even close to what i want, and the other letters aren't really one continuous stroke. go for consistency in density, weight, and overall feel and look of each character while avoiding kinky lines like those found in v1 and x1 and x2. these are the ones closer to what i like. [Image #1] [Image #2] [Image #3] [Image #4] [Image #5] you can see in the last screenshot that the overall feel of the letters isn't consistent after \"G\" in the original alphabet",
+    "images": [
+     "media/4d6ec436e5635186fd210c950ca0fcdcd3d029fa.png",
+     "media/ecea37ffc280631f1f245b1e3ee2513e07def75b.png",
+     "media/39f3711c316ada9e28e17bd5f01493e52eb3204b.png",
+     "media/2c52ce5d0a788d5d74f2d288a960d10789c286ad.png",
+     "media/2208b60e635bb8cfa30ac1bbe8a2ef2f28ce4ffb.png"
+    ]
+   },
+   {
+    "text": "i want each letter to use one continuous stroke, not two or multiple. M and W look way too simple and not flourished enough to fit with the other letters. use creative liberty to make the variations distinct, and make five per letter now, all different enough from one another yet still smooth and legible. these are sketches of k, l, and m to demonstrate the level of detail, intricacy, and style i'm looking for in your variations. review your work closely to make sure it's to a professional, consistent standard and that the variations you made that aren't exactly what i want are replaced",
+    "images": []
+   },
+   {
+    "text": "getting better. make another pass and refine the letterforms according to the following feedback. make sure to learn from this feedback and recognize the patterns of what i'm saying is good vs bad in your next round. for all the versions I didn't pick, create a whole new constructionw while ensuring smoothness and legibility. for the ones I chose, improve their overall balance, smoothness, and polish while keeping their overall construction.\n\n\nA1\nB1\nC1\nD1\nE1\nF4\nG (none are really that great, try more explorations with the bottom right of g1)\nH (all bad, explore different approaches and constructions)\nI2\nJ1\nK1 (make it smoother and more balanced)\nL1 (curl the bottom right a bit less)\nM1 (make it smoother and cleaner) and M3\nN1\nO1 (make it much smother)\nP2 (try other constructions for rest)\nQ1 (see if you can keep it all above the baseline)\nR1, 3\nS1\nT4\nU1 (needs lots of polishing)\nV2 (make more balanced and less dense in bottom left)\nW1 (again needs lot smoother)\nX2 (again needs smoothing and the middle strokes should be more italic)\nY2 (great!)\nZ(all need work, none great)",
+    "images": []
+   },
+   {
+    "text": "continue with opus 5.5",
+    "images": []
+   },
+   {
+    "text": "continue the most recent conversation for the italic calligraphy alphabet here.",
+    "images": []
+   },
+   {
+    "text": "make another pass with these letterforms, again 5 distinct variations with the first one being a refinement of the original. pay attention to the way i've selected which elements to borrow from your version and then replicate with the rest of the alphabet. for V i like version 2, for 2 i like none, for x i like number 2, for y i like 2, and z i like 1 and 3. ensure clean, smooth curves and a single line skeleton (not two strokes)",
+    "images": [
+     "media/2a90e04d27627d4257787fb0d49d10db7aea6b6e.jpg"
+    ]
+   }
+  ],
+  "gallery": []
+ },
+ {
+  "name": "typeface-revival",
+  "title": "Schleife Capitals",
+  "description": "A lettering tool that revives the ribbon capitals of an 1896 banquet invitation, using Paper.js and a simulated 45° broad nib, that lets you edit each letter’s skeleton and export the set as SVG.",
+  "date": "2026-09-28T08:52:55-04:00",
+  "prompts": [
+   {
+    "text": "I am providing an image of an 1896 antique banquet invitation. Please generate an installable TrueType font (.ttf) named “Banquet 1896” that extrapolates the calligraphy into a full character set (A–Z, a–z, 0–9, and essential symbols).\n\nInstructions:\n1. Morphological Decomposition into Shared Modules:\n- Flatten and rectify the perspective of the document image.\n- Isolate and define 5 master architectural components from the existing script:\na) The \"Victorian Spiral Finial\" (seen on 'B', 'M', 'D', 'H', 'W').\nb) The \"Spurred Stem\" (vertical swelling downstrokes with subtle bracketed base rests).\nc) The \"Arch-and-Shoulder\" curve (derived from 'n', 'm', and 'r').\nd) The \"Open Looped Descender\" (derived from 'y' and 'g').\ne) The \"Teardrop/Ball Terminal\" (seen on commas, '8', and terminals of 'C', 'c', 'e').\n- Establish a 1000 UPM grid with standardized stem thickness and overshoot metrics.\n\n2. Component-Based Glyph Synthesis:\n- Synthesize unrepresented uppercase letters strictly by recombining these master primitives (e.g., construct 'R' using the stem of 'B' and the tail dynamic of 'D'; construct 'P' from 'B'; construct 'U' and 'V' using the entry flourish of 'W').\n- Numerals must follow the style of \"1896\": note the deep round loops on '8', the upright '1', and the curved ball-terminal on '6' and '9'. Synthesize 2, 3, 4, 5, 7 using matching line contrast and ball terminals.\n\n3. Programmatic Implementation:\n- Produce a Python script utilizing `fontTools.fontBuilder` and `fontTools.pens.ttGlyphPen`.\n- Implement reusable drawing helper functions for the master modules (e.g., `draw_spiral_terminal()`, `draw_stem()`, `draw_loop()`) to guarantee 100% geometric uniformity across all glyph contours.\n- Calculate left/right side bearings programmatically based on contour bounding boxes, adding tailored kerning pairs for capital-to-lowercase transitions (e.g., 'To', 'Wo', 'Me').\n- Compile and verify `Banquet1896.ttf`.\n\n\nGive me three versions to choose from, and then I'll refine the one that matches my desired artistic direction.",
+    "images": [
+     "media/4383d787e525e7288dfee3b912cf079e48fb4159.jpg"
+    ]
+   },
+   {
+    "text": "resume",
+    "images": []
+   },
+   {
+    "text": "I want to build a full, polished uppercase blackletter alphabet based on smooth, dense strokes from a 45 degree chisel tip. I've started sketching letters B-J in the attached screenshot. I want you to identify the common design language I'm going for in these letters, refine these letters so that they're formally consistent with one another (in the sketch they're pretty messy and imperfect/inconsistent), and then build the rest of the alphabet on that design logic. I want the letterforms to be polished, smooth, and visually consistent with one another like a professional typeface. I also want to have options to choose from for each letterform. Build me the full alphabet with at least three alternates per letter, as well as numbers, as a variable ttf in /Users/zacharyreich/Documents/GitHub/typeface-revival/fonts",
+    "images": [
+     "media/550364880eafc5eae3bf59e9ed43c9bed0cb96c1.jpg"
+    ]
+   },
+   {
+    "text": "This is extremely messy and unprofessional looking. Each character's strokes should be smooth, calligraphic, and consistent, not jittery and sharp like the ones you gave me. also, the letterforms should feel very visually consistent, like a typeface designer made them, not an algorithmic generator. comprehensively review your work and make sure the letterforms are consistent and smooth. adding some loosely related references for the calligraphic smoothness and consistency I'm looking for",
+    "images": [
+     "media/2f668aba0156eec40f4b2141ad40e1da7a6d5cbc.png"
+    ]
+   },
+   {
+    "text": "slightly better, but I want each letterform to be built from one stroke (without lifting up the pen, so the current \"F\" crossbar would have to connect with the bottom left flourish of the letter), I want all diagonal strokes to be precizely at 45 degrees so that the letterforms are as slick and high contrast as possible, and I want all letterforms to be as optically dense as each other (e.g. \"O\" is way too empty, and \"U\" isn't nearly as complex as the \"F\" I drew.). \"N\" for example is also very rough and not smooth/calligraphic",
+    "images": []
+   },
+   {
+    "text": "still looking shaky and bad. can you instead give me the path i should take for each letter to build it from one stroke with this tool?",
+    "images": []
+   },
+   {
+    "text": "rewrite the entire project file, the previous work wasn't good at all. i want you to create a web app that generates script typefaces, each of whose letterforms is geometrically consistent with one another, editable letterforms.\n\n\nBuild a self-contained, single-file HTML/JavaScript web application (runnable directly in the browser) for procedural script typeface generation.\n\nDo NOT output raw, hand-coded SVG Bézier path strings (`d=\"...\"`). Instead, build a parametric rendering pipeline using Paper.js (include it via CDN: `https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.12.18/paper-full.min.js`).\n\n### Application Architecture:\nThe generation must follow a strict two-stage process:\n\n1. **Stage 1: Centerline Skeleton Generation**\n- Define glyphs (start with a core set of connected lowercase script glyphs, e.g., 'a', 'c', 'e', 'l', 'n', 'o') purely as 1D centerline paths (spine curves).\n- Constrain anchor points to geometric/typographic extrema (top apex, baseline, overshoot, and lateral turns).\n- Use Paper.js vector geometry (`path.smooth({ type: 'continuous' })` or explicit handle vectors) to enforce smooth $G^1$ / $G^2$ tangent continuity across joins and loops.\n\n2. **Stage 2: Dynamic Stroke & Nib Expansion**\n- Take the 1D centerline path and expand it into a 2D filled glyph contour based on the user's active pen/nib parameters.\n- Sample points along the skeleton path using `path.getLocationAt(offset)`.\n- At each sampled point, project the specified nib shape (e.g., broad-edge ribbon, pointed flexible pen, or monoline round brush) oriented by the user's chosen pen angle.\n- Construct the outer and inner bounding paths and combine/fill them into a clean typographic outline.\n\n### UI & Interactive Controls:\nProvide a modern, clean sidebar or control panel with live-updating sliders and inputs:\n\n1. **Skeleton Controls:**\n- **Skeleton Angle / Slant:** Range: -20° to 35° (shears or tilts the underlying spine vectors relative to the baseline).\n- **Show Skeleton Overlay:** Toggle switch to view the raw 1D centerline spine and Bézier control handles directly over the rendered stroke.\n\n2. **Pen & Nib Controls:**\n- **Pen Angle:** Range: 0° to 90° (controls the constant angle of the nib blade, essential for broad-edge calligraphy contrast).\n- **Pen Width / Nib Size:** Range: 2px to 80px (controls stroke thickness).\n- **Pen Style:** Dropdown selecting between:\n- *Chiseled / Broad-Edge:* Directional ribbon with thick downstrokes and thin upstrokes governed by the pen angle.\n- *Pointed / Copperplate Flex:* Thickness varies based on vertical velocity/direction ($dy/dx$), producing thin hairline ascenders and swelled downstrokes.\n- *Monoline / Round Nib:* Uniform circular expansion across the skeleton.\n\n3. **Output & Canvas:**\n- Interactive HTML5 canvas with zoom/pan or responsive fit.\n- Text input field to preview custom text strings using the generated parametric script alphabet.\n- \"Export SVG\" button that generates a downloadable, clean `<svg>` with merged, filled contour paths.",
+    "images": []
+   },
+   {
+    "text": "continue if there's something incomplete",
+    "images": []
+   },
+   {
+    "text": "make it so that text wraps at the edges of the canvas. also make it so that holding shift while moving one of the anchor points forces it to only move in either the x or y direction, not both",
+    "images": []
+   },
+   {
+    "text": "same with anchor points, holding shift should force them to move only along x or y not both",
+    "images": []
+   },
+   {
+    "text": "[Image #2] now instead of generating a bunch of random script fonts optimize it for creating the skeletons and deisgns for this uppercase alphabet specifically, follow the exact design but make it clean and make sure the diagonals are perfectly straight and all strokes are at 45 degrees.",
+    "images": [
+     "media/51e90b8ef5a9f03be1574160bd9086da42e29e7d.jpg"
+    ]
+   },
+   {
+    "text": "make it so that i can toggle having just one character fill the full screen to be edited, and make it possible to add/connect points wtih the pen tool. also refine the letterforms so that each skeleton is a single continuous stroke like the original photos i gave you",
+    "images": []
+   },
+   {
+    "text": "[Image #3] as you can see there are points that aren't consistent across letterforms. can you make it so I can shift-click multiple points to create point groups manually that are consistent in their placement, curvature across letterforms? make it so that the corresponding points have the same color so I can easily identify which points correspond to what",
+    "images": [
+     "media/25667817fefdbedf9c55b0c44876c330d61c4817.png"
+    ]
+   },
+   {
+    "text": "if i group an ungrouped point with an existing group, make sure that ungrouped point joins the existing group, instead of creating a new group from the two",
+    "images": []
+   },
+   {
+    "text": "points on the perfect diagonal lines should be able to move along the diagonals, not move the entire diagonal as I drag the point[Image #4] also how come the orange points in the bottom row can move freely but the one on the \"c\" in the center row is locked to the diagonal?",
+    "images": [
+     "media/13f87470a8542798aa806850d8dfc9248c4c115b.jpg"
+    ]
+   }
+  ],
+  "gallery": []
+ },
+ {
+  "name": "typographic-flowers",
+  "title": "Typographic Flowers",
+  "description": "A 3D illustration generator that draws flowers and fish entirely in flat type, using Canvas 2D, that offers 14 species of each in their natural colours, with PNG and video export.",
+  "date": "2026-10-25T14:10:26-04:00",
+  "prompts": [
+   {
+    "text": "build a web app that creates typographic flowers from text input. by default the text should be an excerpt from famous literature, and the exact length needed to perfectly fill the flower design. the text should curve, warp, and morph around the exact geometry of the flower stem, petals, setc. notably, though, I want the flower designs to be 3-dimensional (not flat), but the text should all appear perfectly flat. make sure the text is readable, that i have standard controls over font size/color/typeface/etc. make sure the default text/excerpt automatically updates as the scale/flower deisgn changes. I should be able to pan around the 3d flower in the browser and the text should update automatically, as well as keyframe the rotation (x, y, z) of the flower for looping animations with the text constantly updating. i should also be able to pick from a variety of kinds of flowers, which should load with their stems accurately green and their petals/body their accurate colors. text color should change according to light and shadows (include light and shadow controls), as well as an option for whether the text lines should flow along the curves or if all text should stand straight up to fill in the flower shape. i should also be able to manually override the color of the petals and stem, as well as regenerate text and the exact flower design after a type of flower has been selected. make sure it's an aesthetically appealing, graphic design-esque result. include at least 10 common flower types, and add the option to have multiple in a bouquet (with settings for their closeness to one another and size difference",
+    "images": []
+   },
+   {
+    "text": "build a web app that creates typographic flowers from text input. by default the text should be an excerpt from famous literature, and the exact length needed to perfectly fill the flower design. the text should curve, warp, and morph around the exact geometry of the flower stem, petals, setc. notably, though, I want the flower designs to be 3-dimensional (not flat), but the text should all appear perfectly flat. make sure the text is readable, that i have standard controls over font size/color/typeface/etc. make sure the default text/excerpt automatically updates as the scale/flower deisgn changes. I should be able to pan around the 3d flower in the browser and the text should update automatically, as well as keyframe the rotation (x, y, z) of the flower for looping animations with the text constantly updating. i should also be able to pick from a variety of kinds of flowers, which should load with their stems accurately green and their petals/body their accurate colors. text color should change according to light and shadows (include light and shadow controls), as well as an option for whether the text lines should flow along the curves or if all text should stand straight up to fill in the flower shape. i should also be able to manually override the color of the petals and stem, as well as regenerate text and the exact flower design after a type of flower has been selected. make sure it's an aesthetically appealing, graphic design-esque result. include at least 10 common flower types, and add the option to hawith settings for their closeness to one\n\n\nanother",
+    "images": []
+   },
+   {
+    "text": "build a web app that creates typographic flowers from text input. by default the text should be an excerpt from famous literature, and the exact length needed to perfectly fill the flower design. the text should curve, warp, and morph around the exact geometry of the flower stem, petals, setc. notably, though, I want the flower designs to be 3-dimensional (not flat), but the text should all appear perfectly flat. make sure the text is readable, that i have standard controls over font size/color/typeface/etc. make sure the default text/excerpt automatically updates as the scale/flower deisgn changes. I should be able to pan around the 3d flower in the browser and the text should update automatically, as well as keyframe the rotation (x, y, z) of the flower for looping animations with the text constantly updating. i should also be able to pick from a variety of kinds of flowers, which should load with their stems accurately green and their petals/body their accurate colors. text color should change according to light and shadows (include light and shadow controls), as well as an option for whether the text lines should flow along the curves or if all text should stand straight up to fill in the flower shape. i should also be able to manually override the color of the petals and stem, as well as regenerate text and the exact flower design after a type of flower has been selected. make sure it's an aesthetically appealing, graphic design-esque result. include at least 10 common flower types, and add the option to hawith settings for their closeness to one",
+    "images": []
+   },
+   {
+    "text": "in github/maps-render, create a web app that renders text or uploaded svgs as sections of the apple maps 3d map of a specific location that the user inputs. so if i input an address in nyc, the program will render the text i type where each letterform is built from buildings, tress, roads, etc in the location i specify. don't repeat any buildings throughout the canvas. make it possible to pan around for the exact angle, as well as the amount of zoom into the 3d space. make sure the environmental features selected are cleanly inserted into the design",
+    "images": []
+   },
+   {
+    "text": "make it possible to hide the base letters. also make the default texturing of the buildings the same as the /hairline skill i've previously installed so that the edges of buildings are the same stroke weight and the buildings are a solid color. also make it isometric view like the /hairline skill, but still possible to change the isometric view angle",
+    "images": []
+   },
+   {
+    "text": "make these the default settings for the text, and make it possible to view just the 3d model of the flower (not the rendered text) to get the lighting right. also add a feature to add a highlight over the text in the different parts of each flower, and make the highlights react to the lighting as well (just like the text). i should be able to round the edges of the highlight with a slider as well as change the offset of the highlight from the text",
+    "images": [
+     "media/92f23888b30bdca551c40e2df061175cc91d741f.png"
+    ]
+   },
+   {
+    "text": "at larger type sizes there begin these huge gaps. fix that so i can have bigger type while clearly seeing the flower shape and colors",
+    "images": [
+     "media/421b4a1b6e5a55ffcd5f3f3198eba778e3b88031.webp"
+    ]
+   },
+   {
+    "text": "also darker canvases should automatically have a bright/inverse outline around them so that you can see them in dark mode (do the same for light canvases in light mode). update my typographic-flowers and maps-render projects accordingly",
+    "images": []
+   },
+   {
+    "text": "the rose seems pretty disorganized. refine the text layout (and for other flowers where this is happening) so that the text follows the structure of the flowers more clearly",
+    "images": [
+     "media/c9ba2a5f2eba80e7427df8962880b019e7a37fc7.webp"
+    ]
+   },
+   {
+    "text": "i'm realizing that i just want the most vibrant, high-contrast colors for each flower so the text is as vibrant and high-contrast as possible. can you remove the lighting settings so this effect always happens?",
+    "images": [
+     "media/d8f4a96176145c86b6a9edc7cb7de112f9cf38e8.webp"
+    ]
+   },
+   {
+    "text": "Yes, bring typographic-flowers and maps-render up to the current house style: replace keyframes and the timeline with per-slider bounce/loop, make the panels collapsible and closed by default, and make values typeable.",
+    "images": []
+   },
+   {
+    "text": "make it possible to have text automatically wrap in isometric view so text doesn't go off the canvas, and  don't cut buildings off at the edges of letterforms so aggressively [Image #2] the full buildings should show in each letterform without being trimmed. also add an option to have addresses/names of buildings listed alongside each building on the map,",
+    "images": [
+     "media/2bc1f649f7388463adb0313eea023c83fcbf6a56.png"
+    ]
+   },
+   {
+    "text": "make these the default settings",
+    "images": [
+     "media/bd366ee630b1bd3448257c831961fe9b76821da3.png",
+     "media/6fb2f467c3ed5ccbe5bdf76fe6c91485f872c94d.png",
+     "media/56f1744aad3987fe1b4ec98c80833c4cf56d2b6e.png"
+    ]
+   },
+   {
+    "text": "commit all and make the background #FFFFFF by default",
+    "images": []
+   },
+   {
+    "text": "Yes, update the typographic-flowers README to describe bounce/loop and typed values once its other session is idle.",
+    "images": []
+   },
+   {
+    "text": "also add a feature to record canvas. also make each image export go to a dedicated \"jpg\" folder in the project (or png if it's png), not just a download. same for video recordings, svgs, etc",
+    "images": []
+   },
+   {
+    "text": "the stem disappears for stand upright",
+    "images": [
+     "media/85577ba043a0242bb47a2817e34f515b70d8e9df.webp"
+    ]
+   },
+   {
+    "text": "make a slider for the scale (so more buldings can fit into the same typography). also make sure the original address building is included, right now i'm not seeing the flatiron building at all by default",
+    "images": []
+   },
+   {
+    "text": "No, keep exports trackable in git.",
+    "images": []
+   },
+   {
+    "text": "commit these changes to the two most recent proejcts so in typographic flowers and maps render i can export images directly to this folder",
+    "images": []
+   },
+   {
+    "text": "commit it all, and make sure it follows the latest ui house rules in claude.md",
+    "images": []
+   },
+   {
+    "text": "Push both commits to GitHub.",
+    "images": []
+   },
+   {
+    "text": "add a file within the project folders that, when clicked, automatically runs the servers so i don't have to manually input those codes every time. make sure this happens with each new project as well",
+    "images": []
+   },
+   {
+    "text": "Commit the Start.command and README changes in typographic-flowers and maps-render.",
+    "images": []
+   },
+   {
+    "text": "reduce the amount of refresh as the flower rotates (make the words move and warp without changing more often) so that the flower is still readable as it rotates, right now it refreshes constantly and is hard to read",
+    "images": []
+   },
+   {
+    "text": "add a slider for text refresh rate",
+    "images": []
+   },
+   {
+    "text": "what you've made so far is great! can you now add as many types of fish as there are types of flowers? use iconic fish to ensure recognizability while ensuring they're beautiful and have vibrant color. separate flowers from fish in the control panel so i can toggle between the two and then pick which specific flower or fish from the dropdown",
+    "images": []
+   },
+   {
+    "text": "[Image #1] make it so that the fish are vertical (not horizontal) and cetnered/flat by default. include a jellyfish as well so that the tentacles can become lines of text",
+    "images": [
+     "media/4ee0045de19095c6159f9111496e56b36d74755b.png"
+    ]
+   },
+   {
+    "text": "include a dolphin fish as well, and make it so that the different colors used to make the fish appear in the colors panel so i can manually adjust them. also fix this issue where when the fish are shown from the front the text almost entirely disappears[Image #2] [Image #3]. Lionfish also has a lot of text overlapping and the center missing sometimes",
+    "images": [
+     "media/4a948e54f82b7d5ce96dbdeac0b9a307e0cd027a.png",
+     "media/5ece1979eab16e56297522cc80bc856446cc4973.png"
+    ]
+   },
+   {
+    "text": "the fish shouldn't zoom in as they rotate (you just added some kind of scaling effect I want reverted), and the fish aren't starting vertical[Image #4]",
+    "images": [
+     "media/87803b5bde859e0611d597eab9d68c91458444bf.png"
+    ]
+   },
+   {
+    "text": "never mind, make the fish horizontal again and keep rotation in all three axes free",
+    "images": []
+   }
+  ],
+  "gallery": []
  }
 ]

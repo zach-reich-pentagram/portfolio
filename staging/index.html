@@ -452,7 +452,9 @@
           line-height: var(--t-leading); letter-spacing: var(--t-tracking); text-align: var(--t-align); }
   .site article { padding: calc(var(--pad-top) * var(--k) * 1px) calc(var(--pad) * var(--k) * 1px); }
   .site article + article { border-top: 1px solid var(--rule); }
-  .site h2 { font: inherit; margin-bottom: calc(var(--pad-top) * var(--k) * 1px); }
+  .site h2 { font: inherit; font-weight: 700; }
+  .site .about { max-width: 60ch; margin-bottom: calc(var(--pad-top) * var(--k) * 1px); }
+  .site .about a { color: inherit; }
   .prompts { list-style: none; counter-reset: p; columns: var(--cols); column-gap: calc(var(--col-gap) * var(--k) * 1px); }
   .prompts li { counter-increment: p; margin-bottom: calc(var(--prompt-gap) * var(--k) * 1px); overflow-wrap: break-word; white-space: pre-wrap; }
   .site .process { font: inherit; font-weight: 700; margin-bottom: calc(var(--prompt-gap) * var(--k) * 1px); }
@@ -712,13 +714,16 @@ $$('.well input').forEach(inp => {
 // ---------- the site: each green-tagged repo, its name top left, its prompts down the columns,
 // then the gallery of its portfolio/ folder, with a line between repos. Data from build.py.
 const el = (t, props) => Object.assign(document.createElement(t), props);
-const sorts = { date: (a, b) => b.date.localeCompare(a.date), name: (a, b) => a.name.localeCompare(b.name) };
+const sorts = { date: (a, b) => b.date.localeCompare(a.date), name: (a, b) => (a.title || a.name).localeCompare(b.title || b.name) };
 let repos = [];
 function render() {
   const by = $('#order .on').dataset.value;
   $('#site').replaceChildren(...[...repos].sort(sorts[by]).map(r => {
     const a = el('article');
-    a.append(el('h2', { textContent: r.name }));
+    a.append(el('h2', { textContent: r.title || r.name }));
+    const about = el('p', { className: 'about', textContent: r.description || '' });
+    if (r.url) about.append(' Live at ', el('a', { href: r.url, target: '_blank', rel: 'noopener', textContent: r.url.replace(/^https:\/\/|\/$/g, '') }), '.');
+    a.append(about);
     const ol = el('ol', { className: 'prompts' });
     for (const p of r.prompts) {
       const li = el('li');
