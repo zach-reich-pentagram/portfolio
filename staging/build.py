@@ -18,14 +18,14 @@ def green(p):
     except ValueError: return False
 
 def merged(prompts):
-    """conversation-summary's 'Merge re-sent drafts': one sent again within ten minutes is one prompt."""
+    """conversation-summary's 'Merge re-sent drafts': one sent again within ten minutes is one prompt, and so is an exact repeat sent straight after at any gap."""
     flat, out = (lambda t: re.sub(r'\s+', ' ', t).strip()), []
     for p in prompts:
         q = out[-1] if out else None
         if q:
             a, b = flat(q['text']), flat(p['text'])
             near = (datetime.fromisoformat(p['ts'].replace('Z', '+00:00')) - datetime.fromisoformat(q['ts'].replace('Z', '+00:00'))).total_seconds() < 600
-            if near and (a == b or (len(a) >= 12 and b.startswith(a.rstrip('.')[:len(a) - 3]))):
+            if a == b or near and (len(a) >= 12 and b.startswith(a.rstrip('.')[:len(a) - 3])):
                 out[-1] = {**p, 'images': p['images'] or q['images']}; continue
         out.append(p)
     return out
@@ -57,8 +57,9 @@ for d in sorted(ROOT.iterdir()):
     if not (d / '.git').exists() or not green(d): continue
     folder = cs.sessions_of(str(d))
     prompts = sorted((cs.read_prompts(folder) if folder else []) + cs.read_elsewhere(str(d), folder) + started_elsewhere(d), key=lambda p: p['ts'])
-    # not this site's own sessions (building it runs commands in every repo), nor a teleport typed as a prompt
-    prompts = [p for p in prompts if p['ts'] and p['session'] not in own and not re.match(r'\s*(claude\s+)?--teleport\b', p['text'])]
+    # not this site's own sessions (building it runs commands in every repo), nor a teleport typed as a prompt,
+    # nor the 'save for portfolio' sent after a teleport so the session gets written to disk
+    prompts = [p for p in prompts if p['ts'] and p['session'] not in own and not re.match(r'\s*((claude\s+)?--teleport\b|save for portfolio\b)', p['text'], re.I)]
     prompts = [{'text': p['text'], 'images': p['images']} for p in merged(prompts)]
     for p in prompts:
         names = []
